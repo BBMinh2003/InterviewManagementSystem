@@ -28,8 +28,6 @@ public class Role : IdentityRole<Guid>, IBaseEntity
     public Guid? DeletedById { get; set; }
 
     public User? DeletedBy { get; set; }
-    
-    public bool IsActive { get; set; }
 
     public bool IsDeleted { get; set; }
 

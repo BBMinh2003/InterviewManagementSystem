@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using IMS.Core.Constants;
 using IMS.Models.Security;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,7 +28,14 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
     public override void Add(T entity)
     {
         if (entity.Id == Guid.Empty) entity.Id = Guid.NewGuid();
-        entity.CreatedById = CurrentUserId;
+        if (entity.GetType().Equals(typeof(RefreshToken)))
+        {
+            System.Console.WriteLine("RefreshToken created");
+        }
+        else
+        {
+            entity.CreatedById = CurrentUserId;
+        }
         entity.CreatedAt = DateTime.UtcNow;
         DbSet.Add(entity);
     }

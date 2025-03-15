@@ -6,7 +6,7 @@
 ```bash
 dotnet ef migrations add AddBaseEntityModel --project IMS.API --startup-project IMS.API --context IMSDbContext --output-dir Migrations
 dotnet ef migrations add [MigrationName] --project IMS.API --startup-project IMS.API --context IMSDbContext --output-dir Migrations
-dotnet ef migrations add [MigrationName] --project IMS.Data --startup-project IMS.API --context IMSDbContext --output-dir Migrations/Storage
+dotnet ef migrations add UpdateBaseEntity --project IMS.Data --startup-project IMS.API --context IMSDbContext --output-dir Migrations
 ```
 
 ### Update the database
