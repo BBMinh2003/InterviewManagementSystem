@@ -65,6 +65,11 @@ builder.Services.AddAuthentication(options =>
             builder.Configuration["JWT:Secret"] ?? "supersecuredsecretkey"))
     };
 });
+builder.Services.Configure<DataProtectionTokenProviderOptions>(options =>
+{
+    options.TokenLifespan = TimeSpan.FromMinutes(builder.Configuration.GetValue<int>("SmtpSettings:ResetPasswordTokenExpiryMinutes"));
+});
+
 // Register UnitOfWork
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Register Services

@@ -1,4 +1,5 @@
 using IMS.Business.Handlers.Auth;
+using IMS.Business.ViewModels.Auth;
 using IMS.Data.UnitOfWorks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -12,12 +13,10 @@ namespace IMS.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IMediator _mediator;
-    private readonly IUnitOfWork unitOfWork;
 
-    public AuthController(IMediator mediator, IUnitOfWork unitOfWork)
+    public AuthController(IMediator mediator)
     {
         _mediator = mediator;
-        this.unitOfWork = unitOfWork;
     }
 
     /// <summary>
@@ -35,6 +34,11 @@ public class AuthController : ControllerBase
         return Ok(result);
     }
 
+    /// <summary>
+    /// Register a user (Mainly for testing)
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
     [HttpPost("register")]
     [AllowAnonymous]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -45,9 +49,33 @@ public class AuthController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet]
-    public IActionResult Get()
+    /// <summary>
+    /// API that allows users to receive an email for ForgotPassword Token
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost("forgotPassword")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordCommand request)
     {
-        return Ok("Hello");
+        var result = await _mediator.Send(request);
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// API that allows users to reset their password based on token received from email
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost("resetPassword")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCommand request)
+    {
+        var result = await _mediator.Send(request);
+        return Ok(result);
     }
 }
