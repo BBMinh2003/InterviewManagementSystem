@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using IMS.Models.Common;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,8 +23,10 @@ public class User : IdentityUser<Guid>, IBaseEntity
     [StringLength(500)]
     public string? Address { get; set; }
 
+    [ForeignKey(nameof(Department))]
+    public Guid? DepartmentId { get; set; }
     [StringLength(255)]
-    public string? Department { get; set; }
+    public Department? Department { get; set; }
     
     public DateTime DateOfBirth { get; set; }
 

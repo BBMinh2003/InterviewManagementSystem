@@ -1,0 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using IMS.Models.Security;
+
+namespace IMS.Models.Common;
+
+[Table("Levels", Schema = "Common")]
+public class Level : BaseEntity, IBaseEntity
+{
+    [Required]
+    [StringLength(255)]
+    public required string Name { get; set; }
+}
