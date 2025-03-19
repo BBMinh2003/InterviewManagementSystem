@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using IMS.Models.Security;
+using IMS.Core.Enums;
+
 
 namespace IMS.Models.Common;
 
@@ -36,11 +38,4 @@ public class Job : BaseEntity, IBaseEntity
     public virtual ICollection<JobLevel> JobLevels { get; set; } = new List<JobLevel>();
 
     public virtual ICollection<JobBenefit> JobBenefits { get; set; } = new List<JobBenefit>();
-}
-
-public enum JobStatus
-{
-    Open,     
-    Draft,    
-    Closed    
 }

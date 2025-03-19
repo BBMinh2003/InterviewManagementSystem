@@ -1,6 +1,7 @@
-using System;
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using IMS.Core.Enums;
 using IMS.Models.Security;
 
 namespace IMS.Models.Common;
@@ -27,19 +28,19 @@ public class Candidate : BaseEntity, IBaseEntity
     public required string Phone { get; set; }
 
     [Required]
-    public required string Gender { get; set; }
+    public required Gender Gender { get; set; }
 
     [Required]
     public required string CV_Attachment { get; set; }
 
     public string? Note { get; set; }
 
-    public CandidateStatus Status { get; set; } 
+    public CandidateStatus Status { get; set; }
 
-    public Guid YearOfExperience { get; set; }
+    public int YearOfExperience { get; set; }
 
     [Required]
-    public required string HighestLevel { get; set; }
+    public required HighestLevel HighestLevel { get; set; }
 
     [ForeignKey(nameof(Position))]
     public Guid PositionId { get; set; }
@@ -51,21 +52,4 @@ public class Candidate : BaseEntity, IBaseEntity
 
     public User? RecruiterOwner { get; set; }
     public virtual ICollection<CandidateSkill> CandidateSkills { get; set; } = new List<CandidateSkill>();
-}
-
-public enum CandidateStatus
-{
-    WaitingForInterview,
-    WaitingForApproval,
-    WaitingForResponse,
-    Open,
-    PassedInterview,
-    ApprovedOffer,
-    RejectedOffer,
-    AcceptedOffer,
-    DeclinedOffer,
-    CancelledOffer,
-    FailedInterview,
-    CancelledInterview,
-    Banned
 }

@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using IMS.Models.Security;
+using IMS.Core.Enums;
+
 
 namespace IMS.Models.Common;
 
@@ -57,19 +59,8 @@ public class Offer : BaseEntity, IBaseEntity
     public DateTime ContactPeriodTo { get; set; }
 
     [ForeignKey(nameof(ApprovedBy))]
-    public Guid ApprovedById { get; set; } 
+    public Guid ApprovedById { get; set; }
 
-    public User? ApprovedBy { get; set; } 
+    public User? ApprovedBy { get; set; }
 
-}
-
-public enum OfferStatus
-{
-    WaitingForApproval,
-    Approved,
-    Rejected,
-    WaitingForResponse,
-    Accepted,
-    Declined,
-    Cancelled
 }

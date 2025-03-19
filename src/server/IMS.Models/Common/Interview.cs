@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using IMS.Models.Security;
+using IMS.Core.Enums;
+
 
 namespace IMS.Models.Common;
 
@@ -42,12 +44,4 @@ public class Interview : BaseEntity, IBaseEntity
     public TimeOnly EndAt { get; set; }
 
     public virtual ICollection<IntervewerInterview> Interviewers { get; set; } = new List<IntervewerInterview>();
-}
-
-public enum InterviewStatus
-{
-    New,               
-    Invited,          
-    Interviewed,       
-    Cancelled          
 }
