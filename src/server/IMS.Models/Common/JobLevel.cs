@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Models.Common;
 
 [Table("JobLevels", Schema = "Common")]
+[PrimaryKey(nameof(JobId), nameof(LevelId))]
 public class JobLevel
 {
     [ForeignKey(nameof(Job))]

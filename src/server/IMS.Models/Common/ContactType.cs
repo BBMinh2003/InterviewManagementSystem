@@ -5,8 +5,11 @@ using IMS.Models.Security;
 namespace IMS.Models.Common;
 
 [Table("ContactTypes", Schema = "Common")]
-public class ContactType : BaseEntity, IBaseEntity
+public class ContactType
 {
+    [Required]
+    [StringLength(255)]
+    public required Guid Id { get; set; }
     [Required]
     [StringLength(255)]
     public required string Name { get; set; }
