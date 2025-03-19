@@ -39,5 +39,10 @@ public class Candidate : BaseEntity, IBaseEntity
     public Guid PositionId { get; set; }
 
     public Position? Position { get; set; }
+
+    [ForeignKey(nameof(RecruiterOwner))]
+    public Guid RecruiterOwnerId { get; set; }
+
+    public User? RecruiterOwner { get; set; }
     public virtual ICollection<CandidateSkill> CandidateSkills { get; set; } = new List<CandidateSkill>();
 }
