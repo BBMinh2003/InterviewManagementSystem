@@ -2,17 +2,17 @@ namespace IMS.Core.Enums;
 
 public enum CandidateStatus
 {
-    Open,
     WaitingForInterview,
-    CancelledInterview,
-    PassedInterview,
-    FailedInterview,
     WaitingForApproval,
+    WaitingForResponse,
+    Open,
+    PassedInterview,
     ApprovedOffer,
     RejectedOffer,
-    WaitingForResponse,
     AcceptedOffer,
     DeclinedOffer,
     CancelledOffer,
+    FailedInterview,
+    CancelledInterview,
     Banned
 }
