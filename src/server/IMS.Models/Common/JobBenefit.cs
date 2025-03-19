@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Models.Common;
 
 [Table("JobBenefits", Schema = "Common")]
+[PrimaryKey(nameof(JobId), nameof(BenefitId))]
 public class JobBenefit
 {
     [ForeignKey(nameof(Job))]

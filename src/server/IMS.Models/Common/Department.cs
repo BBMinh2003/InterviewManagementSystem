@@ -5,8 +5,11 @@ using IMS.Models.Security;
 namespace IMS.Models.Common;
 
 [Table("Departments", Schema = "Common")]
-public class Department : BaseEntity, IBaseEntity
+public class Department 
 {
+    [Required]
+    [StringLength(255)]
+    public required Guid Id { get; set; }
     [Required]
     [StringLength(255)]
     public required string Name { get; set; }

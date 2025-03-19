@@ -25,7 +25,7 @@ public class User : IdentityUser<Guid>, IBaseEntity
 
     [ForeignKey(nameof(Department))]
     public Guid? DepartmentId { get; set; }
-    [StringLength(255)]
+
     public Department? Department { get; set; }
     
     public DateTime DateOfBirth { get; set; }
