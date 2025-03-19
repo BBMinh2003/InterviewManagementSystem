@@ -4,8 +4,8 @@ using IMS.Models.Security;
 
 namespace IMS.Models.Common;
 
-[Table("Skills", Schema = "Common")]
-public class Skill : BaseEntity
+[Table("Levels", Schema = "Common")]
+public class Level : BaseEntity, IBaseEntity
 {
     [Required]
     [StringLength(255)]

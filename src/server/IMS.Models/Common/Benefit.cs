@@ -4,10 +4,10 @@ using IMS.Models.Security;
 
 namespace IMS.Models.Common;
 
-[Table("Skills", Schema = "Common")]
-public class Skill : BaseEntity
+[Table("Benefit", Schema = "Common")]
+public class Benefit : BaseEntity, IBaseEntity
 {
     [Required]
     [StringLength(255)]
     public required string Name { get; set; }
-}
+}   

@@ -38,25 +38,23 @@ public class Candidate : BaseEntity
     [Required]
     public required string CV_Attachment { get; set; }
 
-    [StringLength(500)]
     public string? Note { get; set; }
 
-    [Required]
-    public required CandidateStatus Status { get; set; }
+    public CandidateStatus Status { get; set; }
 
     public int YearOfExperience { get; set; }
 
-    public int HighestLevel { get; set; }
+    [Required]
+    public required HighestLevel HighestLevel { get; set; }
 
-    [ForeignKey("Position")]
-    public required Guid PositionId { get; set; }
+    [ForeignKey(nameof(Position))]
+    public Guid PositionId { get; set; }
 
-    public required Position Position { get; set; }
+    public Position? Position { get; set; }
 
-    [ForeignKey("User")]
-    public required Guid RecruiterId { get; set; }
+    [ForeignKey(nameof(RecruiterOwner))]
+    public Guid RecruiterOwnerId { get; set; }
 
-    public required User User { get; set; }
+    public User? RecruiterOwner { get; set; }
+    public virtual ICollection<CandidateSkill> CandidateSkills { get; set; } = new List<CandidateSkill>();
 }
-
-
