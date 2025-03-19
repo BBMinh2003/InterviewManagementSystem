@@ -30,6 +30,7 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
     {
         base.OnModelCreating(builder);
 
+
         // Rename Identity tables
         builder.Entity<User>().ToTable("Users", CoreConstants.Schemas.Security);
         builder.Entity<Role>().ToTable("Roles", CoreConstants.Schemas.Security);
@@ -50,8 +51,62 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
         builder.Entity<Offer>().ToTable("Offers", CoreConstants.Schemas.Common);
         builder.Entity<Level>().ToTable("Levels", CoreConstants.Schemas.Common);
         builder.Entity<ContactType>().ToTable("ContactTypes", CoreConstants.Schemas.Common);
-        
+
+        builder.Entity<BaseEntity>()
+            .HasOne(i => i.CreatedBy)
+            .WithMany()  // Đảm bảo User có collection Interviews nếu là quan hệ 1-nhiều
+            .HasForeignKey(i => i.CreatedById) // Đảm bảo có khóa ngoại hợp lệ
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.Entity<BaseEntity>()
+            .HasOne(i => i.DeletedBy)
+            .WithMany()  // Nếu User không có danh sách các Interviews bị xóa
+            .HasForeignKey(i => i.DeletedById) // Đảm bảo có khóa ngoại hợp lệ
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.Entity<BaseEntity>()
+            .HasOne(i => i.UpdatedBy)
+            .WithMany()  // Nếu User không có danh sách các Interviews đã cập nhật
+            .HasForeignKey(i => i.UpdatedById) // Đảm bảo có khóa ngoại hợp lệ
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Interview>(entity =>
+        {
+            // Tắt cascade cho tất cả khóa ngoại
+            entity.HasOne(i => i.Candidate)
+                .WithMany()
+                .HasForeignKey(i => i.CandidateId)
+                .OnDelete(DeleteBehavior.Restrict); // Thay CASCADE bằng Restrict
+
+            entity.HasOne(i => i.Job)
+                .WithMany()
+                .HasForeignKey(i => i.JobId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+        builder.Entity<IntervewerInterview>()
+            .HasOne(ii => ii.User)
+            .WithMany()
+            .HasForeignKey(ii => ii.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Offer>()
+            .HasOne(o => o.Candidate)
+            .WithMany()
+            .HasForeignKey(o => o.CandidateId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Offer>()
+            .HasOne(o => o.Interview)
+            .WithMany()
+            .HasForeignKey(o => o.InterviewId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Offer>()
+            .HasOne(o => o.RecruiterOwner)
+            .WithMany()
+            .HasForeignKey(o => o.RecruiterOwnerId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
+
     public override int SaveChanges()
     {
         BeforeSaveChange();
