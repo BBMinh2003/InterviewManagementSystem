@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using IMS.Models.Security;
 
@@ -38,13 +39,14 @@ public class Offer : BaseEntity, IBaseEntity
 
     public string? Note { get; set; }
 
-    public string? Status { get; set; }
+    public OfferStatus Status { get; set; }
 
     [ForeignKey(nameof(Level))]
     public Guid LevelId { get; set; }
 
     public Level? Level { get; set; }
 
+    [Required]
     [Column(TypeName = "decimal(18,2)")]
     public decimal BasicSalary { get; set; }
 
@@ -53,4 +55,21 @@ public class Offer : BaseEntity, IBaseEntity
     public DateTime ContactPeriodFrom { get; set; }
 
     public DateTime ContactPeriodTo { get; set; }
+
+    [ForeignKey(nameof(ApprovedBy))]
+    public Guid ApprovedById { get; set; } 
+
+    public User? ApprovedBy { get; set; } 
+
+}
+
+public enum OfferStatus
+{
+    WaitingForApproval,
+    Approved,
+    Rejected,
+    WaitingForResponse,
+    Accepted,
+    Declined,
+    Cancelled
 }

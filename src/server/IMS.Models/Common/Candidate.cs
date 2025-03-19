@@ -16,24 +16,30 @@ public class Candidate : BaseEntity, IBaseEntity
     [StringLength(255)]
     public required string Email { get; set; }
 
-    public DateTime DateOfBirth { get; set; }
+    [Required]
+    public required DateTime DateOfBirth { get; set; }
 
-    public string? Address { get; set; }
+    [Required]
+    public required string Address { get; set; }
 
+    [Required]
     [StringLength(20)]
-    public string? Phone { get; set; }
+    public required string Phone { get; set; }
 
-    public string? Gender { get; set; }
+    [Required]
+    public required string Gender { get; set; }
 
-    public string? CV_Attachment { get; set; }
+    [Required]
+    public required string CV_Attachment { get; set; }
 
     public string? Note { get; set; }
 
-    public string? Status { get; set; }
+    public CandidateStatus Status { get; set; } 
 
     public Guid YearOfExperience { get; set; }
 
-    public string? HighestLevel { get; set; }
+    [Required]
+    public required string HighestLevel { get; set; }
 
     [ForeignKey(nameof(Position))]
     public Guid PositionId { get; set; }
@@ -45,4 +51,21 @@ public class Candidate : BaseEntity, IBaseEntity
 
     public User? RecruiterOwner { get; set; }
     public virtual ICollection<CandidateSkill> CandidateSkills { get; set; } = new List<CandidateSkill>();
+}
+
+public enum CandidateStatus
+{
+    WaitingForInterview,
+    WaitingForApproval,
+    WaitingForResponse,
+    Open,
+    PassedInterview,
+    ApprovedOffer,
+    RejectedOffer,
+    AcceptedOffer,
+    DeclinedOffer,
+    CancelledOffer,
+    FailedInterview,
+    CancelledInterview,
+    Banned
 }

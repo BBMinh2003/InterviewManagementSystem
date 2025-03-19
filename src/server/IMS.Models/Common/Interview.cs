@@ -5,7 +5,7 @@ using IMS.Models.Security;
 namespace IMS.Models.Common;
 
 [Table("Interviews", Schema = "Common")]
-public class Interview : BaseEntity,IBaseEntity
+public class Interview : BaseEntity, IBaseEntity
 {
     [ForeignKey(nameof(Candidate))]
     public Guid CandidateId { get; set; }
@@ -36,12 +36,18 @@ public class Interview : BaseEntity,IBaseEntity
 
     public string? Result { get; set; }
 
-    public string? Status { get; set; }
+    public InterviewStatus Status { get; set; }
 
-    public DateTime StartAt { get; set; }
+    public TimeOnly StartAt { get; set; }
+    public TimeOnly EndAt { get; set; }
 
-    public DateTime EndAt { get; set; }
-
-    
     public virtual ICollection<IntervewerInterview> Interviewers { get; set; } = new List<IntervewerInterview>();
+}
+
+public enum InterviewStatus
+{
+    New,               
+    Invited,          
+    Interviewed,       
+    Cancelled          
 }
