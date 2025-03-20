@@ -12,7 +12,7 @@ import { faDev } from '@fortawesome/free-brands-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -50,6 +50,7 @@ export class SidebarComponent {
   handleLogout() {
     this.isUserMenuOpen = false;
     console.log('Logout logic');
+    this.router.navigate(['/login']);
   }
 
   closeUserMenu() {
@@ -75,5 +76,8 @@ export class SidebarComponent {
     }
   }
 
-  constructor(private readonly elementRef: ElementRef) {}
+  constructor(
+    private readonly elementRef: ElementRef,
+    private readonly router: Router
+  ) { }
 }
