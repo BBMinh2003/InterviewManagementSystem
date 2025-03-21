@@ -186,6 +186,7 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
                 NormalizedEmail = "ADMIN@EXAMPLE.COM",
                 EmailConfirmed = true,
                 PasswordHash = "AQAAAAEAACcQAAAAEKzO7BHEb758wHgIVI3x0NuSEd8BLlECa+TDvKAF1cUtkj6O5hM9PMp42jCeWnGeww==",
+                IsActive = true,
                 SecurityStamp = "SECURITY_STAMP_1",// Giá trị tĩnh
             },
             new User
@@ -199,6 +200,7 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
                 EmailConfirmed = true,
                 CreatedAt = new DateTime(2024, 10, 1),
                 PasswordHash = "AQAAAAEAACcQAAAAEOTNmM1M0OJV+VJyKbHIj8b7oJSH/W5uTr8LQy8HO8bhEIb9ZDf9m1KwnBavT5m9Yg==",
+                IsActive = true,
                 SecurityStamp = "SECURITY_STAMP_2" // Giá trị tĩnh
             },
             new User
@@ -212,6 +214,7 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
                 EmailConfirmed = true,
                 CreatedAt = new DateTime(2024, 10, 1),
                 PasswordHash = "AQAAAAEAACcQAAAAEM41t5RUbsvo9ImUsQhuLuI0RLJRt5t7HAVUPnU9Z3naZud31HsypTKOyjmD1tv/UQ==",
+                IsActive = true,
                 SecurityStamp = "SECURITY_STAMP_3" // Giá trị tĩnh
             },
             new User
@@ -225,6 +228,7 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
                 EmailConfirmed = true,
                 CreatedAt = new DateTime(2024, 10, 1),
                 PasswordHash = "AQAAAAEAACcQAAAAELbr2xCUqc37Qu/fRYpRYOQTzUtPnCVXx7muwkJEhUlRlhGuAGD2kJzcIokmv4YrZQ==",
+                IsActive = true,
                 SecurityStamp = "SECURITY_STAMP_4" // Giá trị tĩnh
             },
             new User
@@ -238,6 +242,7 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
                 EmailConfirmed = true,
                 CreatedAt = new DateTime(2024, 10, 1),
                 PasswordHash = "AQAAAAEAACcQAAAAEM41t5RUbsvo9ImUsQhuLuI0RLJRt5t7HAVUPnU9Z3naZud31HsypTKOyjmD1tv/UQ==",
+                IsActive = true,
                 SecurityStamp = "SECURITY_STAMP_5" // Giá trị tĩnh
             },
             new User
@@ -251,7 +256,8 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
                 EmailConfirmed = true,
                 CreatedAt = new DateTime(2024, 10, 1),
                 PasswordHash = "AQAAAAEAACcQAAAAEM41t5RUbsvo9ImUsQhuLuI0RLJRt5t7HAVUPnU9Z3naZud31HsypTKOyjmD1tv/UQ==",
-                SecurityStamp = "SECURITY_STAMP_6" // Giá trị tĩnh
+                SecurityStamp = "SECURITY_STAMP_6", // Giá trị tĩnh
+                IsActive = true,
 
             }
         );
@@ -661,78 +667,78 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
                 ContactPeriodTo = DateTime.UtcNow.AddYears(1),
                 ApprovedById = Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd") // Manager
             },
-    new Offer
-    {
-        Id = Guid.Parse("22222222-cccc-cccc-cccc-cccccccccccc"),
-        PositionId = Guid.Parse("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Business Analyst
-        CandidateId = Guid.Parse("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Sửa lại CandidateId hợp lệ
-        DepartmentId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // HR
-        RecruiterOwnerId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Recruiter
-        ContactTypeId = Guid.Parse("22222222-2222-2222-2222-222222222222"), // Trainee 3 months
-        InterviewId = Guid.Parse("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"), // Management Interview
-        Note = "Offer for Business Analyst position",
-        Status = OfferStatus.Accepted,
-        LevelId = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Senior
-        BasicSalary = 2000.00m,
-        DueDate = DateTime.UtcNow.AddDays(10),
-        ContactPeriodFrom = DateTime.UtcNow,
-        ContactPeriodTo = DateTime.UtcNow.AddYears(2),
-        ApprovedById = Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd") // Manager
-    },
-    new Offer
-    {
-        Id = Guid.Parse("33333333-dddd-dddd-dddd-dddddddddddd"),
-        PositionId = Guid.Parse("99999999-cccc-cccc-cccc-cccccccccccc"), // Tester
-        CandidateId = Guid.Parse("55555555-eeee-eeee-eeee-eeeeeeeeeeee"), // Sửa lại CandidateId hợp lệ
-        DepartmentId = Guid.Parse("33333333-cccc-cccc-cccc-cccccccccccc"), // Finance
-        RecruiterOwnerId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Recruiter
-        ContactTypeId = Guid.Parse("33333333-3333-3333-3333-333333333333"), // 1 year
-        InterviewId = Guid.Parse("cccc3333-3333-3333-3333-cccccccccccc"), // Backend Technical Round
-        Note = "Offer for Tester position",
-        Status = OfferStatus.Rejected,
-        LevelId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Fresher
-        BasicSalary = 1200.00m,
-        DueDate = DateTime.UtcNow.AddDays(5),
-        ContactPeriodFrom = DateTime.UtcNow,
-        ContactPeriodTo = DateTime.UtcNow.AddYears(1),
-        ApprovedById = Guid.Parse("33333333-cccc-cccc-cccc-cccccccccccc") // Interviewer
-    },
-       new Offer
-       {
-           Id = Guid.Parse("44444444-eeee-eeee-eeee-eeeeeeeeeeee"),
-           PositionId = Guid.Parse("77777777-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Backend Developer
-           CandidateId = Guid.Parse("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Candidate đã có Offer trước đó
-           DepartmentId = Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // IT
-           RecruiterOwnerId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Recruiter
-           ContactTypeId = Guid.Parse("11111111-1111-1111-1111-111111111111"), // Trial 2 months
-           InterviewId = Guid.Parse("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"), // Technical Interview Round 1
-           Note = "Second offer for Backend Developer position",
-           Status = OfferStatus.Accepted,
-           LevelId = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Junior
-           BasicSalary = 1600.00m,
-           DueDate = DateTime.UtcNow.AddDays(14),
-           ContactPeriodFrom = DateTime.UtcNow,
-           ContactPeriodTo = DateTime.UtcNow.AddYears(1),
-           ApprovedById = Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd") // Manager
-       },
-       new Offer
-       {
-           Id = Guid.Parse("55555555-ffff-ffff-ffff-ffffffffffff"),
-           PositionId = Guid.Parse("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Business Analyst
-           CandidateId = Guid.Parse("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Cùng Candidate nhưng Offer khác
-           DepartmentId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // HR
-           RecruiterOwnerId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Recruiter
-           ContactTypeId = Guid.Parse("22222222-2222-2222-2222-222222222222"), // Trainee 3 months
-           InterviewId = Guid.Parse("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"), // Management Interview
-           Note = "Second offer for Business Analyst position",
-           Status = OfferStatus.Accepted,
-           LevelId = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Senior
-           BasicSalary = 2100.00m,
-           DueDate = DateTime.UtcNow.AddDays(10),
-           ContactPeriodFrom = DateTime.UtcNow,
-           ContactPeriodTo = DateTime.UtcNow.AddYears(2),
-           ApprovedById = Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd") // Manager
-       });
+        new Offer
+        {
+            Id = Guid.Parse("22222222-cccc-cccc-cccc-cccccccccccc"),
+            PositionId = Guid.Parse("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Business Analyst
+            CandidateId = Guid.Parse("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Sửa lại CandidateId hợp lệ
+            DepartmentId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // HR
+            RecruiterOwnerId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Recruiter
+            ContactTypeId = Guid.Parse("22222222-2222-2222-2222-222222222222"), // Trainee 3 months
+            InterviewId = Guid.Parse("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"), // Management Interview
+            Note = "Offer for Business Analyst position",
+            Status = OfferStatus.Accepted,
+            LevelId = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Senior
+            BasicSalary = 2000.00m,
+            DueDate = DateTime.UtcNow.AddDays(10),
+            ContactPeriodFrom = DateTime.UtcNow,
+            ContactPeriodTo = DateTime.UtcNow.AddYears(2),
+            ApprovedById = Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd") // Manager
+        },
+        new Offer
+        {
+            Id = Guid.Parse("33333333-dddd-dddd-dddd-dddddddddddd"),
+            PositionId = Guid.Parse("99999999-cccc-cccc-cccc-cccccccccccc"), // Tester
+            CandidateId = Guid.Parse("55555555-eeee-eeee-eeee-eeeeeeeeeeee"), // Sửa lại CandidateId hợp lệ
+            DepartmentId = Guid.Parse("33333333-cccc-cccc-cccc-cccccccccccc"), // Finance
+            RecruiterOwnerId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Recruiter
+            ContactTypeId = Guid.Parse("33333333-3333-3333-3333-333333333333"), // 1 year
+            InterviewId = Guid.Parse("cccc3333-3333-3333-3333-cccccccccccc"), // Backend Technical Round
+            Note = "Offer for Tester position",
+            Status = OfferStatus.Rejected,
+            LevelId = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Fresher
+            BasicSalary = 1200.00m,
+            DueDate = DateTime.UtcNow.AddDays(5),
+            ContactPeriodFrom = DateTime.UtcNow,
+            ContactPeriodTo = DateTime.UtcNow.AddYears(1),
+            ApprovedById = Guid.Parse("33333333-cccc-cccc-cccc-cccccccccccc") // Interviewer
+        },
+        new Offer
+        {
+            Id = Guid.Parse("44444444-eeee-eeee-eeee-eeeeeeeeeeee"),
+            PositionId = Guid.Parse("77777777-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Backend Developer
+            CandidateId = Guid.Parse("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Candidate đã có Offer trước đó
+            DepartmentId = Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // IT
+            RecruiterOwnerId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Recruiter
+            ContactTypeId = Guid.Parse("11111111-1111-1111-1111-111111111111"), // Trial 2 months
+            InterviewId = Guid.Parse("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"), // Technical Interview Round 1
+            Note = "Second offer for Backend Developer position",
+            Status = OfferStatus.Accepted,
+            LevelId = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Junior
+            BasicSalary = 1600.00m,
+            DueDate = DateTime.UtcNow.AddDays(14),
+            ContactPeriodFrom = DateTime.UtcNow,
+            ContactPeriodTo = DateTime.UtcNow.AddYears(1),
+            ApprovedById = Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd") // Manager
+        },
+        new Offer
+        {
+            Id = Guid.Parse("55555555-ffff-ffff-ffff-ffffffffffff"),
+            PositionId = Guid.Parse("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Business Analyst
+            CandidateId = Guid.Parse("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), // Cùng Candidate nhưng Offer khác
+            DepartmentId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // HR
+            RecruiterOwnerId = Guid.Parse("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"), // Recruiter
+            ContactTypeId = Guid.Parse("22222222-2222-2222-2222-222222222222"), // Trainee 3 months
+            InterviewId = Guid.Parse("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"), // Management Interview
+            Note = "Second offer for Business Analyst position",
+            Status = OfferStatus.Accepted,
+            LevelId = Guid.Parse("cccccccc-cccc-cccc-cccc-cccccccccccc"), // Senior
+            BasicSalary = 2100.00m,
+            DueDate = DateTime.UtcNow.AddDays(10),
+            ContactPeriodFrom = DateTime.UtcNow,
+            ContactPeriodTo = DateTime.UtcNow.AddYears(2),
+            ApprovedById = Guid.Parse("44444444-dddd-dddd-dddd-dddddddddddd") // Manager
+        });
     }
 
 
