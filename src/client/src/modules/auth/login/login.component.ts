@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ForgotPasswordComponent } from '../forgot-password/forgot-password.component';
+import { IAuthService } from '../../../services/auth/auth-service.interface';
+import { AUTH_SERVICE } from '../../../constants/injection.constant';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -17,7 +19,8 @@ export class LoginComponent {
   isForgotPasswordOpen = false; // Trạng thái mở/đóng modal
 
 
-  constructor(private fb: FormBuilder, private router: Router, private dialog: MatDialog) {
+  constructor(private fb: FormBuilder, @Inject(AUTH_SERVICE) private authService: IAuthService,
+    private router: Router) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(7)]]
@@ -26,10 +29,11 @@ export class LoginComponent {
 
   login() {
     if (this.loginForm.valid) {
-      console.log('Login success:', this.loginForm.value);
-      console.log('Username:', this.loginForm.get('username')?.value);
-      console.log('Password:', this.loginForm.get('password')?.value);
-      // this.router.navigate(['/']);
+      this.authService.login(this.loginForm.value).subscribe((response) => {
+        if (response) {
+          this.router.navigate(['/home']);
+        }
+      });
     }
 
   }

@@ -138,6 +138,22 @@ public static class ServiceExtensions
         return services;
     }
 
+    public static IServiceCollection RegisterCors(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("CorsPolicy", opt => opt
+                .WithOrigins(configuration.GetSection("CORs:AllowedOrigins").Get<string[]>() ?? [])
+                .WithHeaders(configuration.GetSection("CORs:AllowedHeaders").Get<string[]>() ?? [])
+                .WithMethods(configuration.GetSection("CORs:AllowedMethods").Get<string[]>() ?? []));
+
+            options.AddPolicy("AllowAnyOrigin", opt => opt
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+        });
+        return services;
+    }
 
 
 }

@@ -1,5 +1,6 @@
 
 using IMS.API;
+using IMS.API.Middlewares;
 using IMS.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +16,8 @@ builder.Services.RegisterAuthentication(builder.Configuration);
 builder.Services.RegisterSwagger(builder.Configuration);
 
 builder.Services.RegisterVersioning(builder.Configuration);
+
+builder.Services.RegisterCors(builder.Configuration);
 
 builder.Services.AddControllers();
 
@@ -42,6 +45,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.UseExceptionHandler();
+app.UseCustomExceptionHandler();
+app.UseCors("CorsPolicy");
 app.Run();
 

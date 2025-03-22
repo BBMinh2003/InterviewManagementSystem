@@ -77,10 +77,13 @@
         [ngClass]="{ 'mx-auto': !open }"
       ></fa-icon>
 
-      <div [ngClass]="{ 'opacity-0': !open }" class="transition-opacity ml-3">
-        <p class="font-medium">Admin</p>
-        <span class="text-sm text-gray-400">admin&#64;gmail.com</span>
+      <div [ngClass]="{ 'opacity-0': !open }" class="transition-opacity ml-3 w-full overflow-hidden">
+        <p class="font-medium truncate">{{ userInfo?.displayName }}</p>
+        <p class="text-sm text-gray-400 truncate w-40" title="{{ userInfo?.email }}">
+          {{ userInfo?.email }}
+        </p>
       </div>
+      
 
       <div
         *ngIf="isUserMenuOpen"
@@ -108,8 +111,8 @@
         *ngIf="!open && !isUserMenuOpen"
         class="absolute left-16 ml-2 px-3 py-2 bg-gray-900 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity min-w-[160px]"
       >
-        <p class="font-medium">Admin</p>
-        <span class="text-sm text-gray-400">admin&#64;gmail.com</span>
+        <p class="font-medium">{{userInfo?.displayName}}</p>
+        <span class="text-sm text-gray-400">{{userInfo?.email}}</span>
       </div>
     </div>
   </div>

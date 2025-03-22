@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AUTH_SERVICE } from '../../../constants/injection.constant';
+import { IAuthService } from '../../../services/auth/auth-service.interface';
+import { ForgotPasswordRequest } from '../../../models/auth/forgot-password-request.model';
 
 @Component({
   selector: 'app-forgot-password',
@@ -13,7 +16,7 @@ export class ForgotPasswordComponent {
   
   @Output() close = new EventEmitter<void>(); // Để đóng modal
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, @Inject(AUTH_SERVICE) private authService: IAuthService) {
     this.forgotPasswordForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]]
     });
@@ -21,9 +24,18 @@ export class ForgotPasswordComponent {
 
   submit() {
     if (this.forgotPasswordForm.valid) {
-      console.log('Reset password for:', this.forgotPasswordForm.value.email);
-      alert("We've sent an email with the link to reset your password.");
-      this.close.emit(); // Đóng modal sau khi gửi
+      this.authService
+        .forgotPassword(new ForgotPasswordRequest(this.forgotPasswordForm.value.email, "http://localhost:4200/"))
+        .subscribe({
+          next: (response) => {
+            alert("We've sent an email with the link to reset your password.");
+            this.close.emit();
+          },
+          error: (error) => {
+            alert("Failed to send reset password email. Please try again later.");
+          }
+        });
     }
   }
+  
 }
