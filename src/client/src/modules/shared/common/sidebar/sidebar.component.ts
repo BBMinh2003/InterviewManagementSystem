@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject } from '@angular/core';
 import {
   faHome,
   faUsersLine,
@@ -12,7 +12,11 @@ import { faDev } from '@fortawesome/free-brands-svg-icons';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AUTH_SERVICE } from '../../../../constants/injection.constant';
+import { IAuthService } from '../../../../services/auth/auth-service.interface';
+import { UserInformation } from '../../../../models/auth/user-information.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,6 +25,8 @@ import { RouterModule } from '@angular/router';
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
+  public userInfo: UserInformation | null = null;
+  private userSubscription!: Subscription;
   open = true;
   faUserCircle = faUserCircle;
   faDev = faDev;
@@ -49,7 +55,8 @@ export class SidebarComponent {
 
   handleLogout() {
     this.isUserMenuOpen = false;
-    console.log('Logout logic');
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
   closeUserMenu() {
@@ -75,5 +82,19 @@ export class SidebarComponent {
     }
   }
 
-  constructor(private readonly elementRef: ElementRef) {}
+  constructor(private readonly elementRef: ElementRef, @Inject(AUTH_SERVICE) private authService: IAuthService,
+    private router: Router) {
+  }
+
+  ngOnInit() {
+    this.userSubscription = this.authService.getUserInformation().subscribe(user => {
+      this.userInfo = user;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.userSubscription) {
+      this.userSubscription.unsubscribe();
+    }
+  }
 }
