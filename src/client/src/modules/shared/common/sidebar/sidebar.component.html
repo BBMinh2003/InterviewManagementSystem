@@ -1,21 +1,40 @@
 <nav [ngClass]="{
     'w-60': open,
     'w-20': !open
-  }" class="h-screen p-4 bg-gray-800 text-white transition-all duration-300 shadow-lg flex flex-col">
-  <div class="flex items-center mb-8 relative h-12">
-    <div [ngClass]="{
-        'opacity-0 w-0': !open,
-        'opacity-100 w-auto': open
-      }" class="transition-all duration-300 overflow-hidden">
-      <fa-icon [icon]="faDev" class="text-xl pr-1"></fa-icon>
-      <span class="text-xl font-bold">IMS</span>
+  }"
+  class="h-screen p-4 bg-gray-800 text-white transition-all duration-300 shadow-lg flex flex-col"
+>
+  <div
+    class="flex w-full mb-8 items-center justify-between bg-gray-800 transition-all duration-300"
+    [ngClass]="{ 'flex-row h-16': open, 'flex-col h-28': !open }"
+  >
+    <!-- Left side: Icon + Text -->
+    <div class="flex items-center flex-shrink-0 overflow-hidden">
+      <fa-icon
+        [icon]="faDev"
+        class="transition-all duration-300"
+        [ngClass]="{ 'text-4xl mx-auto': !open, 'text-2xl mr-2': open }"
+      ></fa-icon>
+      <span class="text-xl font-bold text-white whitespace-nowrap" *ngIf="open"
+        >IMS</span
+      >
     </div>
 
-    <button (click)="toggleSidebar()" class="flex items-center cursor-pointer hover:text-gray-300 transition-colors"
-      [ngClass]="{ 'mx-auto': !open, 'ml-auto': open }">
-      <mat-icon>{{ open ? "menu_open" : "menu" }}</mat-icon>
-    </button>
+    <!-- Right side: Menu Button -->
+    <div
+      (click)="toggleSidebar()"
+      (keydown)="toggleSidebar()"
+      class="group flex items-center p-3 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors"
+    >
+    <mat-icon
+      class="text-white transition-transform duration-300"
+      [ngClass]="{ 'rotate-180': open }"
+    >
+      {{ open ? "menu_open" : "menu" }}
+    </mat-icon>
+    </div>
   </div>
+  
 
   <ul class="space-y-2 mb-4 flex-grow">
     <li *ngFor="let item of menuItems"
@@ -42,10 +61,13 @@
       (click)="toggleUserMenu()" (keydown.escape)="closeUserMenu()" [ngClass]="{ 'bg-gray-700': isUserMenuOpen }">
       <fa-icon [icon]="faUserCircle" class="pl-1 text-2xl" [ngClass]="{ 'mx-auto': !open }"></fa-icon>
 
-      <div [ngClass]="{ 'opacity-0': !open }" class="transition-opacity ml-3">
-        <p class="font-medium">Admin</p>
-        <span class="text-sm text-gray-400">admin&#64;gmail.com</span>
+      <div [ngClass]="{ 'opacity-0': !open }" class="transition-opacity ml-3 w-full overflow-hidden">
+        <p class="font-medium truncate">{{ userInfo?.displayName }}</p>
+        <p class="text-sm text-gray-400 truncate w-40" title="{{ userInfo?.email }}">
+          {{ userInfo?.email }}
+        </p>
       </div>
+      
 
       <div *ngIf="isUserMenuOpen"
         class="user-menu absolute bottom-full mb-2 w-52 bg-gray-50 rounded-md shadow-lg py-1 z-50" [ngClass]="{
@@ -60,10 +82,12 @@
         </a>
       </div>
 
-      <div *ngIf="!open && !isUserMenuOpen"
-        class="absolute left-16 ml-2 px-3 py-2 bg-gray-900 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity min-w-[160px]">
-        <p class="font-medium">Admin</p>
-        <span class="text-sm text-gray-400">admin&#64;gmail.com</span>
+      <div
+        *ngIf="!open && !isUserMenuOpen"
+        class="absolute left-16 ml-2 px-3 py-2 bg-gray-900 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity min-w-[160px]"
+      >
+        <p class="font-medium">{{userInfo?.displayName}}</p>
+        <span class="text-sm text-gray-400">{{userInfo?.email}}</span>
       </div>
     </div>
   </div>

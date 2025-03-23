@@ -1,20 +1,28 @@
 import { Routes } from '@angular/router';
 import { UserLayoutComponent } from './shared/layouts/user-layout/user-layout.component';
 import { LoginComponent } from './auth/login/login.component';
-import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { canActivateTeam } from '../guards/authenticated.guard';
+import { anonymousGuard } from '../guards/anonymous.guard';
 
 export const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'reset-password', component: ResetPasswordComponent },
   {
     path: 'login',
-    component: LoginComponent // Route riêng cho login, không nằm trong layout
+    component: LoginComponent,
+    canActivate: [anonymousGuard]
   },
-  { path: 'forgot-password', 
-    component: ForgotPasswordComponent 
+  {
+    path: 'reset-password',
+    component: ResetPasswordComponent,
+    canActivate: [anonymousGuard]
   },
   {
     path: '',
     component: UserLayoutComponent,
-    loadChildren: () => 
-        import('./user/user.module').then((m) => m.UserModule),
+    canActivate: [canActivateTeam],
+    loadChildren: () =>
+      import('./user/user.module').then((m) => m.UserModule),
   },
 ];
