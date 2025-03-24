@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using IMS.API.ConfigurationOptions;
+using IMS.Business.Handlers;
 using IMS.Business.Handlers.Auth;
 using IMS.Business.Services;
 using IMS.Data;
@@ -65,6 +66,10 @@ public static class ServiceExtensions
         // Register MediatR
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
+
+        // Resgister MediatoR for Candidate
+        services.AddMediatR(cfg =>
+            cfg.RegisterServicesFromAssembly(typeof(CandidateGetAllQuery).Assembly));
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         // Register IUserIdentity to get current user
