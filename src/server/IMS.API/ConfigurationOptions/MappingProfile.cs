@@ -1,5 +1,6 @@
 using System;
 using AutoMapper;
+using IMS.Business.Handlers;
 using IMS.Business.ViewModels;
 using IMS.Models.Common;
 using IMS.Models.Security;
@@ -29,6 +30,11 @@ public class MappingProfile : Profile
         CreateMap<CandidateSkill, SkillViewModel>()
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SkillId))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Skill != null ? src.Skill.Name : ""));
+
+        // Mapping từ CandidateCreateUpdateCommand -> Candidate
+        CreateMap<CandidateCreateUpdateCommand, Candidate>()
+            .ForMember(dest => dest.CandidateSkills, opt => opt.MapFrom(src => src.CandidateSkillIds
+                .Select(skillId => new CandidateSkill { SkillId = skillId })));
     }
 }
 

@@ -37,4 +37,51 @@ public class CandidateController : ControllerBase
         var result = await _mediator.Send(query);
         return Ok(result);
     }
+
+    [HttpPost("create")]
+    [ProducesResponseType(typeof(CandidateViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Create(CandidateCreateUpdateCommand command)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpPut("update/{id}")]
+    [ProducesResponseType(typeof(CandidateViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update(Guid id, CandidateCreateUpdateCommand command)
+    {
+        command.Id = id;
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _mediator.Send(command);
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{id}")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var command = new CandidateDeleteByIdCommand { Id = id };
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
 }
