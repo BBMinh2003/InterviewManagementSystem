@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Inject } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, Input } from '@angular/core';
 import {
   faHome,
   faUsersLine,
@@ -28,6 +28,9 @@ export class SidebarComponent {
   public userInfo: UserInformation | null = null;
   private userSubscription!: Subscription;
   open = true;
+  isMobile: boolean = window.innerWidth < 768;
+  @Input() isMobileMenuOpen: boolean = false;
+
   faUserCircle = faUserCircle;
   faDev = faDev;
   menuItems = [
@@ -38,6 +41,15 @@ export class SidebarComponent {
     { icon: faFileLines, label: 'Offer', route: '/offer' },
     { icon: faUser, label: 'User', route: '/user' },
   ];
+
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+  }
 
   toggleSidebar() {
     this.open = !this.open;
@@ -63,6 +75,14 @@ export class SidebarComponent {
     this.isUserMenuOpen = false;
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.isMobile = window.innerWidth < 768;
+    if (this.isMobile) {
+      this.open = true;
+    }
+  }
+
   @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -82,14 +102,18 @@ export class SidebarComponent {
     }
   }
 
-  constructor(private readonly elementRef: ElementRef, @Inject(AUTH_SERVICE) private authService: IAuthService,
-    private router: Router) {
-  }
+  constructor(
+    private readonly elementRef: ElementRef,
+    @Inject(AUTH_SERVICE) private authService: IAuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.userSubscription = this.authService.getUserInformation().subscribe(user => {
-      this.userInfo = user;
-    });
+    this.userSubscription = this.authService
+      .getUserInformation()
+      .subscribe((user) => {
+        this.userInfo = user;
+      });
   }
 
   ngOnDestroy() {

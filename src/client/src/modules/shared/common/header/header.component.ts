@@ -1,16 +1,18 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
 import { filter, map, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-header',
-  imports: [CommonModule, FontAwesomeModule],
+  imports: [CommonModule, FontAwesomeModule, MatIconModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent  implements OnDestroy {
+  @Output() menuToggled = new EventEmitter<void>();
   pageTitle = '';
   private readonly destroy$ = new Subject<void>();
 
