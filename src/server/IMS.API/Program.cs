@@ -47,5 +47,5 @@ app.UseAuthorization();
 app.MapControllers();
 app.UseCustomExceptionHandler();
 app.UseCors("CorsPolicy");
-app.Run();
+await app.RunAsync();
 
