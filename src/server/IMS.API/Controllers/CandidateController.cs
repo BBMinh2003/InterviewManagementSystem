@@ -84,4 +84,17 @@ public class CandidateController : ControllerBase
         var result = await _mediator.Send(command);
         return Ok(result);
     }
+
+    [HttpPut("ban/{id}")]
+    public async Task<IActionResult> BanCandidate(Guid id)
+    {
+        bool success = await _mediator.Send(new CandidateBanByIdCommand{Id = id});
+
+        if (!success)
+        {
+            return BadRequest(new { message = "Candidate is already banned or update failed" });
+        }
+
+        return Ok(new { message = "Candidate banned successfully" });
+    }
 }
