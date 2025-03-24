@@ -21,7 +21,6 @@ public class Interview : BaseEntity, IBaseEntity
 
     [ForeignKey(nameof(RecruiterOwner))]
     public Guid RecruiterOwnerId { get; set; }
-
     public User? RecruiterOwner { get; set; }
 
     [Required]

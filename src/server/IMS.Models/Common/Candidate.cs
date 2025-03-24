@@ -57,4 +57,6 @@ public class Candidate : BaseEntity
 
     public User? RecruiterOwner { get; set; }
     public virtual ICollection<CandidateSkill> CandidateSkills { get; set; } = new List<CandidateSkill>();
+
+    public virtual ICollection<Interview> Interviews { get; set; } = new List<Interview>();
 }

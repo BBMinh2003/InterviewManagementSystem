@@ -6,15 +6,80 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace IMS.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddModels : Migration
+    public partial class AddModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_RefreshTokens_Users_CreatedById",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_RefreshTokens_Users_DeletedById",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropForeignKey(
+                name: "FK_RefreshTokens_Users_UpdatedById",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropIndex(
+                name: "IX_RefreshTokens_CreatedById",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropIndex(
+                name: "IX_RefreshTokens_DeletedById",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropIndex(
+                name: "IX_RefreshTokens_UpdatedById",
+                schema: "Security",
+                table: "RefreshTokens");
+
             migrationBuilder.DropColumn(
                 name: "Department",
                 schema: "Security",
                 table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "CreatedAt",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropColumn(
+                name: "CreatedById",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropColumn(
+                name: "DeletedAt",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropColumn(
+                name: "DeletedById",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropColumn(
+                name: "IsDeleted",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropColumn(
+                name: "UpdatedAt",
+                schema: "Security",
+                table: "RefreshTokens");
+
+            migrationBuilder.DropColumn(
+                name: "UpdatedById",
+                schema: "Security",
+                table: "RefreshTokens");
 
             migrationBuilder.EnsureSchema(
                 name: "Common");
@@ -25,6 +90,45 @@ namespace IMS.Data.Migrations
                 table: "Users",
                 type: "uniqueidentifier",
                 nullable: true);
+
+            migrationBuilder.CreateTable(
+                name: "BaseEntity",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BaseEntity", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BaseEntity_Users_CreatedById",
+                        column: x => x.CreatedById,
+                        principalSchema: "Security",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BaseEntity_Users_DeletedById",
+                        column: x => x.DeletedById,
+                        principalSchema: "Security",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_BaseEntity_Users_UpdatedById",
+                        column: x => x.UpdatedById,
+                        principalSchema: "Security",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Benefit",
@@ -66,51 +170,6 @@ namespace IMS.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Jobs",
-                schema: "Common",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    MinSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    MaxSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    WorkingAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Jobs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Jobs_Users_CreatedById",
-                        column: x => x.CreatedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Jobs_Users_DeletedById",
-                        column: x => x.DeletedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Jobs_Users_UpdatedById",
-                        column: x => x.UpdatedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Levels",
                 schema: "Common",
                 columns: table => new
@@ -147,6 +206,77 @@ namespace IMS.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Skills", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Jobs",
+                schema: "Common",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    MinSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    MaxSalary = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    WorkingAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Jobs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Jobs_BaseEntity_Id",
+                        column: x => x.Id,
+                        principalTable: "BaseEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Candidates",
+                schema: "Common",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Gender = table.Column<int>(type: "int", nullable: false),
+                    CV_Attachment = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    YearOfExperience = table.Column<int>(type: "int", nullable: false),
+                    HighestLevel = table.Column<int>(type: "int", nullable: false),
+                    PositionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RecruiterOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Candidates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Candidates_BaseEntity_Id",
+                        column: x => x.Id,
+                        principalTable: "BaseEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Candidates_Positions_PositionId",
+                        column: x => x.PositionId,
+                        principalSchema: "Common",
+                        principalTable: "Positions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Candidates_Users_RecruiterOwnerId",
+                        column: x => x.RecruiterOwnerId,
+                        principalSchema: "Security",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -201,70 +331,6 @@ namespace IMS.Data.Migrations
                         principalTable: "Levels",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Candidates",
-                schema: "Common",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Gender = table.Column<int>(type: "int", nullable: false),
-                    CV_Attachment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    YearOfExperience = table.Column<int>(type: "int", nullable: false),
-                    HighestLevel = table.Column<int>(type: "int", nullable: false),
-                    PositionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    RecruiterOwnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Candidates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Candidates_Positions_PositionId",
-                        column: x => x.PositionId,
-                        principalSchema: "Common",
-                        principalTable: "Positions",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Candidates_Users_CreatedById",
-                        column: x => x.CreatedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Candidates_Users_DeletedById",
-                        column: x => x.DeletedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Candidates_Users_RecruiterOwnerId",
-                        column: x => x.RecruiterOwnerId,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Candidates_Users_UpdatedById",
-                        column: x => x.UpdatedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -338,43 +404,37 @@ namespace IMS.Data.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     StartAt = table.Column<TimeOnly>(type: "time", nullable: false),
                     EndAt = table.Column<TimeOnly>(type: "time", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    CandidateId1 = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Interviews", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Interviews_BaseEntity_Id",
+                        column: x => x.Id,
+                        principalTable: "BaseEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Interviews_Candidates_CandidateId",
                         column: x => x.CandidateId,
                         principalSchema: "Common",
                         principalTable: "Candidates",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Interviews_Candidates_CandidateId1",
+                        column: x => x.CandidateId1,
+                        principalSchema: "Common",
+                        principalTable: "Candidates",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Interviews_Jobs_JobId",
                         column: x => x.JobId,
                         principalSchema: "Common",
                         principalTable: "Jobs",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Interviews_Users_CreatedById",
-                        column: x => x.CreatedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Interviews_Users_DeletedById",
-                        column: x => x.DeletedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Interviews_Users_RecruiterOwnerId",
                         column: x => x.RecruiterOwnerId,
@@ -382,12 +442,6 @@ namespace IMS.Data.Migrations
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Interviews_Users_UpdatedById",
-                        column: x => x.UpdatedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -414,7 +468,7 @@ namespace IMS.Data.Migrations
                         principalSchema: "Security",
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -436,25 +490,24 @@ namespace IMS.Data.Migrations
                     DueDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ContactPeriodFrom = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ContactPeriodTo = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ApprovedById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ApprovedById = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Offers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Offers_BaseEntity_Id",
+                        column: x => x.Id,
+                        principalTable: "BaseEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Offers_Candidates_CandidateId",
                         column: x => x.CandidateId,
                         principalSchema: "Common",
                         principalTable: "Candidates",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Offers_ContactTypes_ContactTypeId",
                         column: x => x.ContactTypeId,
@@ -475,7 +528,7 @@ namespace IMS.Data.Migrations
                         principalSchema: "Common",
                         principalTable: "Interviews",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Offers_Levels_LevelId",
                         column: x => x.LevelId,
@@ -498,30 +551,12 @@ namespace IMS.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Offers_Users_CreatedById",
-                        column: x => x.CreatedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Offers_Users_DeletedById",
-                        column: x => x.DeletedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                    table.ForeignKey(
                         name: "FK_Offers_Users_RecruiterOwnerId",
                         column: x => x.RecruiterOwnerId,
                         principalSchema: "Security",
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Offers_Users_UpdatedById",
-                        column: x => x.UpdatedById,
-                        principalSchema: "Security",
-                        principalTable: "Users",
-                        principalColumn: "Id");
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -531,16 +566,19 @@ namespace IMS.Data.Migrations
                 column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidates_CreatedById",
-                schema: "Common",
-                table: "Candidates",
+                name: "IX_BaseEntity_CreatedById",
+                table: "BaseEntity",
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Candidates_DeletedById",
-                schema: "Common",
-                table: "Candidates",
+                name: "IX_BaseEntity_DeletedById",
+                table: "BaseEntity",
                 column: "DeletedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BaseEntity_UpdatedById",
+                table: "BaseEntity",
+                column: "UpdatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Candidates_PositionId",
@@ -553,12 +591,6 @@ namespace IMS.Data.Migrations
                 schema: "Common",
                 table: "Candidates",
                 column: "RecruiterOwnerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Candidates_UpdatedById",
-                schema: "Common",
-                table: "Candidates",
-                column: "UpdatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CandidateSkills_SkillId",
@@ -579,16 +611,10 @@ namespace IMS.Data.Migrations
                 column: "CandidateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interviews_CreatedById",
+                name: "IX_Interviews_CandidateId1",
                 schema: "Common",
                 table: "Interviews",
-                column: "CreatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Interviews_DeletedById",
-                schema: "Common",
-                table: "Interviews",
-                column: "DeletedById");
+                column: "CandidateId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Interviews_JobId",
@@ -603,12 +629,6 @@ namespace IMS.Data.Migrations
                 column: "RecruiterOwnerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interviews_UpdatedById",
-                schema: "Common",
-                table: "Interviews",
-                column: "UpdatedById");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_JobBenefits_BenefitId",
                 schema: "Common",
                 table: "JobBenefits",
@@ -619,24 +639,6 @@ namespace IMS.Data.Migrations
                 schema: "Common",
                 table: "JobLevels",
                 column: "LevelId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Jobs_CreatedById",
-                schema: "Common",
-                table: "Jobs",
-                column: "CreatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Jobs_DeletedById",
-                schema: "Common",
-                table: "Jobs",
-                column: "DeletedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Jobs_UpdatedById",
-                schema: "Common",
-                table: "Jobs",
-                column: "UpdatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_JobSkills_SkillId",
@@ -661,18 +663,6 @@ namespace IMS.Data.Migrations
                 schema: "Common",
                 table: "Offers",
                 column: "ContactTypeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Offers_CreatedById",
-                schema: "Common",
-                table: "Offers",
-                column: "CreatedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Offers_DeletedById",
-                schema: "Common",
-                table: "Offers",
-                column: "DeletedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Offers_DepartmentId",
@@ -704,11 +694,14 @@ namespace IMS.Data.Migrations
                 table: "Offers",
                 column: "RecruiterOwnerId");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Offers_UpdatedById",
-                schema: "Common",
-                table: "Offers",
-                column: "UpdatedById");
+            migrationBuilder.AddForeignKey(
+                name: "FK_RefreshTokens_BaseEntity_Id",
+                schema: "Security",
+                table: "RefreshTokens",
+                column: "Id",
+                principalTable: "BaseEntity",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Users_Departments_DepartmentId",
@@ -723,6 +716,11 @@ namespace IMS.Data.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_RefreshTokens_BaseEntity_Id",
+                schema: "Security",
+                table: "RefreshTokens");
+
             migrationBuilder.DropForeignKey(
                 name: "FK_Users_Departments_DepartmentId",
                 schema: "Security",
@@ -788,6 +786,9 @@ namespace IMS.Data.Migrations
                 name: "Positions",
                 schema: "Common");
 
+            migrationBuilder.DropTable(
+                name: "BaseEntity");
+
             migrationBuilder.DropIndex(
                 name: "IX_Users_DepartmentId",
                 schema: "Security",
@@ -805,6 +806,102 @@ namespace IMS.Data.Migrations
                 type: "nvarchar(255)",
                 maxLength: 255,
                 nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "CreatedAt",
+                schema: "Security",
+                table: "RefreshTokens",
+                type: "datetime2",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "CreatedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                type: "uniqueidentifier",
+                nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "DeletedAt",
+                schema: "Security",
+                table: "RefreshTokens",
+                type: "datetime2",
+                nullable: true);
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "DeletedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                type: "uniqueidentifier",
+                nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
+                name: "IsDeleted",
+                schema: "Security",
+                table: "RefreshTokens",
+                type: "bit",
+                nullable: false,
+                defaultValue: false);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "UpdatedAt",
+                schema: "Security",
+                table: "RefreshTokens",
+                type: "datetime2",
+                nullable: true);
+
+            migrationBuilder.AddColumn<Guid>(
+                name: "UpdatedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                type: "uniqueidentifier",
+                nullable: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_CreatedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                column: "CreatedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_DeletedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                column: "DeletedById");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RefreshTokens_UpdatedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                column: "UpdatedById");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_RefreshTokens_Users_CreatedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                column: "CreatedById",
+                principalSchema: "Security",
+                principalTable: "Users",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_RefreshTokens_Users_DeletedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                column: "DeletedById",
+                principalSchema: "Security",
+                principalTable: "Users",
+                principalColumn: "Id");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_RefreshTokens_Users_UpdatedById",
+                schema: "Security",
+                table: "RefreshTokens",
+                column: "UpdatedById",
+                principalSchema: "Security",
+                principalTable: "Users",
+                principalColumn: "Id");
         }
     }
 }
