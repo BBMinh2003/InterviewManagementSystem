@@ -31,8 +31,14 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.SkillId))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Skill != null ? src.Skill.Name : ""));
 
+        // Map từ CandidateViewModel sang Candidate
+        CreateMap<CandidateViewModel, Candidate>()
+            .ForMember(dest => dest.Position, opt => opt.Ignore()) // Không tự động ánh xạ Navigation Property
+            .ForMember(dest => dest.RecruiterOwner, opt => opt.Ignore())
+            .ForMember(dest => dest.CandidateSkills, opt => opt.Ignore()); // Sẽ xử lý riêng phần kỹ năng
+
         // Mapping từ CandidateCreateUpdateCommand -> Candidate
-        CreateMap<CandidateCreateUpdateCommand, Candidate>()
+        CreateMap<CandidateUpdateCommand, Candidate>()
             .ForMember(dest => dest.CandidateSkills, opt => opt.MapFrom(src => src.CandidateSkillIds
                 .Select(skillId => new CandidateSkill { SkillId = skillId })));
     }

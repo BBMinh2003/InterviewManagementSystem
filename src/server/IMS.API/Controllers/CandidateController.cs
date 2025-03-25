@@ -41,7 +41,7 @@ public class CandidateController : ControllerBase
     [HttpPost("create")]
     [ProducesResponseType(typeof(CandidateViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Create(CandidateCreateUpdateCommand command)
+    public async Task<IActionResult> Create(CandidateCreateCommand command)
     {
         if (!ModelState.IsValid)
         {
@@ -56,7 +56,7 @@ public class CandidateController : ControllerBase
     [ProducesResponseType(typeof(CandidateViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Guid id, CandidateCreateUpdateCommand command)
+    public async Task<IActionResult> Update(Guid id, CandidateUpdateCommand command)
     {
         command.Id = id;
 

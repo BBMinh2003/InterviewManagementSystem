@@ -8,17 +8,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 
-public class CandidateCreateUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) :
+public class CandidateCreateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) :
     BaseHandler(unitOfWork, mapper),
-    IRequestHandler<CandidateCreateUpdateCommand, CandidateViewModel>
+    IRequestHandler<CandidateCreateCommand, CandidateViewModel>
 {
     public async Task<CandidateViewModel> Handle(
-        CandidateCreateUpdateCommand request, CancellationToken cancellationToken)
-    {
-        return request.Id.HasValue ? await Update(request) : await Create(request);
-    }
-
-    private async Task<CandidateViewModel> Create(CandidateCreateUpdateCommand request)
+        CandidateCreateCommand request, CancellationToken cancellationToken)
     {
         var existedCandidate = await _unitOfWork.CandidateRepository.GetQuery()
             .FirstOrDefaultAsync(x => x.Email == request.Email);
@@ -70,34 +65,5 @@ public class CandidateCreateUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper
         return _mapper.Map<CandidateViewModel>(createdEntity);
     }
 
-    private async Task<CandidateViewModel> Update(CandidateCreateUpdateCommand request)
-    {
-        var entity = await _unitOfWork.CandidateRepository.GetByIdAsync(request.Id!.Value) 
-            ?? throw new ResourceNotFoundException($"Candidate with {request.Id} is not found");
-
-        _mapper.Map(request, entity);
-
-        // Cập nhật danh sách kỹ năng
-        entity.CandidateSkills.Clear();
-        entity.CandidateSkills = request.CandidateSkillIds
-            .Select(skillId => new CandidateSkill { SkillId = skillId, CandidateId = entity.Id })
-            .ToList();
-
-        _unitOfWork.CandidateRepository.Update(entity);
-        var result = await _unitOfWork.SaveChangesAsync();
-
-        if (result == 0)
-        {
-            throw new DatabaseBadRequestException("Failed to update candidate.");
-        }
-
-        var updatedEntity = await _unitOfWork.CandidateRepository.GetQuery()
-            .Include(x => x.CreatedBy)
-            .Include(x => x.UpdatedBy)
-            .Include(x => x.DeletedBy)
-            .FirstOrDefaultAsync(x => x.Id == entity.Id) 
-            ?? throw new ResourceNotFoundException($"Candidate with {entity.Id} is not found");
-
-        return _mapper.Map<CandidateViewModel>(updatedEntity);
-    }
+    
 }
