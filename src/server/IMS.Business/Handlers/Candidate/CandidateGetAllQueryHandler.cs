@@ -6,9 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 
-public class CandidateGetAllQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : BaseHandler(unitOfWork, mapper),
+public class CandidateGetAllQueryHandler : BaseHandler,
     IRequestHandler<CandidateGetAllQuery, IEnumerable<CandidateViewModel>>
 {
+    public CandidateGetAllQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+    {
+    }
+
     public async Task<IEnumerable<CandidateViewModel>> Handle(CandidateGetAllQuery request, CancellationToken cancellationToken)
     {
         var candidates = await _unitOfWork.CandidateRepository

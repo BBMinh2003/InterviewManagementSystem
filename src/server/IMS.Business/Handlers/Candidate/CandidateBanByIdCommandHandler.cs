@@ -13,7 +13,7 @@ public class CandidateBanByIdCommandHandler(IUnitOfWork unitOfWork, IMapper mapp
    
     public async Task<bool> Handle(CandidateBanByIdCommand request, CancellationToken cancellationToken)
     {
-        var candidate = await _unitOfWork.CandidateRepository.GetByIdAsync(request.Id?? Guid.Empty)
+        var candidate = await _unitOfWork.CandidateRepository.GetByIdAsync(request.Id)
             ?? throw new ResourceNotFoundException($"Candidate with ID {request.Id} not found");
 
 
