@@ -57,21 +57,7 @@ public class IMSDbContext : IdentityDbContext<User, Role, Guid>
         builder.Entity<Level>().ToTable("Levels", CoreConstants.Schemas.Common);
         builder.Entity<ContactType>().ToTable("ContactTypes", CoreConstants.Schemas.Common);
 
-        builder.Entity<BaseEntity>()
-            .HasOne(i => i.CreatedBy)
-            .WithMany()
-            .HasForeignKey(i => i.CreatedById)
-            .OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<BaseEntity>()
-            .HasOne(i => i.DeletedBy)
-            .WithMany()
-            .HasForeignKey(i => i.DeletedById)
-            .OnDelete(DeleteBehavior.Restrict);
-        builder.Entity<BaseEntity>()
-            .HasOne(i => i.UpdatedBy)
-            .WithMany()
-            .HasForeignKey(i => i.UpdatedById)
-            .OnDelete(DeleteBehavior.Restrict);
+        
 
         builder.Entity<Interview>(entity =>
         {

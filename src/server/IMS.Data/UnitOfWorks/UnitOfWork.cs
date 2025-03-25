@@ -1,5 +1,6 @@
 using System;
 using IMS.Data.Repositories;
+using IMS.Models.Common;
 using IMS.Models.Security;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -26,6 +27,10 @@ public class UnitOfWork : IUnitOfWork
 
     public IRepository<RefreshToken> RefreshTokenRepository => _refreshTokenRepository ??= new Repository<RefreshToken>(_context, _currentUser);
 
+    private IRepository<Candidate>? _candidateRepository;
+
+    public IRepository<Candidate> CandidateRepository => _candidateRepository ??= new Repository<Candidate>(_context, _currentUser);
+    
 
     protected virtual void Dispose(bool disposing)
     {
