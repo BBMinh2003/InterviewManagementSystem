@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { IPermissionService } from './permission-service.interface';
 import { Observable } from 'rxjs';
 import { tap, map } from 'rxjs/operators';
+import { UserInformation } from '../../models/auth/user-information.model';
 
 @Injectable({
   providedIn: 'root',
@@ -35,5 +36,30 @@ export class PermissionService implements IPermissionService {
       }),
       map((authenticated) => authenticated)
     );
+  }
+
+  canActivateAdmin(): Observable<boolean> {
+    return this.authService.getUserInformation().pipe(
+      map((userInfor) => {
+        let roles: string[] = [];
+
+        if (Array.isArray(userInfor?.roles)) {
+          roles = userInfor.roles.flat();
+        } else if (typeof userInfor?.roles === 'string') {
+          roles = [userInfor.roles];
+        }
+
+        const isAdmin = roles.includes('Admin');
+
+        if (!isAdmin) {
+          this.router.navigate(['/home']);
+        }
+        return isAdmin;
+      })
+    );
+  }
+
+  getAccessToken(): string {
+    return this.authService.getAccessToken();
   }
 }
