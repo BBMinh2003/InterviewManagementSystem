@@ -29,6 +29,12 @@ public class CategorySearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) 
                 || x.Phone.Contains(request.Keyword));
         }
 
+        // Check keyword not null or empty, then filter
+        if (request.Status.HasValue)
+        {
+            query = query.Where(x => x.Status == request.Status);
+        }
+
         // Dem so luong
         int total = await query.CountAsync(cancellationToken);
 
