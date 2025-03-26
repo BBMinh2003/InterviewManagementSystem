@@ -4,6 +4,7 @@ using IMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IMS.Data.Migrations
 {
     [DbContext(typeof(IMSDbContext))]
-    partial class IMSDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250325020336_AddModelAndSeedData")]
+    partial class AddModelAndSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1011,12 +1014,12 @@ namespace IMS.Data.Migrations
                             ApprovedById = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
                             BasicSalary = 1500.00m,
                             CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8474),
-                            ContactPeriodTo = new DateTime(2026, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8602),
+                            ContactPeriodFrom = new DateTime(2025, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9042),
+                            ContactPeriodTo = new DateTime(2026, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9265),
                             ContactTypeId = new Guid("11111111-1111-1111-1111-111111111111"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            DueDate = new DateTime(2025, 4, 2, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8260),
+                            DueDate = new DateTime(2025, 4, 1, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(8721),
                             InterviewId = new Guid("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"),
                             IsDeleted = false,
                             LevelId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
@@ -1031,12 +1034,12 @@ namespace IMS.Data.Migrations
                             ApprovedById = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
                             BasicSalary = 2000.00m,
                             CandidateId = new Guid("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8914),
-                            ContactPeriodTo = new DateTime(2027, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8914),
+                            ContactPeriodFrom = new DateTime(2025, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9831),
+                            ContactPeriodTo = new DateTime(2027, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9832),
                             ContactTypeId = new Guid("22222222-2222-2222-2222-222222222222"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            DueDate = new DateTime(2025, 4, 5, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8911),
+                            DueDate = new DateTime(2025, 4, 4, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9825),
                             InterviewId = new Guid("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"),
                             IsDeleted = false,
                             LevelId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
@@ -1051,12 +1054,12 @@ namespace IMS.Data.Migrations
                             ApprovedById = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
                             BasicSalary = 1200.00m,
                             CandidateId = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8922),
-                            ContactPeriodTo = new DateTime(2026, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8923),
+                            ContactPeriodFrom = new DateTime(2025, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9843),
+                            ContactPeriodTo = new DateTime(2026, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9843),
                             ContactTypeId = new Guid("33333333-3333-3333-3333-333333333333"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
-                            DueDate = new DateTime(2025, 3, 31, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8922),
+                            DueDate = new DateTime(2025, 3, 30, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9842),
                             InterviewId = new Guid("cccc3333-3333-3333-3333-cccccccccccc"),
                             IsDeleted = false,
                             LevelId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
@@ -1071,12 +1074,12 @@ namespace IMS.Data.Migrations
                             ApprovedById = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
                             BasicSalary = 1600.00m,
                             CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8929),
-                            ContactPeriodTo = new DateTime(2026, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8930),
+                            ContactPeriodFrom = new DateTime(2025, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9852),
+                            ContactPeriodTo = new DateTime(2026, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9853),
                             ContactTypeId = new Guid("11111111-1111-1111-1111-111111111111"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            DueDate = new DateTime(2025, 4, 9, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8929),
+                            DueDate = new DateTime(2025, 4, 8, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9852),
                             InterviewId = new Guid("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"),
                             IsDeleted = false,
                             LevelId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
@@ -1091,12 +1094,12 @@ namespace IMS.Data.Migrations
                             ApprovedById = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
                             BasicSalary = 2100.00m,
                             CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8953),
-                            ContactPeriodTo = new DateTime(2027, 3, 26, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8953),
+                            ContactPeriodFrom = new DateTime(2025, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9860),
+                            ContactPeriodTo = new DateTime(2027, 3, 25, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9861),
                             ContactTypeId = new Guid("22222222-2222-2222-2222-222222222222"),
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DepartmentId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            DueDate = new DateTime(2025, 4, 5, 11, 9, 4, 380, DateTimeKind.Utc).AddTicks(8952),
+                            DueDate = new DateTime(2025, 4, 4, 2, 3, 35, 749, DateTimeKind.Utc).AddTicks(9860),
                             InterviewId = new Guid("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"),
                             IsDeleted = false,
                             LevelId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
@@ -1430,9 +1433,6 @@ namespace IMS.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -1483,7 +1483,7 @@ namespace IMS.Data.Migrations
                         {
                             Id = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8f2b2684-d935-48fe-9af8-f8eca90b2e88",
+                            ConcurrencyStamp = "56efc444-6d1c-474e-8341-493482c76457",
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@example.com",
@@ -1505,7 +1505,7 @@ namespace IMS.Data.Migrations
                         {
                             Id = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "5ab60cec-c2bf-4ed7-94ed-cf0b1c8d2f34",
+                            ConcurrencyStamp = "d6c3eb8a-97b9-4922-a15e-8f1c68920247",
                             CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "recruiter@example.com",
@@ -1527,7 +1527,7 @@ namespace IMS.Data.Migrations
                         {
                             Id = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "ea6867de-05c6-4381-9d62-4ea15c3f3fd7",
+                            ConcurrencyStamp = "821b51cb-8cc5-4e7d-8cff-4fcea57502c3",
                             CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "interviewer@example.com",
@@ -1549,7 +1549,7 @@ namespace IMS.Data.Migrations
                         {
                             Id = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6c192abe-854e-4033-90f3-b3e3221997aa",
+                            ConcurrencyStamp = "c49fad22-c12c-43ed-9776-31be1d1284c4",
                             CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "manager@example.com",
@@ -1571,7 +1571,7 @@ namespace IMS.Data.Migrations
                         {
                             Id = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "40d82d11-f289-4fa2-acbd-27a9f090f86f",
+                            ConcurrencyStamp = "83dfa575-6029-4c25-81f0-0217e9869225",
                             CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "interview2@example.com",
@@ -1593,7 +1593,7 @@ namespace IMS.Data.Migrations
                         {
                             Id = new Guid("66666666-ffff-ffff-ffff-ffffffffffff"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bcdc464-7e10-457e-9b9f-a444747b761c",
+                            ConcurrencyStamp = "b1dc5c60-f2ba-4ab3-b1ef-1a5cab4d041d",
                             CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "interviewer3@example.com",
