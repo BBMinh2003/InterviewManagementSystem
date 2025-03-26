@@ -55,4 +55,5 @@ public class User : IdentityUser<Guid>, IBaseEntity
 
     public bool IsDeleted { get; set; }
 
+    public string? Note { get; set; }
 }

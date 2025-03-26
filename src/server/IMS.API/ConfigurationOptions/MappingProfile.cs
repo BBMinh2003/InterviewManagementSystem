@@ -1,7 +1,9 @@
 using System;
 using AutoMapper;
+using IMS.API.ConfigurationOptions.Resolvers;
 using IMS.Business.Handlers;
 using IMS.Business.ViewModels;
+using IMS.Business.ViewModels.UserViews;
 using IMS.Models.Common;
 using IMS.Models.Security;
 
@@ -11,11 +13,10 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
-        // User
-        CreateMap<UserViewModel, User>().ReverseMap()
-            .ForMember(x => x.CreatedBy, opt => opt.MapFrom(e => e.CreatedBy != null ? e.CreatedBy.FullName : string.Empty))
-            .ForMember(x => x.UpdatedBy, opt => opt.MapFrom(e => e.UpdatedBy != null ? e.UpdatedBy.FullName : string.Empty))
-            .ForMember(x => x.DeletedBy, opt => opt.MapFrom(e => e.DeletedBy != null ? e.DeletedBy.FullName : string.Empty));
+        CreateMap<User, UserViewModel>()
+            .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department != null ? src.Department.Name : ""))
+            .ForMember(dest => dest.Roles, opt => opt.MapFrom<UserRolesResolver>());
+
 
         // Candidate
         CreateMap<Candidate, CandidateViewModel>()
@@ -42,12 +43,4 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.CandidateSkills, opt => opt.MapFrom(src => src.CandidateSkillIds
                 .Select(skillId => new CandidateSkill { SkillId = skillId })));
     }
-}
-
-internal class UserViewModel
-{
-    public string? CreatedBy { get; set; }
-    public string? UpdatedBy { get; set; }
-    public string? DeletedBy { get; set; }
-
 }
