@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 
 namespace IMS.Data.UnitOfWorks;
 
-public interface IUnitOfWork
+public interface IUnitOfWork: IDisposable
 {
     IMSDbContext Context { get; }
 

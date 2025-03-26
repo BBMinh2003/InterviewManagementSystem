@@ -2,6 +2,7 @@ using System;
 using AutoMapper;
 using IMS.API.ConfigurationOptions.Resolvers;
 using IMS.Business.Handlers;
+using IMS.Business.Handlers.UserHandlers;
 using IMS.Business.ViewModels;
 using IMS.Business.ViewModels.UserViews;
 using IMS.Models.Common;
@@ -13,10 +14,11 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        // User
         CreateMap<User, UserViewModel>()
             .ForMember(dest => dest.Department, opt => opt.MapFrom(src => src.Department != null ? src.Department.Name : ""))
             .ForMember(dest => dest.Roles, opt => opt.MapFrom<UserRolesResolver>());
-
+        CreateMap<UserCreateCommand, User>();
 
         // Candidate
         CreateMap<Candidate, CandidateViewModel>()
