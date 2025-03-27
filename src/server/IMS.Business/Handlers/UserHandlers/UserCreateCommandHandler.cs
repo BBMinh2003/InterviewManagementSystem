@@ -32,21 +32,8 @@ public class UserCreateCommandHandler(
             throw new ResourceUniqueException("Email is already in use.");
         }
 
-        var user = new User
-        {
-            Id = Guid.NewGuid(),
-            FullName = request.FullName,
-            Email = request.Email,
-            UserName = request.Email,
-            Gender = request.Gender,
-            DepartmentId = request.DepartmentId,
-            DateOfBirth = request.DateOfBirth,
-            CreatedAt = DateTime.UtcNow,
-            IsActive = true,
-            IsDeleted = false,
-            Note = request.Note
-        };
-        
+        var user = _mapper.Map<User>(request);
+        user.Id = Guid.NewGuid();
 
         user.CreatedAt = DateTime.Now;
 

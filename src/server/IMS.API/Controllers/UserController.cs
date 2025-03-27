@@ -44,4 +44,28 @@ public class UserController : ControllerBase
         var result = await _mediator.Send(command);
         return Ok(result);
     }
+
+    [HttpPut("update/{id}")]
+    [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Update(Guid id, UserUpdateCommand command)
+    {
+        command.Id = id;
+
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _mediator.Send(command);
+
+        if (result == null)
+        {
+            return NotFound();
+        }
+
+        return Ok(result);
+    }
+
 }
