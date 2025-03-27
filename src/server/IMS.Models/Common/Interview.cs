@@ -41,6 +41,6 @@ public class Interview : BaseEntity, IBaseEntity
 
     public TimeOnly StartAt { get; set; }
     public TimeOnly EndAt { get; set; }
-
+    public DateOnly InterviewDate { get; set; }
     public virtual ICollection<IntervewerInterview> Interviewers { get; set; } = new List<IntervewerInterview>();
 }

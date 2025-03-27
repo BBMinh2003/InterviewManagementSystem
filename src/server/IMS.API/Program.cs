@@ -2,6 +2,9 @@
 using IMS.API;
 using IMS.API.Middlewares;
 using IMS.Data;
+using IMS.Data.SeedData;
+using IMS.Models.Security;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +39,20 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<IMSDbContext>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+    try
+    {
+        await DbInitializer.Initialize(context, roleManager,userManager);
+        Console.WriteLine("Database seeded successfully.");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error seeding database: {ex.Message}");
+    }
+
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {
@@ -46,6 +63,7 @@ if (app.Environment.IsDevelopment())
     });
     app.MapOpenApi();
 }
+
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
