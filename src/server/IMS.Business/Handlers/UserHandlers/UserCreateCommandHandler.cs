@@ -32,8 +32,21 @@ public class UserCreateCommandHandler(
             throw new ResourceUniqueException("Email is already in use.");
         }
 
-        var user = _mapper.Map<User>(request);
-        user.Id = Guid.NewGuid();
+        var user = new User
+        {
+            Id = Guid.NewGuid(),
+            FullName = request.FullName,
+            Email = request.Email,
+            UserName = request.Email,
+            Gender = request.Gender,
+            DepartmentId = request.DepartmentId,
+            DateOfBirth = request.DateOfBirth,
+            CreatedAt = DateTime.UtcNow,
+            IsActive = true,
+            IsDeleted = false,
+            Note = request.Note
+        };
+
 
         user.CreatedAt = DateTime.Now;
 
@@ -41,7 +54,11 @@ public class UserCreateCommandHandler(
             ?? throw new ResourceNotFoundException("Role not found") : null;
 
         var password = _passwordService.GenerateValidPassword();
-        await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, password);
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException("User creation failed.");
+        }
         await _userManager.AddToRoleAsync(user, role.Name);
 
         await _emailService.SendEmailAsync(user.Email, "Account Created", $"Your account has been created. Your password is {password}");
