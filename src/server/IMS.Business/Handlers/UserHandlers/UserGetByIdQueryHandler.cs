@@ -8,6 +8,7 @@ using IMS.Models.Security;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers.UserHandlers;
 
@@ -15,8 +16,11 @@ public class UserGetByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, Use
 {
     public async Task<UserViewModel> Handle(UserGetByIdQuery request, CancellationToken cancellationToken)
     {
-        User user = await _userManager.FindByIdAsync(request.Id.ToString()) ??
-            throw new ResourceNotFoundException("User not found");
+        User user = _userManager.Users
+            .AsQueryable()
+            .Include(u => u.Department)
+            .FirstOrDefault(u => u.Id == request.Id) ??
+                throw new ResourceNotFoundException("User not found");
 
         return _mapper.Map<UserViewModel>(user);
     }

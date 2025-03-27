@@ -20,7 +20,9 @@ public class UserGetAllQueryHandler : BaseUserHandler, IRequestHandler<UserGetAl
 
     public async Task<IEnumerable<UserViewModel>> Handle(UserGetAllQuery request, CancellationToken cancellationToken)
     {
-        List<User> users = await _userManager.Users.ToListAsync();
+        List<User> users = await _userManager.Users.AsQueryable()
+        .Include(u => u.Department)
+        .ToListAsync();
 
         return _mapper.Map<IEnumerable<UserViewModel>>(users);
     }

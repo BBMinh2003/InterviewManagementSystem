@@ -79,6 +79,9 @@ public static class ServiceExtensions
 
         services.AddScoped<IEmailService, EmailService>();
 
+        services.AddScoped<IPasswordService, PasswordService>();
+
+
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
         // Register SMTP token lifespan
