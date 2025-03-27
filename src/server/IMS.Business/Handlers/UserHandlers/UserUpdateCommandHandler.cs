@@ -54,8 +54,6 @@ public class UserUpdateCommandHandler(
         await _userManager.UpdateAsync(user);
         await _userManager.AddToRoleAsync(user, role.Name);
 
-        await _emailService.SendEmailAsync(user.Email, "Account Created", $"Your account has been updated.");
-
         return _mapper.Map<UserViewModel>(user);
     }
 }
