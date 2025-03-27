@@ -3,6 +3,7 @@ using IMS.Business.Handlers.Auth;
 using IMS.Business.Services;
 using IMS.Business.ViewModels.UserViews;
 using IMS.Core.Exceptions;
+using IMS.Core.Models;
 using IMS.Data.Repositories;
 using IMS.Data.UnitOfWorks;
 using IMS.Models.Security;
@@ -46,7 +47,7 @@ public class UserCreateCommandHandler(
             IsDeleted = false,
             Note = request.Note
         };
-        
+
 
         user.CreatedAt = DateTime.Now;
 
@@ -54,10 +55,18 @@ public class UserCreateCommandHandler(
             ?? throw new ResourceNotFoundException("Role not found") : null;
 
         var password = _passwordService.GenerateValidPassword();
-        await _userManager.CreateAsync(user, password);
+        var result = await _userManager.CreateAsync(user, password);
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException("User creation failed.");
+        }
         await _userManager.AddToRoleAsync(user, role.Name);
 
-        await _emailService.SendEmailAsync(user.Email, "Account Created", $"Your account has been created. Your password is {password}");
+        await _emailService.SendEmailWithTemplateAsync(
+            user.Email,
+            "no-reply-email-IMS-system <Account created>",
+            "AccountCreatedEmail",
+            new AccountCreatedEmailModel { Email = user.Email, Password = password });
 
         return _mapper.Map<UserViewModel>(user);
     }

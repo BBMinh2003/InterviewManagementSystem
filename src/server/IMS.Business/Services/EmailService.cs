@@ -1,32 +1,97 @@
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using MimeKit;
 using MimeKit.Text;
 using Microsoft.Extensions.Configuration;
+using RazorLight;
 
-namespace IMS.Business.Services;
-
-public class EmailService : IEmailService
+namespace IMS.Business.Services
 {
-    private readonly IConfiguration _config;
-
-    public EmailService(IConfiguration config)
+    public class EmailService : IEmailService
     {
-        _config = config;
-    }
+        private readonly IConfiguration _config;
+        private readonly RazorLightEngine _razorEngine;
 
-    public async Task SendEmailAsync(string to, string subject, string body)
-    {
-        var email = new MimeMessage();
-        email.From.Add(MailboxAddress.Parse(_config["SmtpSettings:SenderEmail"]));
-        email.To.Add(MailboxAddress.Parse(to));
-        email.Subject = subject;
-        email.Body = new TextPart(TextFormat.Html) { Text = body };
+        public EmailService(IConfiguration config)
+        {
+            _config = config;
+            _razorEngine = new RazorLightEngineBuilder()
+                .UseEmbeddedResourcesProject(typeof(EmailService).Assembly)
+                .UseMemoryCachingProvider()
+                .Build();
+        }
 
-        using var smtp = new SmtpClient();
-        await smtp.ConnectAsync(_config["SmtpSettings:Server"], int.Parse(_config["SmtpSettings:Port"]), SecureSocketOptions.StartTls);
-        await smtp.AuthenticateAsync(_config["SmtpSettings:SenderEmail"], _config["SmtpSettings:Password"]);
-        await smtp.SendAsync(email);
-        await smtp.DisconnectAsync(true);
+        private string LoadTemplate(string templateName)
+        {
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = $"IMS.Business.EmailTemplates.{templateName}.cshtml";
+
+            using var stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream == null)
+            {
+                throw new FileNotFoundException($"Email template '{templateName}' not found.");
+            }
+
+            using var reader = new StreamReader(stream);
+            return reader.ReadToEnd();
+        }
+
+        public async Task SendEmailAsync(string to, string subject, string body)
+        {
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(_config["SmtpSettings:SenderEmail"]));
+            email.To.Add(MailboxAddress.Parse(to));
+            email.Subject = subject;
+            email.Body = new TextPart(TextFormat.Html) { Text = body };
+
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync(_config["SmtpSettings:Server"], int.Parse(_config["SmtpSettings:Port"]), SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(_config["SmtpSettings:SenderEmail"], _config["SmtpSettings:Password"]);
+            await smtp.SendAsync(email);
+            await smtp.DisconnectAsync(true);
+        }
+
+        public async Task SendEmailWithAttachmentAsync(string to, string subject, string body, string filePath)
+        {
+            var email = new MimeMessage();
+            email.From.Add(MailboxAddress.Parse(_config["SmtpSettings:SenderEmail"]));
+            email.To.Add(MailboxAddress.Parse(to));
+            email.Subject = subject;
+
+            var bodyPart = new TextPart(TextFormat.Html) { Text = body };
+            var attachmentPart = new MimePart()
+            {
+                Content = new MimeContent(File.OpenRead(filePath)),
+                ContentDisposition = new ContentDisposition(ContentDisposition.Attachment),
+                ContentTransferEncoding = ContentEncoding.Base64,
+                FileName = Path.GetFileName(filePath)
+            };
+
+            var multipart = new Multipart("mixed") { bodyPart, attachmentPart };
+            email.Body = multipart;
+
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync(_config["SmtpSettings:Server"], int.Parse(_config["SmtpSettings:Port"]), SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(_config["SmtpSettings:SenderEmail"], _config["SmtpSettings:Password"]);
+            await smtp.SendAsync(email);
+            await smtp.DisconnectAsync(true);
+        }
+
+        public async Task SendEmailWithTemplateAsync<T>(string to, string subject, string templateName, T model)
+        {
+            string templateContent = LoadTemplate(templateName);
+            string emailBody = await _razorEngine.CompileRenderStringAsync(templateName, templateContent, model);
+            await SendEmailAsync(to, subject, emailBody);
+        }
+
+        public async Task SendEmailWithTemplateAndAttachmentAsync<T>(string to, string subject, string templateName, T model, string filePath)
+        {
+            string templateContent = LoadTemplate(templateName);
+            string emailBody = await _razorEngine.CompileRenderStringAsync(templateName, templateContent, model);
+            await SendEmailWithAttachmentAsync(to, subject, emailBody, filePath);
+        }
     }
 }

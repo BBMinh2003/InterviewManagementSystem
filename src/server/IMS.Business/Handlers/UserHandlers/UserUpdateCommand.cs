@@ -5,7 +5,7 @@ using IMS.Models.Security;
 
 namespace IMS.Business.Handlers.UserHandlers;
 
-public class UserUpdateCommand : BaseCreateCommand<UserViewModel>
+public class UserUpdateCommand : BaseUpdateCommand<UserViewModel>
 {
     [Required(ErrorMessage = "The {0} field is required")]
     [StringLength(255, ErrorMessage = "The {0} field must be a string with a maximum length of {1}")]
