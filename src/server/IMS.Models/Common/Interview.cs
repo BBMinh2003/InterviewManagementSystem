@@ -35,7 +35,7 @@ public class Interview : BaseEntity, IBaseEntity
     [StringLength(255)]
     public string? MeetingUrl { get; set; }
 
-    public string? Result { get; set; }
+    public Result Result { get; set; }
 
     public InterviewStatus Status { get; set; }
 

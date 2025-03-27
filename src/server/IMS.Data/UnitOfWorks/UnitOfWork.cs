@@ -30,7 +30,10 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private IRepository<Candidate>? _candidateRepository;
 
     public IRepository<Candidate> CandidateRepository => _candidateRepository ??= new Repository<Candidate>(_context, _currentUser);
-    
+
+    private IRepository<Interview>? _interviewRepository;
+
+    public IRepository<Interview> InterviewRepository => _interviewRepository ??= new Repository<Interview>(_context, _currentUser);
 
     protected virtual void Dispose(bool disposing)
     {
