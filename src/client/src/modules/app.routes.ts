@@ -4,6 +4,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { canActivateTeam } from '../guards/authenticated.guard';
 import { anonymousGuard } from '../guards/anonymous.guard';
+import { ErrorPageComponent } from '../core/components/error-page/error-page.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -11,18 +12,20 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    canActivate: [anonymousGuard]
+    canActivate: [anonymousGuard],
   },
   {
     path: 'reset-password',
     component: ResetPasswordComponent,
-    canActivate: [anonymousGuard]
+    canActivate: [anonymousGuard],
   },
+  { path: 'error', component: ErrorPageComponent },
   {
     path: '',
     component: UserLayoutComponent,
     canActivate: [canActivateTeam],
-    loadChildren: () =>
-      import('./user/user.module').then((m) => m.UserModule),
+    loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
+
+  { path: '**', redirectTo: '/error?code=404' },
 ];
