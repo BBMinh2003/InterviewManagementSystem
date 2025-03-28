@@ -5,9 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../services/auth/auth.service';
-import { AUTH_SERVICE, PERMISSION_SERVICE } from '../constants/injection.constant';
+import { AUTH_SERVICE, NOTIFICATION_SERVICE, PERMISSION_SERVICE } from '../constants/injection.constant';
 import { HttpClientModule } from '@angular/common/http';
 import { PermissionService } from '../services/permission/permission.service';
+import { NotificationService } from '../services/notification/notification.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -26,6 +27,10 @@ export const appConfig: ApplicationConfig = {
     {
       provide: PERMISSION_SERVICE,
       useClass: PermissionService,
+    },
+    {
+      provide: NOTIFICATION_SERVICE, // ✅ Thêm NotificationService vào providers
+      useClass: NotificationService,
     },
   ]
 };
