@@ -17,4 +17,4 @@ export class CandidateModel extends BaseModel {
     public recruiterOwnerId!: string;
     public recruiterOwnerName!: string;
     public candidateSkills!: string[];
-  }
+}
