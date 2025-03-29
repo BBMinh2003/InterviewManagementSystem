@@ -78,4 +78,19 @@ public class AuthController : ControllerBase
         var result = await _mediator.Send(request);
         return Ok(result);
     }
+
+    /// <summary>
+    /// API that allows users to refresh their access token based on the previously received refresh token
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    [HttpPost("refreshAccessToken")]
+    [AllowAnonymous]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RefreshAccessToken([FromBody] RefreshAccessTokenCommand request)
+    {
+        var result = await _mediator.Send(request);
+        return Ok(result);
+    }
 }
