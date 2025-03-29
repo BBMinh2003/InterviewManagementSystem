@@ -62,15 +62,21 @@ export class LoginComponent {
           if (response) {
             this.loadingService.hide();
 
-            this.notificationService.showMessage(' ✅ Login successfully', 'success');
+            this.notificationService.showMessage(
+              ' ✅ Login successfully',
+              'success'
+            );
             this.router.navigate(['/home']);
           }
         },
-        () => {
+        (error) => {
           this.loadingService.hide();
-          this.notificationService.showMessage(
-            'Login Failed. Please try again.'
-          );
+          if (error.status === 401) {
+            this.notificationService.showMessage(
+              'Wrong username or password',
+              'error'
+            );
+          }
         }
       );
     }
