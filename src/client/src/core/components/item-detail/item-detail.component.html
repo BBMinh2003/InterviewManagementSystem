@@ -1,0 +1,73 @@
+<div class="max-w-7xl mx-auto">
+  <div class="text-gray-500 text-sm font-medium px-4 pb-4">
+    <ol class="flex items-center space-x-3">
+      <!-- Home -->
+      <li>
+        <a
+          href="#"
+          class="flex items-center text-gray-600 hover:text-blue-500 transition"
+        >
+          Home
+        </a>
+      </li>
+
+      <!-- Separator -->
+      <li>/</li>
+
+      <!-- Projects -->
+      <li>
+        <a href="#" class="text-gray-600 hover:text-blue-500 transition">
+          Offer List
+        </a>
+      </li>
+
+      <!-- Separator -->
+      <li>/</li>
+
+      <!-- Project Nero (Last Item - No Hover) -->
+      <li class="text-gray-800 font-semibold">Offer Detail</li>
+    </ol>
+  </div>
+  <div class="bg-white rounded-lg shadow p-6 relative">
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between mb-6">
+      <h1 class="text-2xl font-bold mb-2">Offer Details</h1>
+      <div class="text-sm italic text-gray-500 self-end">
+        Created on 22/02/2022, last updated by admin today
+      </div>
+    </div>
+
+    <!-- Cancel Button -->
+    <div class="flex justify-end mb-6">
+      <button
+        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+      >
+        Cancel Offer
+      </button>
+    </div>
+
+    <!-- Information Grid -->
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+      <div *ngFor="let item of items" class="space-y-1">
+        <div class="text-gray-600">{{ item.label }}:</div>
+        <div [class]="item.customClass || 'font-medium'">
+          <div *ngFor="let val of item.value" class="break-words">
+            {{ val }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Action Buttons -->
+    <div class="flex justify-center gap-4 pt-6 border-t mt-6">
+      <button class="px-4 py-2 border rounded-md hover:bg-gray-100">
+        Cancel
+      </button>
+      <button
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+      >
+        Edit
+      </button>
+    </div>
+  </div>
+</div>
