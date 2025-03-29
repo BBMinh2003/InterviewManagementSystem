@@ -1,8 +1,8 @@
 <div class="flex flex-col items-center justify-center h-screen bg-gray-100">
-    <h1 class="text-6xl font-bold text-red-600">{{ errorCode }}</h1>
-    <p class="text-lg text-gray-700 mt-4">{{ errorMessage }}</p>
+    <h1 class="text-6xl font-bold text-red-600">{{ error.code }}</h1>
+    <p class="text-lg text-gray-700 mt-4">{{ error.message }}</p>
     <button (click)="goHome()" class="mt-6 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-      Quay lại trang chủ
+      Back to home
     </button>
   </div>
   
