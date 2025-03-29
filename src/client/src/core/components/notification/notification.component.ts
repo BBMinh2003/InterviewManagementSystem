@@ -7,12 +7,12 @@ import { NotificationModel } from '../../models/notification/notification.model'
 @Component({
   selector: 'app-notification',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule],
   templateUrl: './notification.component.html',
   styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
-  notification: NotificationModel = new NotificationModel();
+  notification: NotificationModel | null = null;
 
   constructor(
     @Inject(NOTIFICATION_SERVICE)
@@ -21,8 +21,24 @@ export class NotificationComponent implements OnInit {
 
   ngOnInit() {
     this.notificationService.currentMessage.subscribe((msg) => {
-      this.notification.message = msg || ''; 
-      console.log('Received message:', this.notification.message);
+      this.notification = msg; 
     });
+  }
+
+  getNotificationClass() {
+    if (!this.notification) return '';
+
+    switch (this.notification.status) {
+      case 'success':
+        return 'bg-green-400 text-white';
+      case 'error':
+        return 'bg-red-500 text-white';
+      case 'warning':
+        return 'bg-yellow-400 text-black';
+      case 'info':
+        return 'bg-blue-400 text-white';
+      default:
+        return 'bg-gray-400 text-white';
+    }
   }
 }

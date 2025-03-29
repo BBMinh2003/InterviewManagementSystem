@@ -11,6 +11,8 @@ export class GlobalExceptionHandler implements ErrorHandler {
     this.ngZone.run(() => {
       if (error.status === 403) {
         this.router.navigate(['/error'], { queryParams: { code: '403' } });
+      } else if (error.status === 401) {
+        this.router.navigate(['/error'], { queryParams: { code: '401' } });  
       } else if (error.status === 404) {
         this.router.navigate(['/error'], { queryParams: { code: '404' } });
       } else if (error.status === 500) {

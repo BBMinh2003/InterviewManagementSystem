@@ -18,7 +18,7 @@ import {
 import { INotificationService } from '../../../services/notification/notification-service.interface';
 import { NotificationComponent } from '../../../core/components/notification/notification.component';
 import { ILoadingService } from '../../../services/loading/loading-service.interface';
-import { LoadingComponent } from "../../../core/components/loading/loading.component";
+import { LoadingComponent } from '../../../core/components/loading/loading.component';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -29,8 +29,8 @@ import { LoadingComponent } from "../../../core/components/loading/loading.compo
     RouterModule,
     ForgotPasswordComponent,
     NotificationComponent,
-    LoadingComponent
-],
+    LoadingComponent,
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
@@ -61,15 +61,13 @@ export class LoginComponent {
         (response) => {
           if (response) {
             this.loadingService.hide();
-            console.log(' Login successful, showing message...');
 
-            this.notificationService.showMessage(' ✅ Login successfully');
+            this.notificationService.showMessage(' ✅ Login successfully', 'success');
             this.router.navigate(['/home']);
           }
         },
         () => {
           this.loadingService.hide();
-          console.log('login fail');
           this.notificationService.showMessage(
             'Login Failed. Please try again.'
           );

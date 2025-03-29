@@ -10,12 +10,10 @@ export class LoadingService implements ILoadingService {
   loading$: Observable<boolean> = this.loadingSubject.asObservable()
 
   show() {
-    console.log(' Loading started');
     this.loadingSubject.next(true);
   }
 
   hide() {   
-     console.log('Loading stopped');
     this.loadingSubject.next(false);
   }
 }

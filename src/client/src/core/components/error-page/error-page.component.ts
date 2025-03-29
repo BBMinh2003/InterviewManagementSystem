@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorModel } from '../../models/error/error.model';
+import { ForbiddenException, InternalServerErrorException, NotFoundException, UnauthorizedException } from '../../exceptions/custom/custom-exceptions';
 
 @Component({
   selector: 'app-error-page',
@@ -9,7 +10,7 @@ import { ErrorModel } from '../../models/error/error.model';
   styleUrls: ['./error-page.component.scss'],
 })
 export class ErrorPageComponent {
-  error: ErrorModel = new ErrorModel('404', 'Page not found!');
+  error: ErrorModel = new NotFoundException(); 
 
   constructor(private route: ActivatedRoute, private router: Router) {
     this.route.queryParams.subscribe((params) => {
@@ -21,11 +22,12 @@ export class ErrorPageComponent {
 
   getErrorByCode(code: string): ErrorModel {
     const errorMap: { [key: string]: ErrorModel } = {
-      '403': new ErrorModel('403', 'You do not have permission to access!'),
-      '404': new ErrorModel('404', 'Page not found'),
-      '500': new ErrorModel('500', 'Server error, please try again later!'),
+      '401': new UnauthorizedException(),
+      '403': new ForbiddenException(),
+      '404': new NotFoundException(),
+      '500': new InternalServerErrorException(),
     };
-    return errorMap[code] || new ErrorModel('404', 'Page not found');
+    return errorMap[code] || new NotFoundException();
   }
 
   goHome() {

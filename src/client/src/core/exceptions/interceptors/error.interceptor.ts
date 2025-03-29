@@ -11,6 +11,7 @@ import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ErrorModel } from '../../models/error/error.model';
 import {
+  ForbiddenException,
   InternalServerErrorException,
   NotFoundException,
   UnauthorizedException,
@@ -29,6 +30,15 @@ export class ErrorInterceptor implements HttpInterceptor {
         let customError;
 
         switch (error.status) {
+          case 403:
+            customError = new ForbiddenException();
+            this.router.navigate(['/error'], {
+              queryParams: {
+                code: customError.code,
+                message: customError.message,
+              },
+            });
+            break;
           case 401:
             customError = new UnauthorizedException();
             this.router.navigate(['/error'], {

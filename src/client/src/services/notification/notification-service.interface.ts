@@ -1,6 +1,10 @@
-import { Observable } from "rxjs";
+import { Observable } from 'rxjs';
+import { NotificationModel } from '../../core/models/notification/notification.model';
 
 export interface INotificationService {
-  currentMessage: Observable<string | null>;
-  showMessage(message:string) : void;
+  currentMessage: Observable<NotificationModel | null>;
+  showMessage(
+    message: string,
+    status?: 'success' | 'error' | 'warning' | 'info'
+  ): void;
 }

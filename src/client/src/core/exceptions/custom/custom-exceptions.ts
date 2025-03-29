@@ -7,8 +7,14 @@ export class NotFoundException extends ErrorModel {
   }
 }
 
-export class UnauthorizedException extends ErrorModel {
-  constructor(code = '401',message = 'You do not have permission to access!') {
+export class ForbiddenException  extends ErrorModel {
+  constructor(code = '403',message = 'Access is forbidden!') {
+    super(code, message);
+  }
+}
+
+export class UnauthorizedException  extends ErrorModel {
+  constructor(code = '401',message = 'You have no permission to access!') {
     super(code, message);
   }
 }

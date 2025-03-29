@@ -64,7 +64,6 @@ export class SidebarComponent {
 
   handleProfile() {
     this.isUserMenuOpen = false;
-    console.log('Navigate to profile');
   }
 
   handleLogout() {
