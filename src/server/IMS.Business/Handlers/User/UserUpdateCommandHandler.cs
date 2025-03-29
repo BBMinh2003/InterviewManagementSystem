@@ -36,7 +36,7 @@ public class UserUpdateCommandHandler(
         user.DateOfBirth = request.DateOfBirth;
         user.IsActive = request.IsActive;
         user.Note = request.Note ?? user.Note;
-        
+
         var roles = await _userManager.GetRolesAsync(user);
         if (roles.Any())
         {
