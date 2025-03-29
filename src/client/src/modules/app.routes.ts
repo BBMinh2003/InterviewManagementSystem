@@ -26,6 +26,6 @@ export const routes: Routes = [
     canActivate: [canActivateTeam],
     loadChildren: () => import('./user/user.module').then((m) => m.UserModule),
   },
-
+  
   { path: '**', redirectTo: '/error?code=404' },
 ];
