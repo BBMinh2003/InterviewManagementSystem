@@ -3,11 +3,10 @@ using IMS.Models.Common;
 
 namespace IMS.Business.ViewModels;
 
-public class InterviewViewModel : BaseInfoViewModel
+public class InterviewViewModel 
 {
-
+    public required Guid Id {get; set;}
     public required string CandidateName { get; set; }
-
 
     public required string JobName { get; set; }
 
