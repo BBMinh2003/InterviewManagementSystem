@@ -20,7 +20,7 @@ public class TokenService : ITokenService
     {
         _configuration = configuration;
         _unitOfWork = unitOfWork;
-        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"] ?? "congdinh2012@hotmail.com"));
+        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"] ?? "supersecuredsecretkey"));
     }
 
     public async Task<string> GenerateTokenAsync(User user, IList<string> userRoles)

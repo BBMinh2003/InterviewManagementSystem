@@ -1,6 +1,8 @@
 using System;
 using System.Net;
 using System.Text.Json;
+using IMS.Business.Handlers.Auth;
+using IMS.Core.Exceptions;
 
 namespace IMS.API.Middlewares;
 
@@ -35,6 +37,10 @@ public class ExceptionHandlingMiddleware
         var statusCode = exception switch
         {
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
+            TokenInvalidException => HttpStatusCode.Unauthorized,
+            ResourceNotFoundException  => HttpStatusCode.NotFound,
+            ResourceUniqueException => HttpStatusCode.Conflict,
+            DatabaseBadRequestException => HttpStatusCode.BadRequest,
             InvalidOperationException => HttpStatusCode.BadRequest,
             ArgumentException => HttpStatusCode.BadRequest,
             _ => HttpStatusCode.InternalServerError
