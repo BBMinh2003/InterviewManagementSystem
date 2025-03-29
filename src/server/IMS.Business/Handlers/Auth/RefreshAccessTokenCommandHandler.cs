@@ -1,6 +1,7 @@
 using AutoMapper;
 using IMS.Business.Services;
 using IMS.Business.ViewModels.Auth;
+using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
 using IMS.Models.Security;
 using MediatR;
