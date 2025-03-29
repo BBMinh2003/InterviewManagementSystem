@@ -35,7 +35,7 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
         else
         {
             if (CurrentUserId == Guid.Empty)
-                entity.CreatedById = Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+                entity.CreatedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
             else
                 entity.CreatedById = CurrentUserId;
         }
@@ -46,7 +46,7 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
     public override void Update(T entity)
     {
         if (CurrentUserId == Guid.Empty)
-            entity.UpdatedById = Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+            entity.UpdatedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
         else
             entity.UpdatedById = CurrentUserId;
         entity.UpdatedAt = DateTime.UtcNow;
@@ -63,7 +63,7 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
         {
             entity.DeletedAt = DateTime.UtcNow;
             if (CurrentUserId == Guid.Empty)
-                entity.DeletedById = Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+                entity.DeletedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
             else
                 entity.DeletedById = Guid.Empty;
             entity.IsDeleted = true;
@@ -110,7 +110,7 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
     {
         DbSet.Attach(entity);
         if (CurrentUserId == Guid.Empty)
-            entity.UpdatedById = Guid.Parse("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
+            entity.UpdatedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
         else
             entity.UpdatedById = CurrentUserId;
 

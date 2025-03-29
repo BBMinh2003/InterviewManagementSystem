@@ -1,0 +1,26 @@
+[
+  {
+    "Id": "dbd4465b-ca24-48a3-95c6-209745752c76",
+    "CreatedAt": "2023-10-01",
+    "Name": "Admin",
+    "NormalizedName": "ADMIN"
+  },
+  {
+    "Id": "eb5c38c6-829b-4226-9c06-e540f2e1b492",
+    "CreatedAt": "2023-10-01",
+    "Name": "Recruiter",
+    "NormalizedName": "RECRUITER"
+  },
+  {
+    "Id": "caad4609-a21b-4bb3-b264-2d3c3085cfeb",
+    "CreatedAt": "2023-10-01",
+    "Name": "Interviewer",
+    "NormalizedName": "INTERVIEWER"
+  },
+  {
+    "Id": "bdd91a8a-2dc8-46ce-b512-ad47b42c3800",
+    "CreatedAt": "2023-10-01",
+    "Name": "Manager",
+    "NormalizedName": "MANAGER"
+  }
+]

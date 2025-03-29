@@ -32,7 +32,7 @@ builder.Services.AddDbContext<IMSDbContext>(options =>
 
 builder.Configuration
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-    .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true); 
+    .AddJsonFile($"appsettings.{env}.json", optional: true, reloadOnChange: true);
 
 var app = builder.Build();
 
@@ -43,9 +43,22 @@ if (app.Environment.IsDevelopment())
     var context = scope.ServiceProvider.GetRequiredService<IMSDbContext>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+
+    var rolesJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "role.json");
+    var usersJsonPath = Path.Combine(app.Environment.WebRootPath, "data", "user.json");
+
+    Console.WriteLine($"WebRootPath: {app.Environment.WebRootPath}");
+    Console.WriteLine($"Roles JSON path: {rolesJsonPath}");
+    Console.WriteLine($"Users JSON path: {usersJsonPath}");
+    Console.WriteLine($"Roles file exists: {File.Exists(rolesJsonPath)}");
+    Console.WriteLine($"Users file exists: {File.Exists(usersJsonPath)}");
+
+    // Ensure the directory exists
+    Directory.CreateDirectory(Path.Combine(app.Environment.WebRootPath, "data"));
+
     try
     {
-        await DbInitializer.Initialize(context, roleManager,userManager);
+        await DbInitializer.Initialize(context, roleManager, userManager,rolesJsonPath, usersJsonPath);
         Console.WriteLine("Database seeded successfully.");
     }
     catch (Exception ex)
