@@ -75,6 +75,17 @@ public class MappingProfile : Profile
            .ForMember(dest => dest.ContactType, opt => opt.MapFrom(src => src.ContactType != null ? src.ContactType.Name : " "))
            .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Position != null ? src.Position.Name : " "));
 
+        CreateMap<OfferUpdateCommand, Offer>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
+            .ForMember(dest => dest.ApprovedById, opt => opt.MapFrom(src => src.ApproverId))
+            .ForMember(dest => dest.Candidate, opt => opt.Ignore())
+            .ForMember(dest => dest.Department, opt => opt.Ignore())
+            .ForMember(dest => dest.RecruiterOwner, opt => opt.Ignore())
+            .ForMember(dest => dest.ApprovedBy, opt => opt.Ignore())
+            .ForMember(dest => dest.Position, opt => opt.Ignore())
+            .ForMember(dest => dest.ContactType, opt => opt.Ignore())
+            .ForMember(dest => dest.Level, opt => opt.Ignore())
+            .ForMember(dest => dest.Interview, opt => opt.Ignore());
     }
 }
 

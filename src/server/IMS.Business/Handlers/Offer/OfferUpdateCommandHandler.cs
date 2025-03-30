@@ -17,16 +17,17 @@ public class OfferUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) :
     {
         var entity = await _unitOfWork.OfferRepository.GetQuery()
             .Include(x => x.Candidate)
-            .Include(x => x.ContactType)
-            .Include(x => x.RecruiterOwner)
             .Include(x => x.Department)
-            .Include(x => x.Interview)
-            .Include(x => x.Level)
+            .Include(x => x.RecruiterOwner)
+            .Include(x => x.ApprovedBy) 
             .Include(x => x.Position)
+            .Include(x => x.ContactType)
+            .Include(x => x.Level)
+            .Include(x => x.Interview)
             .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken)
             ?? throw new ResourceNotFoundException($"Offer with {request.Id} is not found");
 
-        _mapper.Map(request, entity);
+        entity = _mapper.Map(request, entity);
 
         _unitOfWork.OfferRepository.Update(entity);
         var result = await _unitOfWork.SaveChangesAsync();

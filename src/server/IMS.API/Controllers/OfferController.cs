@@ -68,6 +68,19 @@ public class OfferController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPut("update-status")]
+    public async Task<IActionResult> UpdateOfferStatus(OfferUpdateStatusCommand command)
+    {
+        var result = await _mediator.Send(command);
+
+        if (result)
+        {
+            return Ok("Offer status updated successfully");
+        }
+
+        return BadRequest("No changes were made to the offer");
+    }
+
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -75,6 +88,14 @@ public class OfferController : ControllerBase
     {
         var command = new OfferDeleteByIdCommand { Id = id };
         var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpPost("search")]
+    [ProducesResponseType(typeof(IEnumerable<OfferViewModel>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> SearchAsync([FromBody] OfferSearchQuery query)
+    {
+        var result = await _mediator.Send(query);
         return Ok(result);
     }
 }
