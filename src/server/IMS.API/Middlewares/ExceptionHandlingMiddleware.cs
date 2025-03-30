@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Text.Json;
+using IMS.Core.Exceptions;
 
 namespace IMS.API.Middlewares;
 
@@ -37,6 +38,7 @@ public class ExceptionHandlingMiddleware
             UnauthorizedAccessException => HttpStatusCode.Unauthorized,
             InvalidOperationException => HttpStatusCode.BadRequest,
             ArgumentException => HttpStatusCode.BadRequest,
+            ResourceNotFoundException => HttpStatusCode.NotFound,
             _ => HttpStatusCode.InternalServerError
         };
 
