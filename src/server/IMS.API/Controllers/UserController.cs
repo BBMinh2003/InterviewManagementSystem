@@ -80,4 +80,14 @@ public class UserController : ControllerBase
         var result = await _mediator.Send(command);
         return Ok(result);
     }
+
+    [HttpPost("search")]
+    [ProducesResponseType(typeof(IEnumerable<UserViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SearchAsync([FromBody] UserSearchQuery query)
+    {
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
 }
