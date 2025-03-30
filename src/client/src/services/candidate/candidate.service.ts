@@ -9,6 +9,6 @@ import { ICandidateService } from './candidate-service.interface';
 })
 export class CandidateService extends MasterDataService<CandidateModel> implements ICandidateService {
   constructor(protected override httpClient: HttpClient) {
-    super(httpClient, 'candidates');
+    super(httpClient, 'Candidate');
   }
 }
