@@ -11,32 +11,33 @@ public class InterviewSendReminderCommandHandler(IUnitOfWork unitOfWork, IEmailS
 {
     public async Task<bool> Handle(InterviewSendReminderCommand request, CancellationToken cancellationToken)
     {
-        // Tìm cuộc phỏng vấn theo ID
         var interview = await unitOfWork.InterviewRepository.GetQuery()
             .Include(x => x.Candidate)
+            .Include(x => x.RecruiterOwner) 
             .FirstOrDefaultAsync(x => x.Id == request.InterviewId, cancellationToken)
             ?? throw new ResourceNotFoundException($"Interview with ID {request.InterviewId} not found");
 
-        // Kiểm tra xem ứng viên có email không
         if (string.IsNullOrEmpty(interview.Candidate?.Email))
         {
             throw new Exception("Candidate email is missing.");
         }
 
-        // Gửi email
-        var subject = "Upcoming Interview Reminder";
-        var message = $@"
-                <p>Dear {interview.Candidate.Name},</p>
-                <p>This is a reminder for your upcoming interview.</p>
-                <p><strong>Title:</strong> {interview.Title}</p>
-                <p><strong>Date:</strong> {interview.InterviewDate:yyyy-MM-dd}</p>
-                <p><strong>Time:</strong> {interview.StartAt} - {interview.EndAt}</p>
-                <p><strong>Location:</strong> {interview.Location}</p>
-                <p>Click <a href='{interview.MeetingUrl}'>here</a> to join the interview.</p>
-                <p>Best regards,</p>
-                <p>HR Team</p>";
+        var emailModel = new
+        {
+            StartTime = interview.StartAt,
+            EndTime = interview.EndAt,
+            CandidateName = interview.Candidate.Name,
+            CandidatePosition = interview.Job?.Title ?? "N/A",
+            RecruiterEmail = interview.RecruiterOwner?.Email ?? "N/A",
+            ScheduleUrl = $"http://localhost:5108/api/Interview/{interview.Id}",
+            MeetingId = interview.MeetingUrl ?? "N/A"
+        };
 
-        await emailService.SendEmailAsync(interview.Candidate.Email, subject, message);
+        await emailService.SendEmailWithTemplateAsync(
+            interview.Candidate.Email, 
+            "Upcoming Interview Reminder",
+            "InterviewScheduleEmail", 
+            emailModel);
 
         return true;
     }
