@@ -61,11 +61,11 @@ public class MappingProfile : Profile
             .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User != null ? src.User.FullName : " "));
 
         CreateMap<InterviewCreateCommand, Interview>()
-            .ForMember(dest => dest.Id, opt => opt.Ignore()) 
-            .ForMember(dest => dest.Interviewers, opt => opt.Ignore()); 
-        
-         CreateMap<InterviewUpdateCommand, Interview>()
+            .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.Interviewers, opt => opt.Ignore());
+
+        CreateMap<InterviewUpdateCommand, Interview>()
+           .ForMember(dest => dest.Interviewers, opt => opt.Ignore());
     }
 }
 
