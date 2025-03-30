@@ -13,14 +13,16 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AUTH_SERVICE } from '../../../../constants/injection.constant';
+import { AUTH_SERVICE, NOTIFICATION_SERVICE } from '../../../../constants/injection.constant';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { UserInformation } from '../../../../models/auth/user-information.model';
 import { Subscription } from 'rxjs';
+import { INotificationService } from '../../../../services/notification/notification-service.interface';
+import { NotificationComponent } from "../../../../core/components/notification/notification.component";
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, FaIconComponent, MatIconModule, RouterModule],
+  imports: [CommonModule, FaIconComponent, MatIconModule, RouterModule, NotificationComponent],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
@@ -62,11 +64,12 @@ export class SidebarComponent {
 
   handleProfile() {
     this.isUserMenuOpen = false;
-    console.log('Navigate to profile');
   }
 
   handleLogout() {
     this.isUserMenuOpen = false;
+
+    this.notificationService.showMessage('Logout successfully');
     this.authService.logout();
     this.router.navigate(['/login']);
   }
@@ -105,6 +108,7 @@ export class SidebarComponent {
   constructor(
     private readonly elementRef: ElementRef,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
+    @Inject(NOTIFICATION_SERVICE) private notificationService: INotificationService,
     private router: Router
   ) {}
 

@@ -13,7 +13,7 @@ import { ForgotPasswordRequest } from '../../../models/auth/forgot-password-requ
 })
 export class ForgotPasswordComponent {
   forgotPasswordForm: FormGroup;
-  
+
   @Output() close = new EventEmitter<void>(); // Để đóng modal
 
   constructor(private fb: FormBuilder, @Inject(AUTH_SERVICE) private authService: IAuthService) {
@@ -28,7 +28,6 @@ export class ForgotPasswordComponent {
         .forgotPassword(new ForgotPasswordRequest(this.forgotPasswordForm.value.email, "http://localhost:4200/"))
         .subscribe({
           next: (response) => {
-            alert("We've sent an email with the link to reset your password.");
             this.close.emit();
           },
           error: (error) => {
@@ -37,5 +36,5 @@ export class ForgotPasswordComponent {
         });
     }
   }
-  
+
 }
