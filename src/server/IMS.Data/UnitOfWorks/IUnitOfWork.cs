@@ -16,6 +16,7 @@ public interface IUnitOfWork: IDisposable
 
     IRepository<Interview> InterviewRepository {get;}
 
+    IRepository<Offer> OfferRepository {get;}
 
     Task<IDbContextTransaction> BeginTransactionAsync();
     Task CommitTransactionAsync();

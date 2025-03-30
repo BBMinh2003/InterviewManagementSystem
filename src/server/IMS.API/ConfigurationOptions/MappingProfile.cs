@@ -66,6 +66,15 @@ public class MappingProfile : Profile
 
         CreateMap<InterviewUpdateCommand, Interview>()
            .ForMember(dest => dest.Interviewers, opt => opt.Ignore());
+
+        CreateMap<Offer, OfferViewModel>()
+           .ForMember(dest => dest.CandidateName, opt => opt.MapFrom(src => src.Candidate != null ? src.Candidate.Name : " "))
+           .ForMember(dest => dest.InterviewInfo, opt => opt.MapFrom(src => src.Interview != null ? src.Interview.Title : " "))
+           .ForMember(dest => dest.RecruiterOwnerName, opt => opt.MapFrom(src => src.RecruiterOwner != null ? src.RecruiterOwner.FullName : " "))
+           .ForMember(dest => dest.DepartmentName, opt => opt.MapFrom(src => src.Department != null ? src.Department.Name : " "))
+           .ForMember(dest => dest.ContactType, opt => opt.MapFrom(src => src.ContactType != null ? src.ContactType.Name : " "))
+           .ForMember(dest => dest.PositionName, opt => opt.MapFrom(src => src.Position != null ? src.Position.Name : " "));
+
     }
 }
 
