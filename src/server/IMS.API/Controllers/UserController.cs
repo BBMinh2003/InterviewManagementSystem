@@ -18,6 +18,8 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<UserViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> GetAllAsync()
     {
         var result = await _mediator.Send(new UserGetAllQuery());
@@ -25,6 +27,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var result = await _mediator.Send(new UserGetByIdQuery { Id = id });
@@ -34,6 +39,7 @@ public class UserController : ControllerBase
     [HttpPost("create")]
     [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Create(UserCreateCommand command)
     {
         if (!ModelState.IsValid)
@@ -45,27 +51,43 @@ public class UserController : ControllerBase
         return Ok(result);
     }
 
-    [HttpPut("update/{id}")]
+    [HttpPut("update")]
     [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Update(Guid id, UserUpdateCommand command)
+    public async Task<IActionResult> Update(UserUpdateCommand command)
     {
-        command.Id = id;
-
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
         var result = await _mediator.Send(command);
-
-        if (result == null)
-        {
-            return NotFound();
-        }
-
         return Ok(result);
     }
 
+    [HttpPut("switch-status")]
+    [ProducesResponseType(typeof(UserViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> switchStatus(UserSwitchStatusCommand command)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpPost("search")]
+    [ProducesResponseType(typeof(IEnumerable<UserViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> SearchAsync([FromBody] UserSearchQuery query)
+    {
+        var result = await _mediator.Send(query);
+        return Ok(result);
+    }
 }

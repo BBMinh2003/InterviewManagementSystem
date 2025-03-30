@@ -16,10 +16,10 @@ public class UserGetByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, Use
 {
     public async Task<UserViewModel> Handle(UserGetByIdQuery request, CancellationToken cancellationToken)
     {
-        User user = _userManager.Users
+        User user = await _userManager.Users
             .AsQueryable()
             .Include(u => u.Department)
-            .FirstOrDefault(u => u.Id == request.Id) ??
+            .FirstOrDefaultAsync(u => u.Id == request.Id) ??
                 throw new ResourceNotFoundException("User not found");
 
         return _mapper.Map<UserViewModel>(user);
