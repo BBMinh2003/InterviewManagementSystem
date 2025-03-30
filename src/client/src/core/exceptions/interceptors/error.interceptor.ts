@@ -21,9 +21,10 @@ import { INotificationService } from '../../../services/notification/notificatio
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router,
+  constructor(
+    private router: Router,
     @Inject(NOTIFICATION_SERVICE)
-    private notificationService: INotificationService,
+    private notificationService: INotificationService
   ) {}
   intercept(
     req: HttpRequest<any>,
@@ -43,18 +44,31 @@ export class ErrorInterceptor implements HttpInterceptor {
               },
             });
             break;
-            case 401:
-              customError = new UnauthorizedException();
-              
-              if (req.url.includes('/login')) {
-                this.notificationService.showMessage('Wrong username or password', 'error');
-              } 
-              else {
-                this.router.navigate(['/error'], {
-                  queryParams: { code: customError.code, message: customError.message },
-                });
-              }
+          case 401:
+            customError = new UnauthorizedException();
+
+            if (req.url.includes('/login')) {
+              this.notificationService.showMessage(
+                'Wrong username or password!',
+                'error'
+              );
               break;
+            }
+            if (req.url.includes('/forgotPassword')) {
+              this.notificationService.showMessage(
+                'Email not found!',
+                'error'
+              );
+              break;
+            }
+            this.router.navigate(['/error'], {
+              queryParams: {
+                code: customError.code,
+                message: customError.message,
+              },
+            });
+
+            break;
           case 404:
             customError = new NotFoundException();
             this.router.navigate(['/error'], {
