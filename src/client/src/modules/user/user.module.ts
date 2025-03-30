@@ -8,12 +8,13 @@ import { InterviewManagementComponent } from './interview-management/interview-m
 import { OfferManagementComponent } from './offer-management/offer-management.component';
 import { UserManagementComponent } from '../admin/user-management/user-management.component';
 import { canActivateTeamAdmin } from '../../guards/admin.guard';
+import { CandidateListComponent } from './candidate-management/candidate-list/candidate-list.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, data: { title: 'Home' } },
   {
     path: 'candidate',
-    component: CandidateManagementComponent,
+    component: CandidateListComponent,
     data: { title: 'Candidate' },
   },
   { path: 'job', component: JobManagementComponent, data: { title: 'Job' } },

@@ -1,5 +1,5 @@
-<div class="overflow-x-auto rounded-lg border">
-    <table class="w-full">
+<div class="w-full overflow-x-auto rounded-lg border border-gray-200">
+    <table class="w-full min-w-[600px]">
         <thead class="bg-gray-50">
             <tr>
                 <th *ngIf="isShowNumber" class="text-left py-3 px-4 font-medium text-gray-700">#</th>
@@ -15,7 +15,7 @@
                     <td *ngIf="isShowNumber" class="py-3 px-4">
                         {{ (currentPage - 1) * currentPageSize + i + 1 }}
                     </td>
-                    <td *ngFor="let col of columns" class="py-3 px-4">
+                    <td *ngFor="let col of columns" class="py-3 px-4 whitespace-nowrap overflow-hidden text-ellipsis">
                         {{ item[col.value] }}
                     </td>
                     <td class="py-3 px-4">
@@ -45,12 +45,12 @@
         {{ generatePageInfo() }}
     </span>
     <div class="flex gap-2">
-        <button title="Previous" class="px-4 py-2 border rounded-md hover:bg-gray-50 text-gray-600 cursor-pointer"
+        <button title="Previous" class="px-4 py-2 border border-gray-200 rounded-md hover:bg-gray-50 text-gray-600 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             (click)="onPageChange.emit(currentPage - 1)" [disabled]="data && currentPage === 1">
             Previous
         </button>
-        <button title="Next" class="px-4 py-2 border rounded-md hover:bg-gray-50 text-gray-600 cursor-pointer"
-            (click)="onPageChange.emit(currentPage + 1)" [disabled]="data && currentPage===data.totalPages">
+        <button title="Next" class="btn-next px-4 py-2 border border-gray-200 rounded-md hover:bg-gray-50 text-gray-600 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            (click)="onPageChange.emit(currentPage + 1)" [disabled]="data && currentPage === data.totalPages">
             Next
         </button>
     </div>
