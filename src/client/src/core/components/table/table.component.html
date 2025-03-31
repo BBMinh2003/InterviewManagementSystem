@@ -1,8 +1,8 @@
-<div class="w-full overflow-x-auto rounded-lg border border-gray-200">
-    <table class="w-full min-w-[600px]">
-        <thead class="bg-gray-50">
+<div class="overflow-x-auto rounded-lg border border-gray-200">
+    <table class="w-full">
+        <thead class="bg-gray-50 overflow-x-auto">
             <tr>
-                <th *ngIf="isShowNumber" class="text-left py-3 px-4 font-medium text-gray-700">#</th>
+                <th *ngIf="isShowNumber" class="text-left font-medium text-gray-700">#</th>
                 <th *ngFor="let col of columns" class="text-left py-3 px-4 font-medium text-gray-700">
                     {{ col.name }}
                 </th>
@@ -10,16 +10,16 @@
             </tr>
         </thead>
         <tbody>
-            <ng-container *ngIf="data && data.items.length!=0;else emptyData">
+            <ng-container *ngIf="data && data.items.length != 0; else emptyData">
                 <tr *ngFor="let item of data.items; let i = index" class="border-b hover:bg-gray-50">
                     <td *ngIf="isShowNumber" class="py-3 px-4">
                         {{ (currentPage - 1) * currentPageSize + i + 1 }}
                     </td>
-                    <td *ngFor="let col of columns" class="py-3 px-4 whitespace-nowrap overflow-hidden text-ellipsis">
+                    <td *ngFor="let col of columns" class="py-3 px-4">
                         {{ item[col.value] }}
                     </td>
                     <td class="py-3 px-4">
-                        <div class="flex space-x-2">
+                        <div class="flex items-center justify-center space-x-2">
                             <fa-icon [icon]="faEye" class="cursor-pointer text-blue-600"
                                 (click)="onEdit.emit(item.id)"></fa-icon>
                             <fa-icon [icon]="faPenToSquare" class="cursor-pointer text-blue-600"

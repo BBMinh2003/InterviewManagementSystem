@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { RouterModule, Routes } from '@angular/router';
-import { CandidateManagementComponent } from './candidate-management/candidate-management.component';
 import { JobManagementComponent } from './job-management/job-management.component';
 import { InterviewManagementComponent } from './interview-management/interview-management.component';
 import { OfferManagementComponent } from './offer-management/offer-management.component';
