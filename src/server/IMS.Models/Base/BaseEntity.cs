@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IMS.Models.Security;
 
-public class BaseEntity : IBaseEntity
+public abstract class BaseEntity : IBaseEntity
 {
     public Guid Id { get; set; }
 

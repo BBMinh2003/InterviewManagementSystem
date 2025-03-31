@@ -1,6 +1,8 @@
 using System;
 using System.Text;
+using Hangfire;
 using IMS.API.ConfigurationOptions;
+using IMS.Business.Handlers;
 using IMS.Business.Handlers.Auth;
 using IMS.Business.Services;
 using IMS.Data;
@@ -65,6 +67,10 @@ public static class ServiceExtensions
         // Register MediatR
         services.AddMediatR(cfg =>
             cfg.RegisterServicesFromAssembly(typeof(LoginRequestCommand).Assembly));
+
+        // Resgister MediatoR for Candidate
+        services.AddMediatR(cfg =>
+            cfg.RegisterServicesFromAssembly(typeof(CandidateGetAllQuery).Assembly));
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         // Register IUserIdentity to get current user
@@ -74,7 +80,20 @@ public static class ServiceExtensions
 
         services.AddScoped<IEmailService, EmailService>();
 
+        services.AddScoped<IPasswordService, PasswordService>();
+
+        services.AddScoped<IInterviewReminderJobService, InterviewReminderJobService>();
+
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+        // Cấu hình Hangfire với SQL Server
+        services.AddHangfire(config =>
+            config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                  .UseSimpleAssemblyNameTypeSerializer()
+                  .UseRecommendedSerializerSettings()
+                  .UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddHangfireServer();
 
         // Register SMTP token lifespan
         services.Configure<DataProtectionTokenProviderOptions>(options =>

@@ -14,14 +14,14 @@
     dotnet build
     ```
 
-3. Run IMS.WebAPI
+3. Run IMS.API
 
     ```bash
-    dotnet run --project IMS.WebAPI
+    dotnet run --project IMS.API
     ```
 
 4. Dotnet Watch
     
     ```bash
-    dotnet watch --project IMS.WebAPI
+    dotnet watch --project IMS.API
     ```

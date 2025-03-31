@@ -13,4 +13,6 @@ export interface IAuthService {
   isAuthenticated(): Observable<boolean>;
   getUserInformation(): Observable<UserInformation | null>;
   getUserInformationFromAccessToken(): Observable<UserInformation | null>;
+  getAccessToken(): string;
+
 }

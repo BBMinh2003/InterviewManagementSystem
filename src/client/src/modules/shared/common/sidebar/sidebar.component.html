@@ -1,14 +1,19 @@
-<nav [ngClass]="{
-    'w-60': open,
-    'w-20': !open
+<app-notification></app-notification>
+<nav
+  [ngClass]="{
+    'w-60': open && !isMobile,
+    'w-20': !open && !isMobile,
+    'fixed md:relative left-0 md:left-auto top-16 md:top-0': true,
+    'translate-x-0': isMobile && isMobileMenuOpen,
+    '-translate-x-full': isMobile && !isMobileMenuOpen
   }"
-  class="h-screen p-4 bg-gray-800 text-white transition-all duration-300 shadow-lg flex flex-col"
+  class="p-4 bg-gray-800 text-white transition-all duration-300 shadow-lg flex flex-col h-[calc(100vh-4rem)] md:h-screen z-40" 
 >
   <div
+    *ngIf="!isMobile"
     class="flex w-full mb-8 items-center justify-between bg-gray-800 transition-all duration-300"
     [ngClass]="{ 'flex-row h-16': open, 'flex-col h-28': !open }"
   >
-    <!-- Left side: Icon + Text -->
     <div class="flex items-center flex-shrink-0 overflow-hidden">
       <fa-icon
         [icon]="faDev"
@@ -19,22 +24,18 @@
         >IMS</span
       >
     </div>
-
-    <!-- Right side: Menu Button -->
     <div
       (click)="toggleSidebar()"
-      (keydown)="toggleSidebar()"
-      class="group flex items-center p-3 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors"
+      class="group flex items-center p-3 rounded-lg hover:bg-gray-700 cursor-pointer"
     >
-    <mat-icon
-      class="text-white transition-transform duration-300"
-      [ngClass]="{ 'rotate-180': open }"
-    >
-      {{ open ? "menu_open" : "menu" }}
-    </mat-icon>
+      <mat-icon
+        class="text-white transition-transform duration-300"
+        [ngClass]="{ 'rotate-180': open }"
+      >
+        {{ open ? "menu_open" : "menu" }}
+      </mat-icon>
     </div>
   </div>
-  
 
   <ul class="space-y-2 mb-4 flex-grow">
     <li *ngFor="let item of menuItems"
@@ -61,13 +62,18 @@
       (click)="toggleUserMenu()" (keydown.escape)="closeUserMenu()" [ngClass]="{ 'bg-gray-700': isUserMenuOpen }">
       <fa-icon [icon]="faUserCircle" class="pl-1 text-2xl" [ngClass]="{ 'mx-auto': !open }"></fa-icon>
 
-      <div [ngClass]="{ 'opacity-0': !open }" class="transition-opacity ml-3 w-full overflow-hidden">
+      <div
+        [ngClass]="{ 'opacity-0': !open }"
+        class="transition-opacity ml-3 w-full overflow-hidden"
+      >
         <p class="font-medium truncate">{{ userInfo?.displayName }}</p>
-        <p class="text-sm text-gray-400 truncate w-40" title="{{ userInfo?.email }}">
+        <p
+          class="text-sm text-gray-400 truncate w-40"
+          title="{{ userInfo?.email }}"
+        >
           {{ userInfo?.email }}
         </p>
       </div>
-      
 
       <div *ngIf="isUserMenuOpen"
         class="user-menu absolute bottom-full mb-2 w-52 bg-gray-50 rounded-md shadow-lg py-1 z-50" [ngClass]="{
@@ -86,8 +92,8 @@
         *ngIf="!open && !isUserMenuOpen"
         class="absolute left-16 ml-2 px-3 py-2 bg-gray-900 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity min-w-[160px]"
       >
-        <p class="font-medium">{{userInfo?.displayName}}</p>
-        <span class="text-sm text-gray-400">{{userInfo?.email}}</span>
+        <p class="font-medium">{{ userInfo?.displayName }}</p>
+        <span class="text-sm text-gray-400">{{ userInfo?.email }}</span>
       </div>
     </div>
   </div>

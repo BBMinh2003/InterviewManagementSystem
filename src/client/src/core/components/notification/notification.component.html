@@ -1,0 +1,10 @@
+<div class="fixed top-5 right-5 flex flex-col space-y-2">
+  <div
+    *ngFor="let notification of notifications"
+    class="flex items-center space-x-3 text-white px-6 py-3 rounded-lg shadow-lg text-lg"
+    [ngClass]="getNotificationClass(notification.status)"
+  >
+    <span>{{ notification.message }}</span>
+  </div>
+</div>
+  

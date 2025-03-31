@@ -1,11 +1,12 @@
 using System;
 using IMS.Data.Repositories;
+using IMS.Models.Common;
 using IMS.Models.Security;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace IMS.Data.UnitOfWorks;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly IMSDbContext _context;
 
@@ -26,7 +27,17 @@ public class UnitOfWork : IUnitOfWork
 
     public IRepository<RefreshToken> RefreshTokenRepository => _refreshTokenRepository ??= new Repository<RefreshToken>(_context, _currentUser);
 
+    private IRepository<Candidate>? _candidateRepository;
 
+    public IRepository<Candidate> CandidateRepository => _candidateRepository ??= new Repository<Candidate>(_context, _currentUser);
+
+    private IRepository<Interview>? _interviewRepository;
+
+    public IRepository<Interview> InterviewRepository => _interviewRepository ??= new Repository<Interview>(_context, _currentUser);
+
+    private IRepository<Offer>? _offerRepository;
+
+    public IRepository<Offer> OfferRepository => _offerRepository ??= new Repository<Offer>(_context, _currentUser);
     protected virtual void Dispose(bool disposing)
     {
         if (!_disposed)

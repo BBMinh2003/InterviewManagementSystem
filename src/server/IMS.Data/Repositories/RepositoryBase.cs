@@ -34,7 +34,10 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
         }
         else
         {
-            entity.CreatedById = CurrentUserId;
+            if (CurrentUserId == Guid.Empty)
+                entity.CreatedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
+            else
+                entity.CreatedById = CurrentUserId;
         }
         entity.CreatedAt = DateTime.UtcNow;
         DbSet.Add(entity);
@@ -42,7 +45,10 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
 
     public override void Update(T entity)
     {
-        entity.UpdatedById = CurrentUserId;
+        if (CurrentUserId == Guid.Empty)
+            entity.UpdatedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
+        else
+            entity.UpdatedById = CurrentUserId;
         entity.UpdatedAt = DateTime.UtcNow;
         UpdateEntityObject(entity);
     }
@@ -56,7 +62,10 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
         else
         {
             entity.DeletedAt = DateTime.UtcNow;
-            entity.DeletedById = CurrentUserId;
+            if (CurrentUserId == Guid.Empty)
+                entity.DeletedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
+            else
+                entity.DeletedById = Guid.Empty;
             entity.IsDeleted = true;
             UpdateEntityObject(entity);
         }
@@ -100,7 +109,11 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
     private void UpdateEntityObject(T entity)
     {
         DbSet.Attach(entity);
-        entity.UpdatedById = CurrentUserId;
+        if (CurrentUserId == Guid.Empty)
+            entity.UpdatedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
+        else
+            entity.UpdatedById = CurrentUserId;
+
         entity.UpdatedAt = DateTime.UtcNow;
         DataContext.Entry(entity).State = EntityState.Modified;
         DataContext.Entry(entity).GetDatabaseValues()?.ToObject();

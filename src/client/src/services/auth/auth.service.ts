@@ -92,7 +92,7 @@ export class AuthService implements IAuthService {
         })
       );
   }
-  
+
   public forgotPassword(forgotPasswordRequest: ForgotPasswordRequest): Observable<boolean> {
     return this.httpClient
       .post<BaseResponse>(this.apiUrl + '/forgotPassword', forgotPasswordRequest)
@@ -147,4 +147,7 @@ export class AuthService implements IAuthService {
     }
   }
 
+  getAccessToken(): string {
+    return localStorage.getItem('accessToken') || '';
+  }
 }

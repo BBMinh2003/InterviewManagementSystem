@@ -37,33 +37,96 @@ namespace IMS.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Benefit", "Common");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("44444444-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Name = "Lunch"
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Name = "25-day leave"
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-cccc-cccc-cccc-cccccccccccc"),
-                            Name = "Healthcare insurance"
-                        },
-                        new
-                        {
-                            Id = new Guid("77777777-dddd-dddd-dddd-dddddddddddd"),
-                            Name = "Hybrid working"
-                        },
-                        new
-                        {
-                            Id = new Guid("88888888-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            Name = "Travel"
-                        });
+            modelBuilder.Entity("IMS.Models.Common.Candidate", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(555)
+                        .HasColumnType("nvarchar(555)");
+
+                    b.Property<string>("CV_Attachment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HighestLevel")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.Property<Guid>("PositionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RecruiterOwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("YearOfExperience")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("PositionId");
+
+                    b.HasIndex("RecruiterOwnerId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Candidates", "Common");
                 });
 
             modelBuilder.Entity("IMS.Models.Common.CandidateSkill", b =>
@@ -79,38 +142,6 @@ namespace IMS.Data.Migrations
                     b.HasIndex("SkillId");
 
                     b.ToTable("CandidateSkills", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            SkillId = new Guid("dddddddd-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            SkillId = new Guid("ffffffff-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            CandidateId = new Guid("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            SkillId = new Guid("eeeeeeee-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            CandidateId = new Guid("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            SkillId = new Guid("22222222-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            CandidateId = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            SkillId = new Guid("33333333-ffff-ffff-ffff-ffffffffffff")
-                        },
-                        new
-                        {
-                            CandidateId = new Guid("66666666-ffff-ffff-ffff-ffffffffffff"),
-                            SkillId = new Guid("11111111-dddd-dddd-dddd-dddddddddddd")
-                        });
                 });
 
             modelBuilder.Entity("IMS.Models.Common.ContactType", b =>
@@ -128,33 +159,6 @@ namespace IMS.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ContactTypes", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            Name = "Trial 2 months"
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            Name = "Trainee 3 months"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            Name = "1 year"
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
-                            Name = "3 years"
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-5555-5555-5555-555555555555"),
-                            Name = "Unlimited"
-                        });
                 });
 
             modelBuilder.Entity("IMS.Models.Common.Department", b =>
@@ -172,38 +176,6 @@ namespace IMS.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Departments", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Name = "IT"
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Name = "HR"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
-                            Name = "Finance"
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
-                            Name = "Communication"
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            Name = "Marketing"
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-ffff-ffff-ffff-ffffffffffff"),
-                            Name = "Accounting"
-                        });
                 });
 
             modelBuilder.Entity("IMS.Models.Common.IntervewerInterview", b =>
@@ -219,314 +191,98 @@ namespace IMS.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("IntervewerInterviews", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            InterviewId = new Guid("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"),
-                            UserId = new Guid("33333333-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            InterviewId = new Guid("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"),
-                            UserId = new Guid("44444444-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            InterviewId = new Guid("cccc3333-3333-3333-3333-cccccccccccc"),
-                            UserId = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            InterviewId = new Guid("dddd4444-4444-4444-4444-dddddddddddd"),
-                            UserId = new Guid("66666666-ffff-ffff-ffff-ffffffffffff")
-                        },
-                        new
-                        {
-                            InterviewId = new Guid("eeee5555-5555-5555-5555-eeeeeeeeeeee"),
-                            UserId = new Guid("33333333-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            InterviewId = new Guid("ffff6666-6666-6666-6666-ffffffffffff"),
-                            UserId = new Guid("44444444-dddd-dddd-dddd-dddddddddddd")
-                        });
                 });
 
-            modelBuilder.Entity("IMS.Models.Common.JobBenefit", b =>
-                {
-                    b.Property<Guid>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("BenefitId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("JobId", "BenefitId");
-
-                    b.HasIndex("BenefitId");
-
-                    b.ToTable("JobBenefits", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            JobId = new Guid("99999999-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            BenefitId = new Guid("44444444-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            JobId = new Guid("99999999-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            BenefitId = new Guid("66666666-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            JobId = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            BenefitId = new Guid("55555555-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            JobId = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            BenefitId = new Guid("77777777-dddd-dddd-dddd-dddddddddddd")
-                        },
-                        new
-                        {
-                            JobId = new Guid("77777777-cccc-cccc-cccc-cccccccccccc"),
-                            BenefitId = new Guid("88888888-eeee-eeee-eeee-eeeeeeeeeeee")
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.JobLevel", b =>
-                {
-                    b.Property<Guid>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LevelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("JobId", "LevelId");
-
-                    b.HasIndex("LevelId");
-
-                    b.ToTable("JobLevels", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            JobId = new Guid("99999999-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            LevelId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            JobId = new Guid("99999999-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            LevelId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        },
-                        new
-                        {
-                            JobId = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            LevelId = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            JobId = new Guid("77777777-cccc-cccc-cccc-cccccccccccc"),
-                            LevelId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            JobId = new Guid("66666666-dddd-dddd-dddd-dddddddddddd"),
-                            LevelId = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd")
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.JobSkill", b =>
-                {
-                    b.Property<Guid>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("SkillId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("JobId", "SkillId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("JobSkills", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            JobId = new Guid("99999999-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            SkillId = new Guid("dddddddd-aaaa-aaaa-aaaa-aaaaaaaaaaaa")
-                        },
-                        new
-                        {
-                            JobId = new Guid("99999999-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            SkillId = new Guid("ffffffff-cccc-cccc-cccc-cccccccccccc")
-                        },
-                        new
-                        {
-                            JobId = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            SkillId = new Guid("22222222-eeee-eeee-eeee-eeeeeeeeeeee")
-                        },
-                        new
-                        {
-                            JobId = new Guid("77777777-cccc-cccc-cccc-cccccccccccc"),
-                            SkillId = new Guid("33333333-ffff-ffff-ffff-ffffffffffff")
-                        },
-                        new
-                        {
-                            JobId = new Guid("66666666-dddd-dddd-dddd-dddddddddddd"),
-                            SkillId = new Guid("eeeeeeee-bbbb-bbbb-bbbb-bbbbbbbbbbbb")
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Level", b =>
+            modelBuilder.Entity("IMS.Models.Common.Interview", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
+                    b.Property<Guid>("CandidateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CandidateId1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<TimeOnly>("EndAt")
+                        .HasColumnType("time");
+
+                    b.Property<DateOnly>("InterviewDate")
+                        .HasColumnType("date");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Location")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("MeetingUrl")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("RecruiterOwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Result")
+                        .HasColumnType("int");
+
+                    b.Property<TimeOnly>("StartAt")
+                        .HasColumnType("time");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.ToTable("Levels", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Name = "Fresher"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Name = "Junior"
-                        },
-                        new
-                        {
-                            Id = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                            Name = "Senior"
-                        },
-                        new
-                        {
-                            Id = new Guid("dddddddd-dddd-dddd-dddd-dddddddddddd"),
-                            Name = "Leader"
-                        },
-                        new
-                        {
-                            Id = new Guid("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            Name = "Manager"
-                        },
-                        new
-                        {
-                            Id = new Guid("ffffffff-ffff-ffff-ffff-ffffffffffff"),
-                            Name = "Vice Head"
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Position", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
+                    b.Property<Guid?>("UpdatedById")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("Positions", "Common");
+                    b.HasIndex("CandidateId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("77777777-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Name = "Backend Developer"
-                        },
-                        new
-                        {
-                            Id = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Name = "Business Analyst"
-                        },
-                        new
-                        {
-                            Id = new Guid("99999999-cccc-cccc-cccc-cccccccccccc"),
-                            Name = "Tester"
-                        },
-                        new
-                        {
-                            Id = new Guid("aaaaaaaa-dddd-dddd-dddd-dddddddddddd"),
-                            Name = "HR"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbbbbbb-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            Name = "Project Manager"
-                        },
-                        new
-                        {
-                            Id = new Guid("cccccccc-ffff-ffff-ffff-ffffffffffff"),
-                            Name = "Not available"
-                        });
+                    b.HasIndex("CandidateId1");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("RecruiterOwnerId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Interviews", "Common");
                 });
 
-            modelBuilder.Entity("IMS.Models.Common.Skill", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(255)
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Skills", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("dddddddd-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Name = "Java"
-                        },
-                        new
-                        {
-                            Id = new Guid("eeeeeeee-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Name = "Node.js"
-                        },
-                        new
-                        {
-                            Id = new Guid("ffffffff-cccc-cccc-cccc-cccccccccccc"),
-                            Name = ".NET"
-                        },
-                        new
-                        {
-                            Id = new Guid("11111111-dddd-dddd-dddd-dddddddddddd"),
-                            Name = "C++"
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            Name = "Business analysis"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-ffff-ffff-ffff-ffffffffffff"),
-                            Name = "Communication"
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Security.BaseEntity", b =>
+            modelBuilder.Entity("IMS.Models.Common.Job", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -544,13 +300,293 @@ namespace IMS.Data.Migrations
                     b.Property<Guid?>("DeletedById")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<decimal>("MaxSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("MinSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid?>("UpdatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("WorkingAddress")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Jobs", "Common");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.JobBenefit", b =>
+                {
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BenefitId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("JobId", "BenefitId");
+
+                    b.HasIndex("BenefitId");
+
+                    b.ToTable("JobBenefits", "Common");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.JobLevel", b =>
+                {
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LevelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("JobId", "LevelId");
+
+                    b.HasIndex("LevelId");
+
+                    b.ToTable("JobLevels", "Common");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.JobSkill", b =>
+                {
+                    b.Property<Guid>("JobId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SkillId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("JobId", "SkillId");
+
+                    b.HasIndex("SkillId");
+
+                    b.ToTable("JobSkills", "Common");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.Level", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Levels", "Common");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.Offer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApprovedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("BasicSalary")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("CandidateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ContactPeriodFrom")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ContactPeriodTo")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ContactTypeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("DepartmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("InterviewId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("LevelId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("PositionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("RecruiterOwnerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedById");
+
+                    b.HasIndex("CandidateId");
+
+                    b.HasIndex("ContactTypeId");
+
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("DeletedById");
+
+                    b.HasIndex("DepartmentId");
+
+                    b.HasIndex("InterviewId");
+
+                    b.HasIndex("LevelId");
+
+                    b.HasIndex("PositionId");
+
+                    b.HasIndex("RecruiterOwnerId");
+
+                    b.HasIndex("UpdatedById");
+
+                    b.ToTable("Offers", "Common");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.Position", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Positions", "Common");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.Skill", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(255)
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Skills", "Common");
+                });
+
+            modelBuilder.Entity("IMS.Models.Security.RefreshToken", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("CreatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("ExpiryDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsRevoked")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ReasonRevoked")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ReplacedByToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid?>("UpdatedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -561,9 +597,9 @@ namespace IMS.Data.Migrations
 
                     b.HasIndex("UpdatedById");
 
-                    b.ToTable("BaseEntity");
+                    b.HasIndex("UserId");
 
-                    b.UseTptMappingStrategy();
+                    b.ToTable("RefreshTokens", "Security");
                 });
 
             modelBuilder.Entity("IMS.Models.Security.Role", b =>
@@ -622,40 +658,6 @@ namespace IMS.Data.Migrations
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Roles", "Security");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedAt = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-2222-2222-2222-222222222222"),
-                            CreatedAt = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Name = "Recruiter",
-                            NormalizedName = "RECRUITER"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-3333-3333-3333-333333333333"),
-                            CreatedAt = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Name = "Interviewer",
-                            NormalizedName = "INTERVIEWER"
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-4444-4444-4444-444444444444"),
-                            CreatedAt = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Name = "Manager",
-                            NormalizedName = "Manager"
-                        });
                 });
 
             modelBuilder.Entity("IMS.Models.Security.User", b =>
@@ -729,6 +731,9 @@ namespace IMS.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -773,140 +778,6 @@ namespace IMS.Data.Migrations
                     b.HasIndex("UpdatedById");
 
                     b.ToTable("Users", "Security");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "56b3a73a-b913-4d99-b02a-1623718ec83e",
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@example.com",
-                            EmailConfirmed = true,
-                            FullName = "Admin",
-                            Gender = 2,
-                            IsActive = true,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@EXAMPLE.COM",
-                            NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEKzO7BHEb758wHgIVI3x0NuSEd8BLlECa+TDvKAF1cUtkj6O5hM9PMp42jCeWnGeww==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "SECURITY_STAMP_1",
-                            TwoFactorEnabled = false,
-                            UserName = "admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d800c29b-59c8-42dd-bc13-a1113e30f128",
-                            CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "recruiter@example.com",
-                            EmailConfirmed = true,
-                            FullName = "Recruiter",
-                            Gender = 2,
-                            IsActive = true,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "RECRUITER@EXAMPLE.COM",
-                            NormalizedUserName = "RECRUITER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOTNmM1M0OJV+VJyKbHIj8b7oJSH/W5uTr8LQy8HO8bhEIb9ZDf9m1KwnBavT5m9Yg==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "SECURITY_STAMP_2",
-                            TwoFactorEnabled = false,
-                            UserName = "recruiter"
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "0cc4e817-3f97-452d-844c-c6d965309276",
-                            CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "interviewer@example.com",
-                            EmailConfirmed = true,
-                            FullName = "Interviewer",
-                            Gender = 2,
-                            IsActive = true,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "INTERVIEWER@EXAMPLE.COM",
-                            NormalizedUserName = "INTERVIEWER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM41t5RUbsvo9ImUsQhuLuI0RLJRt5t7HAVUPnU9Z3naZud31HsypTKOyjmD1tv/UQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "SECURITY_STAMP_3",
-                            TwoFactorEnabled = false,
-                            UserName = "interviewer"
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "68a18a36-f5cb-46c8-aad7-3303898cb8eb",
-                            CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "manager@example.com",
-                            EmailConfirmed = true,
-                            FullName = "Manager",
-                            Gender = 2,
-                            IsActive = true,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "MANAGER@EXAMPLE.COM",
-                            NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAEAACcQAAAAELbr2xCUqc37Qu/fRYpRYOQTzUtPnCVXx7muwkJEhUlRlhGuAGD2kJzcIokmv4YrZQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "SECURITY_STAMP_4",
-                            TwoFactorEnabled = false,
-                            UserName = "manager"
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "302a1e9a-7037-461c-ae72-941974d3fa3d",
-                            CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "interview2@example.com",
-                            EmailConfirmed = true,
-                            FullName = "Interviewer 2",
-                            Gender = 2,
-                            IsActive = true,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "INTERVIEW2@EXAMPLE.COM",
-                            NormalizedUserName = "INTERVIEW2",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM41t5RUbsvo9ImUsQhuLuI0RLJRt5t7HAVUPnU9Z3naZud31HsypTKOyjmD1tv/UQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "SECURITY_STAMP_5",
-                            TwoFactorEnabled = false,
-                            UserName = "interview2"
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-ffff-ffff-ffff-ffffffffffff"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "dee8d046-6858-423c-a212-a896013963a0",
-                            CreatedAt = new DateTime(2024, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DateOfBirth = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "interviewer3@example.com",
-                            EmailConfirmed = true,
-                            FullName = "Interviewer 3",
-                            Gender = 2,
-                            IsActive = true,
-                            IsDeleted = false,
-                            LockoutEnabled = false,
-                            NormalizedEmail = "INTERVIEWER3@EXAMPLE.COM",
-                            NormalizedUserName = "INTERVIEWER3",
-                            PasswordHash = "AQAAAAEAACcQAAAAEM41t5RUbsvo9ImUsQhuLuI0RLJRt5t7HAVUPnU9Z3naZud31HsypTKOyjmD1tv/UQ==",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "SECURITY_STAMP_6",
-                            TwoFactorEnabled = false,
-                            UserName = "interviewer3"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -991,38 +862,6 @@ namespace IMS.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", "Security");
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            RoleId = new Guid("11111111-1111-1111-1111-111111111111")
-                        },
-                        new
-                        {
-                            UserId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            RoleId = new Guid("22222222-2222-2222-2222-222222222222")
-                        },
-                        new
-                        {
-                            UserId = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
-                            RoleId = new Guid("33333333-3333-3333-3333-333333333333")
-                        },
-                        new
-                        {
-                            UserId = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
-                            RoleId = new Guid("44444444-4444-4444-4444-444444444444")
-                        },
-                        new
-                        {
-                            UserId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            RoleId = new Guid("44444444-4444-4444-4444-444444444444")
-                        },
-                        new
-                        {
-                            UserId = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
-                            RoleId = new Guid("22222222-2222-2222-2222-222222222222")
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -1046,587 +885,39 @@ namespace IMS.Data.Migrations
 
             modelBuilder.Entity("IMS.Models.Common.Candidate", b =>
                 {
-                    b.HasBaseType("IMS.Models.Security.BaseEntity");
+                    b.HasOne("IMS.Models.Security.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasOne("IMS.Models.Security.User", "DeletedBy")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
 
-                    b.Property<string>("CV_Attachment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasOne("IMS.Models.Common.Position", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                    b.HasOne("IMS.Models.Security.User", "RecruiterOwner")
+                        .WithMany()
+                        .HasForeignKey("RecruiterOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.HasOne("IMS.Models.Security.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
 
-                    b.Property<int>("Gender")
-                        .HasColumnType("int");
+                    b.Navigation("CreatedBy");
 
-                    b.Property<int>("HighestLevel")
-                        .HasColumnType("int");
+                    b.Navigation("DeletedBy");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
+                    b.Navigation("Position");
 
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                    b.Navigation("RecruiterOwner");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<Guid>("PositionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RecruiterOwnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("YearOfExperience")
-                        .HasColumnType("int");
-
-                    b.HasIndex("PositionId");
-
-                    b.HasIndex("RecruiterOwnerId");
-
-                    b.ToTable("Candidates", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Address = "123 Main St",
-                            CV_Attachment = "john_doe_cv.pdf",
-                            DateOfBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "john.doe@example.com",
-                            Gender = 0,
-                            HighestLevel = 1,
-                            Name = "John Doe",
-                            Phone = "1234567890",
-                            PositionId = new Guid("77777777-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 0,
-                            YearOfExperience = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Address = "456 Elm St",
-                            CV_Attachment = "jane_smith_cv.pdf",
-                            DateOfBirth = new DateTime(1992, 2, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "jane.smith@example.com",
-                            Gender = 1,
-                            HighestLevel = 2,
-                            Name = "Jane Smith",
-                            Phone = "0987654321",
-                            PositionId = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 0,
-                            YearOfExperience = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Address = "789 Maple St",
-                            CV_Attachment = "alice_brown_cv.pdf",
-                            DateOfBirth = new DateTime(1995, 5, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "alice.brown@example.com",
-                            Gender = 1,
-                            HighestLevel = 3,
-                            Name = "Alice Brown",
-                            Phone = "1112223333",
-                            PositionId = new Guid("99999999-cccc-cccc-cccc-cccccccccccc"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 0,
-                            YearOfExperience = 0
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-ffff-ffff-ffff-ffffffffffff"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Address = "321 Oak St",
-                            CV_Attachment = "bob_johnson_cv.pdf",
-                            DateOfBirth = new DateTime(1988, 8, 8, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "bob.johnson@example.com",
-                            Gender = 0,
-                            HighestLevel = 0,
-                            Name = "Bob Johnson",
-                            Phone = "4445556666",
-                            PositionId = new Guid("bbbbbbbb-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 0,
-                            YearOfExperience = 0
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Interview", b =>
-                {
-                    b.HasBaseType("IMS.Models.Security.BaseEntity");
-
-                    b.Property<Guid>("CandidateId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CandidateId1")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<TimeOnly>("EndAt")
-                        .HasColumnType("time");
-
-                    b.Property<Guid>("JobId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Location")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("MeetingUrl")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("RecruiterOwnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Result")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeOnly>("StartAt")
-                        .HasColumnType("time");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.HasIndex("CandidateId");
-
-                    b.HasIndex("CandidateId1");
-
-                    b.HasIndex("JobId");
-
-                    b.HasIndex("RecruiterOwnerId");
-
-                    b.ToTable("Interviews", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            EndAt = new TimeOnly(10, 30, 0),
-                            JobId = new Guid("99999999-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Location = "Văn phòng công ty",
-                            Note = "Kiểm tra kỹ năng lập trình cơ bản",
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            StartAt = new TimeOnly(9, 30, 0),
-                            Status = 3,
-                            Title = "Technical Interview Round 1"
-                        },
-                        new
-                        {
-                            Id = new Guid("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            CandidateId = new Guid("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            EndAt = new TimeOnly(15, 0, 0),
-                            JobId = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            MeetingUrl = "https://meet.example.com/jane-smith",
-                            Note = "Kiểm tra kỹ năng quản lý nhóm",
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            StartAt = new TimeOnly(14, 0, 0),
-                            Status = 1,
-                            Title = "Management Interview"
-                        },
-                        new
-                        {
-                            Id = new Guid("cccc3333-3333-3333-3333-cccccccccccc"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            EndAt = new TimeOnly(11, 0, 0),
-                            JobId = new Guid("77777777-cccc-cccc-cccc-cccccccccccc"),
-                            Location = "Văn phòng Hà Nội",
-                            Note = "Phỏng vấn sâu về kiến thức backend",
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            StartAt = new TimeOnly(10, 0, 0),
-                            Status = 0,
-                            Title = "Backend Technical Round"
-                        },
-                        new
-                        {
-                            Id = new Guid("dddd4444-4444-4444-4444-dddddddddddd"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            CandidateId = new Guid("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            EndAt = new TimeOnly(14, 30, 0),
-                            JobId = new Guid("66666666-dddd-dddd-dddd-dddddddddddd"),
-                            Location = "Hội trường A",
-                            Note = "Phỏng vấn về văn hóa công ty và thái độ làm việc",
-                            RecruiterOwnerId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Result = "Passed",
-                            StartAt = new TimeOnly(13, 30, 0),
-                            Status = 2,
-                            Title = "HR Round"
-                        },
-                        new
-                        {
-                            Id = new Guid("eeee5555-5555-5555-5555-eeeeeeeeeeee"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            EndAt = new TimeOnly(17, 0, 0),
-                            JobId = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeed"),
-                            MeetingUrl = "https://meet.example.com/frontend-test",
-                            Note = "Bài test live coding React.js",
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            StartAt = new TimeOnly(16, 0, 0),
-                            Status = 3,
-                            Title = "Frontend Coding Challenge"
-                        },
-                        new
-                        {
-                            Id = new Guid("ffff6666-6666-6666-6666-ffffffffffff"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            CandidateId = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            EndAt = new TimeOnly(16, 0, 0),
-                            JobId = new Guid("77777777-cccc-cccc-cccc-cccccccccccc"),
-                            Location = "Phòng họp 2",
-                            Note = "Bài test phân tích dữ liệu",
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            StartAt = new TimeOnly(15, 0, 0),
-                            Status = 0,
-                            Title = "Data Analysis Test"
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Job", b =>
-                {
-                    b.HasBaseType("IMS.Models.Security.BaseEntity");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("MaxSalary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("MinSalary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("WorkingAddress")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.ToTable("Jobs", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("99999999-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Description = "Develop and maintain web applications.",
-                            EndDate = new DateTime(2025, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MaxSalary = 3000.00m,
-                            MinSalary = 1000.00m,
-                            StartDate = new DateTime(2025, 4, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 0,
-                            Title = "Software Engineer",
-                            WorkingAddress = "123 Tech Street"
-                        },
-                        new
-                        {
-                            Id = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Description = "Manage project teams and oversee development processes.",
-                            EndDate = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MaxSalary = 5000.00m,
-                            MinSalary = 2000.00m,
-                            StartDate = new DateTime(2025, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 0,
-                            Title = "Project Manager",
-                            WorkingAddress = "456 Business Road"
-                        },
-                        new
-                        {
-                            Id = new Guid("77777777-cccc-cccc-cccc-cccccccccccc"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Description = "Analyze business data and provide insights.",
-                            EndDate = new DateTime(2025, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MaxSalary = 4000.00m,
-                            MinSalary = 1500.00m,
-                            StartDate = new DateTime(2025, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 2,
-                            Title = "Data Analyst",
-                            WorkingAddress = "789 Data Lane"
-                        },
-                        new
-                        {
-                            Id = new Guid("66666666-dddd-dddd-dddd-dddddddddddd"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Description = "Lead a team of developers and manage projects.",
-                            EndDate = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MaxSalary = 6000.00m,
-                            MinSalary = 2500.00m,
-                            StartDate = new DateTime(2025, 7, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 0,
-                            Title = "Team Lead",
-                            WorkingAddress = "321 Lead Street"
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeed"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            Description = "Analyze business data and provide insights.",
-                            EndDate = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            MaxSalary = 4000.00m,
-                            MinSalary = 1500.00m,
-                            StartDate = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Status = 2,
-                            Title = "Backend Developer",
-                            WorkingAddress = "789 Data Lane"
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Offer", b =>
-                {
-                    b.HasBaseType("IMS.Models.Security.BaseEntity");
-
-                    b.Property<Guid>("ApprovedById")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("BasicSalary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<Guid>("CandidateId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ContactPeriodFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ContactPeriodTo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("ContactTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("DueDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("InterviewId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("LevelId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("PositionId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("RecruiterOwnerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.HasIndex("ApprovedById");
-
-                    b.HasIndex("CandidateId");
-
-                    b.HasIndex("ContactTypeId");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("InterviewId");
-
-                    b.HasIndex("LevelId");
-
-                    b.HasIndex("PositionId");
-
-                    b.HasIndex("RecruiterOwnerId");
-
-                    b.ToTable("Offers", "Common");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            ApprovedById = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
-                            BasicSalary = 1500.00m,
-                            CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8012),
-                            ContactPeriodTo = new DateTime(2026, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8132),
-                            ContactTypeId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            DepartmentId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            DueDate = new DateTime(2025, 3, 28, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(7831),
-                            InterviewId = new Guid("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"),
-                            LevelId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Note = "Offer for Backend Developer position",
-                            PositionId = new Guid("77777777-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 5
-                        },
-                        new
-                        {
-                            Id = new Guid("22222222-cccc-cccc-cccc-cccccccccccc"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            ApprovedById = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
-                            BasicSalary = 2000.00m,
-                            CandidateId = new Guid("44444444-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8468),
-                            ContactPeriodTo = new DateTime(2027, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8468),
-                            ContactTypeId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            DepartmentId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            DueDate = new DateTime(2025, 3, 31, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8463),
-                            InterviewId = new Guid("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"),
-                            LevelId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                            Note = "Offer for Business Analyst position",
-                            PositionId = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("33333333-dddd-dddd-dddd-dddddddddddd"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            ApprovedById = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
-                            BasicSalary = 1200.00m,
-                            CandidateId = new Guid("55555555-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8489),
-                            ContactPeriodTo = new DateTime(2026, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8490),
-                            ContactTypeId = new Guid("33333333-3333-3333-3333-333333333333"),
-                            DepartmentId = new Guid("33333333-cccc-cccc-cccc-cccccccccccc"),
-                            DueDate = new DateTime(2025, 3, 26, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8488),
-                            InterviewId = new Guid("cccc3333-3333-3333-3333-cccccccccccc"),
-                            LevelId = new Guid("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            Note = "Offer for Tester position",
-                            PositionId = new Guid("99999999-cccc-cccc-cccc-cccccccccccc"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 2
-                        },
-                        new
-                        {
-                            Id = new Guid("44444444-eeee-eeee-eeee-eeeeeeeeeeee"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            ApprovedById = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
-                            BasicSalary = 1600.00m,
-                            CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8497),
-                            ContactPeriodTo = new DateTime(2026, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8497),
-                            ContactTypeId = new Guid("11111111-1111-1111-1111-111111111111"),
-                            DepartmentId = new Guid("11111111-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            DueDate = new DateTime(2025, 4, 4, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8496),
-                            InterviewId = new Guid("aaaa1111-1111-1111-1111-aaaaaaaaaaaa"),
-                            LevelId = new Guid("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Note = "Second offer for Backend Developer position",
-                            PositionId = new Guid("77777777-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 4
-                        },
-                        new
-                        {
-                            Id = new Guid("55555555-ffff-ffff-ffff-ffffffffffff"),
-                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            IsDeleted = false,
-                            ApprovedById = new Guid("44444444-dddd-dddd-dddd-dddddddddddd"),
-                            BasicSalary = 2100.00m,
-                            CandidateId = new Guid("33333333-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
-                            ContactPeriodFrom = new DateTime(2025, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8504),
-                            ContactPeriodTo = new DateTime(2027, 3, 21, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8504),
-                            ContactTypeId = new Guid("22222222-2222-2222-2222-222222222222"),
-                            DepartmentId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            DueDate = new DateTime(2025, 3, 31, 2, 6, 54, 873, DateTimeKind.Utc).AddTicks(8503),
-                            InterviewId = new Guid("bbbb2222-2222-2222-2222-bbbbbbbbbbbb"),
-                            LevelId = new Guid("cccccccc-cccc-cccc-cccc-cccccccccccc"),
-                            Note = "Second offer for Business Analyst position",
-                            PositionId = new Guid("88888888-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            RecruiterOwnerId = new Guid("22222222-bbbb-bbbb-bbbb-bbbbbbbbbbbb"),
-                            Status = 4
-                        });
-                });
-
-            modelBuilder.Entity("IMS.Models.Security.RefreshToken", b =>
-                {
-                    b.HasBaseType("IMS.Models.Security.BaseEntity");
-
-                    b.Property<DateTime>("ExpiryDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsRevoked")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ReasonRevoked")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ReplacedByToken")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RefreshTokens", "Security");
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("IMS.Models.Common.CandidateSkill", b =>
@@ -1665,6 +956,76 @@ namespace IMS.Data.Migrations
                     b.Navigation("Interview");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.Interview", b =>
+                {
+                    b.HasOne("IMS.Models.Common.Candidate", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Common.Candidate", null)
+                        .WithMany("Interviews")
+                        .HasForeignKey("CandidateId1");
+
+                    b.HasOne("IMS.Models.Security.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("IMS.Models.Security.User", "DeletedBy")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("IMS.Models.Common.Job", "Job")
+                        .WithMany()
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Security.User", "RecruiterOwner")
+                        .WithMany()
+                        .HasForeignKey("RecruiterOwnerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Security.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
+                    b.Navigation("Candidate");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("Job");
+
+                    b.Navigation("RecruiterOwner");
+
+                    b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("IMS.Models.Common.Job", b =>
+                {
+                    b.HasOne("IMS.Models.Security.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("IMS.Models.Security.User", "DeletedBy")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("IMS.Models.Security.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("UpdatedBy");
                 });
 
             modelBuilder.Entity("IMS.Models.Common.JobBenefit", b =>
@@ -1724,28 +1085,118 @@ namespace IMS.Data.Migrations
                     b.Navigation("Skill");
                 });
 
-            modelBuilder.Entity("IMS.Models.Security.BaseEntity", b =>
+            modelBuilder.Entity("IMS.Models.Common.Offer", b =>
                 {
+                    b.HasOne("IMS.Models.Security.User", "ApprovedBy")
+                        .WithMany()
+                        .HasForeignKey("ApprovedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Common.Candidate", "Candidate")
+                        .WithMany()
+                        .HasForeignKey("CandidateId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Common.ContactType", "ContactType")
+                        .WithMany()
+                        .HasForeignKey("ContactTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("IMS.Models.Security.User", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("CreatedById");
 
                     b.HasOne("IMS.Models.Security.User", "DeletedBy")
                         .WithMany()
-                        .HasForeignKey("DeletedById")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("IMS.Models.Common.Department", "Department")
+                        .WithMany()
+                        .HasForeignKey("DepartmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Common.Interview", "Interview")
+                        .WithMany()
+                        .HasForeignKey("InterviewId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Common.Level", "Level")
+                        .WithMany()
+                        .HasForeignKey("LevelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Common.Position", "Position")
+                        .WithMany()
+                        .HasForeignKey("PositionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IMS.Models.Security.User", "RecruiterOwner")
+                        .WithMany()
+                        .HasForeignKey("RecruiterOwnerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("IMS.Models.Security.User", "UpdatedBy")
                         .WithMany()
-                        .HasForeignKey("UpdatedById")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("UpdatedById");
+
+                    b.Navigation("ApprovedBy");
+
+                    b.Navigation("Candidate");
+
+                    b.Navigation("ContactType");
+
+                    b.Navigation("CreatedBy");
+
+                    b.Navigation("DeletedBy");
+
+                    b.Navigation("Department");
+
+                    b.Navigation("Interview");
+
+                    b.Navigation("Level");
+
+                    b.Navigation("Position");
+
+                    b.Navigation("RecruiterOwner");
+
+                    b.Navigation("UpdatedBy");
+                });
+
+            modelBuilder.Entity("IMS.Models.Security.RefreshToken", b =>
+                {
+                    b.HasOne("IMS.Models.Security.User", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("IMS.Models.Security.User", "DeletedBy")
+                        .WithMany()
+                        .HasForeignKey("DeletedById");
+
+                    b.HasOne("IMS.Models.Security.User", "UpdatedBy")
+                        .WithMany()
+                        .HasForeignKey("UpdatedById");
+
+                    b.HasOne("IMS.Models.Security.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("CreatedBy");
 
                     b.Navigation("DeletedBy");
 
                     b.Navigation("UpdatedBy");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IMS.Models.Security.Role", b =>
@@ -1845,167 +1296,6 @@ namespace IMS.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Candidate", b =>
-                {
-                    b.HasOne("IMS.Models.Security.BaseEntity", null)
-                        .WithOne()
-                        .HasForeignKey("IMS.Models.Common.Candidate", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.Position", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Security.User", "RecruiterOwner")
-                        .WithMany()
-                        .HasForeignKey("RecruiterOwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Position");
-
-                    b.Navigation("RecruiterOwner");
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Interview", b =>
-                {
-                    b.HasOne("IMS.Models.Common.Candidate", "Candidate")
-                        .WithMany()
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.Candidate", null)
-                        .WithMany("Interviews")
-                        .HasForeignKey("CandidateId1");
-
-                    b.HasOne("IMS.Models.Security.BaseEntity", null)
-                        .WithOne()
-                        .HasForeignKey("IMS.Models.Common.Interview", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.Job", "Job")
-                        .WithMany()
-                        .HasForeignKey("JobId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Security.User", "RecruiterOwner")
-                        .WithMany()
-                        .HasForeignKey("RecruiterOwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Candidate");
-
-                    b.Navigation("Job");
-
-                    b.Navigation("RecruiterOwner");
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Job", b =>
-                {
-                    b.HasOne("IMS.Models.Security.BaseEntity", null)
-                        .WithOne()
-                        .HasForeignKey("IMS.Models.Common.Job", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("IMS.Models.Common.Offer", b =>
-                {
-                    b.HasOne("IMS.Models.Security.User", "ApprovedBy")
-                        .WithMany()
-                        .HasForeignKey("ApprovedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.Candidate", "Candidate")
-                        .WithMany()
-                        .HasForeignKey("CandidateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.ContactType", "ContactType")
-                        .WithMany()
-                        .HasForeignKey("ContactTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Security.BaseEntity", null)
-                        .WithOne()
-                        .HasForeignKey("IMS.Models.Common.Offer", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.Interview", "Interview")
-                        .WithMany()
-                        .HasForeignKey("InterviewId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.Level", "Level")
-                        .WithMany()
-                        .HasForeignKey("LevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Common.Position", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Security.User", "RecruiterOwner")
-                        .WithMany()
-                        .HasForeignKey("RecruiterOwnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("ApprovedBy");
-
-                    b.Navigation("Candidate");
-
-                    b.Navigation("ContactType");
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Interview");
-
-                    b.Navigation("Level");
-
-                    b.Navigation("Position");
-
-                    b.Navigation("RecruiterOwner");
-                });
-
-            modelBuilder.Entity("IMS.Models.Security.RefreshToken", b =>
-                {
-                    b.HasOne("IMS.Models.Security.BaseEntity", null)
-                        .WithOne()
-                        .HasForeignKey("IMS.Models.Security.RefreshToken", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("IMS.Models.Security.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("IMS.Models.Common.Candidate", b =>
