@@ -1,8 +1,8 @@
-<div class="overflow-x-auto rounded-lg border">
+<div class="overflow-x-auto rounded-lg border border-gray-200">
     <table class="w-full">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-50 overflow-x-auto">
             <tr>
-                <th *ngIf="isShowNumber" class="text-left py-3 px-4 font-medium text-gray-700">#</th>
+                <th *ngIf="isShowNumber" class="text-left font-medium text-gray-700">#</th>
                 <th *ngFor="let col of columns" class="text-left py-3 px-4 font-medium text-gray-700">
                     {{ col.name }}
                 </th>
@@ -10,40 +10,48 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of data.items; let i = index" class="border-b hover:bg-gray-50">
-                <td *ngIf="isShowNumber" class="py-3 px-4">
-                    {{ (currentPage - 1) * currentPageSize + i + 1 }}
-                </td>
-                <td *ngFor="let col of columns" class="py-3 px-4">
-                    {{ item[col.value] }}
-                </td>
-                <td class="py-3 px-4">
-                    <div class="flex items-center justify-center space-x-2">
-                        <fa-icon [icon]="faEdit" class="cursor-pointer text-blue-600"
-                            (click)="onEdit.emit(item.id)"></fa-icon>
-                        <fa-icon [icon]="faTrash" class="cursor-pointer text-red-600"
-                            (click)="onDelete.emit(item.id)"></fa-icon>
-                    </div>
-                </td>
-            </tr>
+            <ng-container *ngIf="data && data.items.length != 0; else emptyData">
+                <tr *ngFor="let item of data.items; let i = index" class="border-b hover:bg-gray-50">
+                    <td *ngIf="isShowNumber" class="py-3 px-4">
+                        {{ (currentPage - 1) * currentPageSize + i + 1 }}
+                    </td>
+                    <td *ngFor="let col of columns" class="py-3 px-4">
+                        {{ item[col.value] }}
+                    </td>
+                    <td class="py-3 px-4">
+                        <div class="flex items-center justify-center space-x-2">
+                            <fa-icon [icon]="faEye" class="cursor-pointer text-blue-600"
+                                (click)="onEdit.emit(item.id)"></fa-icon>
+                            <fa-icon [icon]="faPenToSquare" class="cursor-pointer text-blue-600"
+                                (click)="onEdit.emit(item.id)"></fa-icon>
+                            <fa-icon [icon]="faTrash" class="cursor-pointer text-red-600"
+                                (click)="onDelete.emit(item.id)"></fa-icon>
+                        </div>
+                    </td>
+                </tr>
+            </ng-container>
+            <ng-template #emptyData>
+                <tr class="border-b hover:bg-gray-50">
+                    <td [attr.colspan]="calculateColspan()" class="text-center py-3 px-4">No data found</td>
+                </tr>
+            </ng-template>
         </tbody>
     </table>
+</div>
 
-    <!-- Pagination -->
-    <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4 px-4">
-        <span class="text-sm text-gray-600">
-            {{ generatePageInfo() }}
-        </span>
-        <div class="flex gap-2">
-            <button title="Previous" class="px-4 py-2 border rounded-md hover:bg-gray-50 text-gray-600"
-                (click)="onPageChange.emit(currentPage - 1)" [disabled]="currentPage === 1">
-                Previous
-            </button>
-            <button title="Next" class="px-4 py-2 border rounded-md hover:bg-gray-50 text-gray-600"
-                (click)="onPageChange.emit(currentPage + 1)" [disabled]="currentPage === data.totalPages">
-                Next
-            </button>
-        </div>
+<!-- Pagination -->
+<div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+    <span class="text-sm text-gray-600">
+        {{ generatePageInfo() }}
+    </span>
+    <div class="flex gap-2">
+        <button title="Previous" class="px-4 py-2 border border-gray-200 rounded-md hover:bg-gray-50 text-gray-600 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            (click)="onPageChange.emit(currentPage - 1)" [disabled]="data && currentPage === 1">
+            Previous
+        </button>
+        <button title="Next" class="btn-next px-4 py-2 border border-gray-200 rounded-md hover:bg-gray-50 text-gray-600 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            (click)="onPageChange.emit(currentPage + 1)" [disabled]="data && currentPage === data.totalPages">
+            Next
+        </button>
     </div>
-
 </div>

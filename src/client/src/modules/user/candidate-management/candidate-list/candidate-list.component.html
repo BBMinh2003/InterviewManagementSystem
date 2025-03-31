@@ -58,23 +58,24 @@
 
         </div>
 
-        <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h2 class="text-2xl font-bold">Candidate List</h2>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <h2 class="text-2xl font-bold">Candidate List</h2>
 
-            <div class="flex flex-col sm:flex-row gap-2 md:ml-auto">
-                <!-- Add New Button -->
-                <button
-                    class="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
-                    <i class="fas fa-plus"></i>
-                    Add New
-                </button>
-
+                <div class="flex flex-col sm:flex-row gap-2 md:ml-auto">
+                    <!-- Add New Button -->
+                    <button (click)="create()"
+                        class="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors hover:cursor-pointer">
+                        <fa-icon [icon]="faPlus"></fa-icon>
+                        Add New
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <app-table [isShowNumber]="true" [columns]="columns" [data]="data" [currentPageSize]="currentPageSize"
-            [currentPage]="currentPage" (onPageChange)="onPageChange($event)">
-        </app-table>
+            <app-table [isShowNumber]="false" [columns]="columns" [data]="data" [currentPageSize]="currentPageSize"
+                [currentPage]="currentPage" (onPageChange)="onPageChange($event)">
+            </app-table>
+        </div>
 
     </div>
 </section>

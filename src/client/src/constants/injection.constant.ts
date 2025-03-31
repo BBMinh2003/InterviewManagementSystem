@@ -3,6 +3,7 @@ import { IAuthService } from '../services/auth/auth-service.interface';
 import { IPermissionService } from '../services/permission/permission-service.interface';
 import { INotificationService } from '../services/notification/notification-service.interface';
 import { ILoadingService } from '../services/loading/loading-service.interface';
+import { ICandidateService } from '../services/candidate/candidate-service.interface';
 
 export const AUTH_SERVICE = new InjectionToken<IAuthService>('AUTH_SERVICE');
 export const PERMISSION_SERVICE = new InjectionToken<IPermissionService>(
