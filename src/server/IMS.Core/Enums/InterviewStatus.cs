@@ -1,4 +1,4 @@
-namespace IMS.Models.Common;
+    namespace IMS.Models.Common;
 
 public enum InterviewStatus
 {

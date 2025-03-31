@@ -1,4 +1,5 @@
 using IMS.Business.Services;
+using IMS.Core.Enums;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
 using MediatR;
@@ -13,7 +14,7 @@ public class InterviewSendReminderCommandHandler(IUnitOfWork unitOfWork, IEmailS
     {
         var interview = await unitOfWork.InterviewRepository.GetQuery()
             .Include(x => x.Candidate)
-            .Include(x => x.RecruiterOwner) 
+            .Include(x => x.RecruiterOwner)
             .FirstOrDefaultAsync(x => x.Id == request.InterviewId, cancellationToken)
             ?? throw new ResourceNotFoundException($"Interview with ID {request.InterviewId} not found");
 
@@ -33,10 +34,12 @@ public class InterviewSendReminderCommandHandler(IUnitOfWork unitOfWork, IEmailS
             MeetingId = interview.MeetingUrl ?? "N/A"
         };
 
+        
+
         await emailService.SendEmailWithTemplateAsync(
-            interview.Candidate.Email, 
+            interview.Candidate.Email,
             "Upcoming Interview Reminder",
-            "InterviewScheduleEmail", 
+            "InterviewScheduleEmail",
             emailModel);
 
         return true;

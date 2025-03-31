@@ -1,5 +1,6 @@
 using AutoMapper;
 using IMS.Business.ViewModels;
+using IMS.Core.Enums;
 using IMS.Core.Exceptions;
 using IMS.Data.UnitOfWorks;
 using IMS.Models.Common;
@@ -15,7 +16,7 @@ public class InterviewCreateCommandHandler(IUnitOfWork unitOfWork, IMapper mappe
     public async Task<InterviewViewModel> Handle(InterviewCreateCommand request, CancellationToken cancellationToken)
     {
         var existedInterview = await _unitOfWork.InterviewRepository.GetQuery()
-    .FirstOrDefaultAsync(x => x.CandidateId == request.CandidateId && x.JobId == request.JobId && x.StartAt == request.StartAt);
+            .FirstOrDefaultAsync(x => x.CandidateId == request.CandidateId && x.JobId == request.JobId && x.StartAt == request.StartAt);
 
         if (existedInterview != null)
         {
@@ -32,7 +33,7 @@ public class InterviewCreateCommandHandler(IUnitOfWork unitOfWork, IMapper mappe
             Location = request.Location,
             MeetingUrl = request.MeetingUrl,
             Result = request.Result,
-            Status = request.Status,
+            Status = InterviewStatus.New,
             StartAt = request.StartAt,
             EndAt = request.EndAt,
             InterviewDate = request.InterviewDate
@@ -50,6 +51,15 @@ public class InterviewCreateCommandHandler(IUnitOfWork unitOfWork, IMapper mappe
             .Select(interviewerId => new IntervewerInterview { InterviewId = entity.Id, UserId = interviewerId })
             .ToList();
 
+        await _unitOfWork.SaveChangesAsync();
+
+        var candidate = await _unitOfWork.CandidateRepository.GetByIdAsync(request.CandidateId);
+        if (candidate == null)
+        {
+            throw new ResourceNotFoundException($"Candidate with ID {request.CandidateId} not found.");
+        }
+
+        candidate.Status = CandidateStatus.WaitingForInterview;
         await _unitOfWork.SaveChangesAsync();
 
         var createdEntity = await _unitOfWork.InterviewRepository.GetQuery()

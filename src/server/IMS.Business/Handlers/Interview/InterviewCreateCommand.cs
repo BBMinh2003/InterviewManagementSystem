@@ -33,8 +33,6 @@ public class InterviewCreateCommand : BaseCreateCommand<InterviewViewModel>
     [Required(ErrorMessage = "The {0} field is required")]
     public Result Result { get; set; } = Result.NotApplicable;
 
-    public InterviewStatus Status { get; set; } = InterviewStatus.New;
-
     [Required(ErrorMessage = "The {0} field is required")]
     public TimeOnly StartAt { get; set; }
 
