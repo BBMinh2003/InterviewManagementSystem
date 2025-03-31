@@ -12,7 +12,7 @@ import { NotificationModel } from '../../models/notification/notification.model'
   styleUrls: ['./notification.component.scss'],
 })
 export class NotificationComponent implements OnInit {
-  notification: NotificationModel | null = null;
+  notifications: NotificationModel[] = [];
 
   constructor(
     @Inject(NOTIFICATION_SERVICE)
@@ -20,15 +20,13 @@ export class NotificationComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.notificationService.currentMessage.subscribe((msg) => {
-      this.notification = msg; 
+    this.notificationService.messages$.subscribe((messages) => {
+      this.notifications = messages;
     });
   }
 
-  getNotificationClass() {
-    if (!this.notification) return '';
-
-    switch (this.notification.status) {
+  getNotificationClass(status: string) {
+    switch (status) {
       case 'success':
         return 'bg-green-400 text-white';
       case 'error':
