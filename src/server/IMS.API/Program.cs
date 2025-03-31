@@ -1,6 +1,8 @@
 
+using Hangfire;
 using IMS.API;
 using IMS.API.Middlewares;
+using IMS.Business.Services;
 using IMS.Data;
 using IMS.Data.SeedData;
 using IMS.Models.Security;
@@ -58,7 +60,7 @@ if (app.Environment.IsDevelopment())
 
     try
     {
-        await DbInitializer.Initialize(context, roleManager, userManager,rolesJsonPath, usersJsonPath);
+        await DbInitializer.Initialize(context, roleManager, userManager, rolesJsonPath, usersJsonPath);
         Console.WriteLine("Database seeded successfully.");
     }
     catch (Exception ex)
@@ -77,6 +79,13 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseHangfireDashboard();
+
+RecurringJob.AddOrUpdate<IInterviewReminderJobService>(
+    "send-interview-reminder",
+    service => service.SendInterviewRemindersAsync(),
+    "30 4 * * *" 
+);
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
