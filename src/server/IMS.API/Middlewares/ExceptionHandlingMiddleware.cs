@@ -43,7 +43,6 @@ public class ExceptionHandlingMiddleware
             DatabaseBadRequestException => HttpStatusCode.BadRequest,
             InvalidOperationException => HttpStatusCode.BadRequest,
             ArgumentException => HttpStatusCode.BadRequest,
-            ResourceNotFoundException => HttpStatusCode.NotFound,
             _ => HttpStatusCode.InternalServerError
         };
 

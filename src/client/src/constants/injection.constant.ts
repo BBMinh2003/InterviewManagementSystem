@@ -9,6 +9,9 @@ export const AUTH_SERVICE = new InjectionToken<IAuthService>('AUTH_SERVICE');
 export const PERMISSION_SERVICE = new InjectionToken<IPermissionService>(
   'PERMISSION_SERVICE'
 );
+export const CANDIDATE_SERVICE = new InjectionToken<ICandidateService>(
+  'CANDIDATE_SERVICE'
+);
 export const NOTIFICATION_SERVICE = new InjectionToken<INotificationService>('NOTIFICATION_SERVICE');
 export const LOADING_SERVICE = new InjectionToken<ILoadingService>('LOADING_SERVICE');
 
