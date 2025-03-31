@@ -38,6 +38,24 @@ public class InterviewSubmitResultCommandHandler(IUnitOfWork unitOfWork, IMapper
         _unitOfWork.InterviewRepository.Update(interview);
         await _unitOfWork.SaveChangesAsync();
 
+        // Cập nhật trạng thái của Candidate
+        var candidate = await _unitOfWork.CandidateRepository.GetByIdAsync(interview.CandidateId);
+        if (candidate != null)
+        {
+            if (request.Result == Result.Failed)
+            {
+                candidate.Status = CandidateStatus.FailedInterview;
+                _unitOfWork.CandidateRepository.Update(candidate);
+            }
+            else
+            {
+                candidate.Status = CandidateStatus.PassedInterview;
+                _unitOfWork.CandidateRepository.Update(candidate);
+            }
+        }
+        await _unitOfWork.SaveChangesAsync();
+
+
         return _mapper.Map<InterviewViewModel>(interview);
     }
 }
