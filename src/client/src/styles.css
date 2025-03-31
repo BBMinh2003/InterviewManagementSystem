@@ -1,2 +1,6 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 @import "tailwindcss"; 
+
+*{
+    border-color: #e5e7eb;
+}

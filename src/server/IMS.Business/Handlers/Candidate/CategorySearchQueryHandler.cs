@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IMS.Business.Handlers;
 
-public class CategorySearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) : 
+public class CategorySearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) :
     BaseHandler(unitOfWork, mapper),
     IRequestHandler<CategorySearchQuery, PaginatedResult<CandidateViewModel>>
 {
@@ -22,9 +22,9 @@ public class CategorySearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) 
         // Check keyword not null or empty, then filter
         if (!string.IsNullOrEmpty(request.Keyword))
         {
-            query = query.Where(x => x.Name.Contains(request.Keyword) 
+            query = query.Where(x => x.Name.Contains(request.Keyword)
                 || x.Note!.Contains(request.Keyword)
-                || x.Email.Contains(request.Keyword) 
+                || x.Email.Contains(request.Keyword)
                 || x.Address.Contains(request.Keyword)
                 || x.Phone.Contains(request.Keyword));
         }
@@ -51,6 +51,10 @@ public class CategorySearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) 
         // Lay du lieu
         var items = await query.Skip(request.PageSize * (request.PageNumber - 1))
             .Take(request.PageSize)
+            .Include(c => c.Position)
+            .Include(c => c.RecruiterOwner)
+            .Include(c => c.CandidateSkills)
+            .ThenInclude(cs => cs.Skill)
             .Include(x => x.CreatedBy)
             .Include(x => x.UpdatedBy)
             .Include(x => x.DeletedBy)

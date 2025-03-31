@@ -17,6 +17,9 @@ public class CandidateController : ControllerBase
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(IEnumerable<CandidateViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetAllAsync()
     {
         var result = await _mediator.Send(new CandidateGetAllQuery());
@@ -24,6 +27,9 @@ public class CandidateController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ProducesResponseType(typeof(CandidateViewModel), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetByIdAsync(Guid id)
     {
         var result = await _mediator.Send(new CandidateGetByIdQuery { Id = id });
@@ -32,6 +38,8 @@ public class CandidateController : ControllerBase
 
     [HttpPost("search")]
     [ProducesResponseType(typeof(IEnumerable<CandidateViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> SearchAsync([FromBody] CategorySearchQuery query)
     {
         var result = await _mediator.Send(query);
@@ -41,6 +49,7 @@ public class CandidateController : ControllerBase
     [HttpPost("create")]
     [ProducesResponseType(typeof(CandidateViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Create(CandidateCreateCommand command)
     {
         if (!ModelState.IsValid)
@@ -78,6 +87,7 @@ public class CandidateController : ControllerBase
     [HttpDelete("{id}")]
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> Delete(Guid id)
     {
         var command = new CandidateDeleteByIdCommand { Id = id };
@@ -86,15 +96,18 @@ public class CandidateController : ControllerBase
     }
 
     [HttpPut("ban/{id}")]
+    [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> BanCandidate(Guid id)
     {
         bool success = await _mediator.Send(new CandidateBanByIdCommand{Id = id});
 
         if (!success)
         {
-            return BadRequest(new { message = "Candidate is already banned or update failed" });
+            return BadRequest();
         }
 
-        return Ok(new { message = "Candidate banned successfully" });
+        return Ok(success);
     }
 }
