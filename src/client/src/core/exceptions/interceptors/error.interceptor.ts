@@ -32,7 +32,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        let customError;
+        let customError: ErrorModel; // Định nghĩa kiểu dữ liệu rõ ràng
 
         switch (error.status) {
           case 403:
@@ -44,6 +44,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               },
             });
             break;
+
           case 401:
             customError = new UnauthorizedException();
 
@@ -52,23 +53,22 @@ export class ErrorInterceptor implements HttpInterceptor {
                 'Wrong username or password!',
                 'error'
               );
-              break;
+              return throwError(() => customError);
             }
+
             if (req.url.includes('/forgotPassword')) {
-              this.notificationService.showMessage(
-                'Email not found!',
-                'error'
-              );
-              break;
+              this.notificationService.showMessage('Email not found!', 'error');
+              return throwError(() => customError);
             }
+
             this.router.navigate(['/error'], {
               queryParams: {
                 code: customError.code,
                 message: customError.message,
               },
             });
-
             break;
+
           case 404:
             customError = new NotFoundException();
             this.router.navigate(['/error'], {
@@ -78,6 +78,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               },
             });
             break;
+
           case 500:
             customError = new InternalServerErrorException();
             this.router.navigate(['/error'], {
@@ -87,6 +88,7 @@ export class ErrorInterceptor implements HttpInterceptor {
               },
             });
             break;
+
           default:
             customError = new ErrorModel(
               error.status.toString(),
