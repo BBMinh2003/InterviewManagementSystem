@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using Hangfire;
 using IMS.API.ConfigurationOptions;
 using IMS.Business.Handlers;
 using IMS.Business.Handlers.Auth;
@@ -81,8 +82,18 @@ public static class ServiceExtensions
 
         services.AddScoped<IPasswordService, PasswordService>();
 
+        services.AddScoped<IInterviewReminderJobService, InterviewReminderJobService>();
 
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+        // Cấu hình Hangfire với SQL Server
+        services.AddHangfire(config =>
+            config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                  .UseSimpleAssemblyNameTypeSerializer()
+                  .UseRecommendedSerializerSettings()
+                  .UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddHangfireServer();
 
         // Register SMTP token lifespan
         services.Configure<DataProtectionTokenProviderOptions>(options =>
