@@ -1,0 +1,460 @@
+<app-notification></app-notification>
+<app-loading></app-loading>
+<main class="flex-1 p-6">
+  <div class="w-full mx-auto">
+    <div class="text-gray-500 text-sm font-medium px-4 pb-4">
+      <ol class="flex items-center space-x-3">
+        <li>
+          <a
+            [routerLink]="['/home']"
+            routerLinkActive="bg-gray-700"
+            class="flex items-center text-gray-600 hover:text-blue-500 transition"
+          >
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </li>
+        <li>/</li>
+        <li>
+          <a
+            [routerLink]="['/offer']"
+            class="text-gray-600 hover:text-blue-500 transition"
+          >
+            Offer List
+          </a>
+        </li>
+        <li>/</li>
+        <li class="text-gray-800 font-semibold">Create Offer</li>
+      </ol>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h1 class="text-2xl font-bold mb-6">Create Offer</h1>
+
+      <form
+        [formGroup]="offerForm"
+        class="w-full mx-auto bg-white rounded-lg shadow p-4 md:p-6"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <div class="space-y-4 md:space-y-6">
+            <div>
+              <label
+                for="candidateId"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Candidate <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="candidateId"
+                formControlName="candidateId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              >
+                <option
+                  *ngFor="let candidate of candidates"
+                  [value]="candidate.id"
+                >
+                  {{ candidate.name }} - {{ candidate.email }}
+                </option>
+              </select>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="
+                  f['candidateId'].errors &&
+                  (f['candidateId'].dirty || f['candidateId'].touched)
+                "
+              >
+                <div *ngIf="f['candidateId'].hasError('required')">
+                  Candidate is required
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="positionId"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Position <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="positionId"
+                formControlName="positionId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              >
+                <option
+                  *ngFor="let position of positions"
+                  [value]="position.id"
+                >
+                  {{ position.name }}
+                </option>
+              </select>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="
+                  f['positionId'].errors &&
+                  (f['positionId'].dirty || f['positionId'].touched)
+                "
+              >
+                <div *ngIf="f['positionId'].hasError('required')">
+                  Position is required
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="approverId"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Approver <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="approverId"
+                formControlName="approverId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              >
+                <option *ngFor="let user of approvers" [value]="user.id">
+                  {{ user.fullName }}
+                </option>
+              </select>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="
+                  f['approverId'].errors &&
+                  (f['approverId'].dirty || f['approverId'].touched)
+                "
+              >
+                <div *ngIf="f['approverId'].hasError('required')">
+                  Approver is required
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="interviewId"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Interview Info
+              </label>
+              <select
+                id="interviewId"
+                formControlName="interviewId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+                (change)="onInterviewSelect($event)"
+              >
+                <option
+                  *ngFor="let interview of interviews"
+                  [value]="interview.id"
+                >
+                  {{ interview.title }} - {{ interview.interviewDate | date }}
+                </option>
+              </select>
+            </div>
+
+            <div>
+              <label
+                for="contactPeriodFrom"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Contract Period <span class="text-red-500">*</span>
+              </label>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <input
+                    id="contactPeriodFrom"
+                    type="date"
+                    formControlName="contactPeriodFrom"
+                    (change)="updateContractPeriod('From')"
+                    class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+                  />
+                  <div
+                    class="text-red-500 text-sm mt-1"
+                    *ngIf="f['contactPeriodFrom'].errors"
+                  >
+                    <div *ngIf="f['contactPeriodFrom'].hasError('required')">
+                      Start date is required
+                    </div>
+                    <div *ngIf="f['contactPeriodFrom'].hasError('pastDate')">
+                      Cannot select past date
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <input
+                    id="contactPeriodTo"
+                    type="date"
+                    formControlName="contactPeriodTo"
+                    (change)="updateContractPeriod('To')"
+                    class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+                  />
+                  <div
+                    class="text-red-500 text-sm mt-1"
+                    *ngIf="f['contactPeriodTo'].errors"
+                  >
+                    <div *ngIf="f['contactPeriodTo'].hasError('required')">
+                      End date is required
+                    </div>
+                    <div *ngIf="f['contactPeriodTo'].hasError('pastDate')">
+                      Cannot select past date
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="
+                  offerForm.hasError('dateRangeInvalid') &&
+                  (f['contactPeriodFrom'].touched ||
+                    f['contactPeriodTo'].touched)
+                "
+              >
+                ✖ End date must be after start date
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="interviewNotes"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Interview Notes
+              </label>
+              <textarea
+                id="interviewNotes"
+                formControlName="interviewNotes"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base h-32"
+                [readonly]="true"
+              >
+              </textarea>
+            </div>
+          </div>
+
+          <div class="space-y-4 md:space-y-6">
+            <div>
+              <label
+                for="contactTypeId"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Contract Type <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="contactTypeId"
+                formControlName="contactTypeId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              >
+                <option *ngFor="let type of contactTypes" [value]="type.id">
+                  {{ type.name }}
+                </option>
+              </select>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="
+                  f['contactTypeId'].errors &&
+                  (f['contactTypeId'].dirty || f['contactTypeId'].touched)
+                "
+              >
+                <div *ngIf="f['contactTypeId'].hasError('required')">
+                  Contract type is required
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="levelId"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Level <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="levelId"
+                formControlName="levelId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              >
+                <option *ngFor="let level of levels" [value]="level.id">
+                  {{ level.name }}
+                </option>
+              </select>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="
+                  f['levelId'].errors &&
+                  (f['levelId'].dirty || f['levelId'].touched)
+                "
+              >
+                <div *ngIf="f['levelId'].hasError('required')">
+                  Level is required
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="departmentId"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Department <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="departmentId"
+                formControlName="departmentId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              >
+                <option *ngFor="let dept of departments" [value]="dept.id">
+                  {{ dept.name }}
+                </option>
+              </select>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="
+                  f['departmentId'].errors &&
+                  (f['departmentId'].dirty || f['departmentId'].touched)
+                "
+              >
+                <div *ngIf="f['departmentId'].hasError('required')">
+                  Department is required
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="recruiterOwnerId"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Recruiter Owner <span class="text-red-500">*</span>
+              </label>
+              <select
+                id="recruiterOwnerId"
+                formControlName="recruiterOwnerId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              >
+                <option *ngFor="let user of recruiters" [value]="user.id">
+                  {{ user.fullName }}
+                </option>
+              </select>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="
+                  f['recruiterOwnerId'].errors &&
+                  (f['recruiterOwnerId'].dirty || f['recruiterOwnerId'].touched)
+                "
+              >
+                <div *ngIf="f['recruiterOwnerId'].hasError('required')">
+                  Recruiter owner is required
+                </div>
+              </div>
+              <button
+                type="button"
+                (click)="assignCurrentUser()"
+                class="mt-2 text-blue-500 underline cursor-pointer"
+              >
+                Assign Me
+              </button>
+            </div>
+
+            <div>
+              <label
+                for="dueDate"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Due Date <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="dueDate"
+                type="date"
+                formControlName="dueDate"
+                (change)="updateDueDate()"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              />
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="f['dueDate'].errors"
+              >
+                <div *ngIf="f['dueDate'].hasError('required')">
+                  Due date is required
+                </div>
+                <div *ngIf="f['dueDate'].hasError('pastDate')">
+                  Cannot select past date
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="basicSalary"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Basic Salary <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="basicSalary"
+                type="number"
+                formControlName="basicSalary"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+              />
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="f['basicSalary'].errors"
+              >
+                <div *ngIf="f['basicSalary'].hasError('required')">
+                  Salary is required
+                </div>
+                <div *ngIf="f['basicSalary'].hasError('min')">
+                  Minimum value is 0
+                </div>
+                <div *ngIf="f['basicSalary'].hasError('pattern')">
+                  Only numbers are allowed
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <label
+                for="note"
+                class="block text-sm font-medium text-gray-700 mb-2"
+              >
+                Note
+              </label>
+              <textarea
+                id="note"
+                formControlName="note"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base h-32"
+              >
+              </textarea>
+              <div class="text-sm text-gray-500 mt-1">
+                {{ f["note"].value?.length || 0 }}/500
+              </div>
+              <div
+                class="text-red-500 text-sm mt-1"
+                *ngIf="f['note'].hasError('maxlength')"
+              >
+                Maximum 500 characters
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div
+          class="flex flex-col md:flex-row justify-end gap-4 pt-6 border-t mt-6"
+        >
+          <button
+            type="button"
+            (click)="onCancel()"
+            class="px-4 py-2 border rounded-md hover:bg-gray-100 cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            (click)="onSubmit()"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer"
+          >
+            Create Offer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</main>

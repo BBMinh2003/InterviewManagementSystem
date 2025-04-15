@@ -1,0 +1,173 @@
+<app-loading></app-loading>
+<main class="flex-1 p-6">
+  <div class="w-full mx-auto">
+    <div class="text-gray-500 text-sm font-medium px-4 pb-4">
+      <ol class="flex items-center space-x-3">
+        <li>
+          <a
+            routerLink="/"
+            class="flex items-center text-gray-600 hover:text-blue-500 transition"
+          >
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </li>
+        <li>/</li>
+        <li>
+          <a
+            routerLink="/interview"
+            class="text-gray-600 hover:text-blue-500 transition"
+          >
+            Interview List
+          </a>
+        </li>
+        <li>/</li>
+        <li class="text-gray-800 font-semibold">Interview Detail</li>
+      </ol>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 relative" *ngIf="interview">
+      <div class="flex flex-col md:flex-row justify-between mb-6">
+        <h1 class="text-2xl font-bold mb-2">{{ interview.title }}</h1>
+        <div class="text-sm italic text-gray-500 self-end">
+          Last updated by {{ interview.recruiterOwnerName || "N/A" }}
+        </div>
+      </div>
+
+      <div
+        class="flex justify-end mb-6"
+        *ngIf="!userRole.includes('Interviewer') && !hasResult"
+      >
+        <button
+          (click)="sendReminder()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Send Reminder
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+        <div class="space-y-1">
+          <div class="text-gray-600">Schedule Title:</div>
+          <div class="font-medium">{{ interview.title }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Candidate Name:</div>
+          <div class="font-medium">{{ interview.candidateName || "N/A" }}</div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="text-gray-600">Schedule Time:</div>
+          <div class="font-medium">{{ interview.interviewDate }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">From - To:</div>
+          <div class="font-medium">
+            {{ interview.startAt }} - {{ interview.endAt }}
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="text-gray-600">Notes:</div>
+          <div class="font-medium">{{ interview.note || "No notes" }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Job:</div>
+          <div class="font-medium">{{ interview.jobName || "N/A" }}</div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="text-gray-600">Interviewers:</div>
+          <div class="font-medium">{{ interviewersDisplay }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Location:</div>
+          <div class="font-medium">{{ interview.location || "N/A" }}</div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="text-gray-600">Recruiter Owner:</div>
+          <div class="font-medium">
+            {{ interview.recruiterOwnerName || "N/A" }}
+          </div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Meeting URL:</div>
+          <div class="font-medium">
+            <a
+              *ngIf="interview.meetingUrl"
+              [href]="interview.meetingUrl"
+              target="_blank"
+              class="text-blue-500 underline"
+            >
+              Join Meeting
+            </a>
+            <span *ngIf="!interview.meetingUrl">N/A</span>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="text-gray-600">Status:</div>
+          <div class="font-medium">{{ statusDisplay }}</div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="text-gray-600">Result:</div>
+          <div class="font-medium">
+            <select
+              title="result"
+              *ngIf="isEditingResult"
+              [(ngModel)]="selectedResult"
+              class="border rounded p-2"
+            >
+              <option [value]="0">Passed</option>
+              <option [value]="1">Failed</option>
+            </select>
+
+            <span *ngIf="!isEditingResult">
+              {{
+                selectedResult === Result.Passed
+                  ? "Passed"
+                  : selectedResult === Result.Failed
+                  ? "Failed"
+                  : "N/A"
+              }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-center gap-4 pt-6 border-t mt-6">
+        <button
+          (click)="goBack()"
+          class="px-4 py-2 border rounded-md hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+
+        <button
+          *ngIf="userRole.includes('Interviewer') && !isEditingResult"
+          (click)="toggleEditResult()"
+          [disabled]="statusDisplay == 'Cancelled'"
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Submit result
+        </button>
+        <button
+          *ngIf="userRole.includes('Interviewer') && isEditingResult"
+          (click)="submitResult()"
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Submit
+        </button>
+
+        <button
+          *ngIf="!userRole.includes('Interviewer') && !isEditingResult"
+          (click)="onEdit(interviewId!)"
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</main>

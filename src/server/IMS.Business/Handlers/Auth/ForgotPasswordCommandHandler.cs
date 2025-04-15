@@ -38,7 +38,7 @@ public class ForgotPasswordCommandHandler : BaseHandler, IRequestHandler<ForgotP
                 "Password Reset",
                 "ResetPasswordEmail",
                 new ResetPasswordEmailModel 
-                    { Email = request.Email, ResetLink = resetLink, ExpiryMinutes = int.Parse(_config["SmtpSettings:ResetPasswordTokenExpiryMinutes"]) });
+                    { Email = request.Email, ResetLink = resetLink, ExpiryMinutes = int.Parse(_config["SmtpSettings:ResetPasswordTokenExpiryMinutes"]??"15") });
 
         return new BaseResponse { Message = "We've sent an email with the link to reset your password." };
     }

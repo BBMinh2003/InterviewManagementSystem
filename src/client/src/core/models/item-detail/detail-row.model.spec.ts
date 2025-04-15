@@ -1,4 +1,4 @@
-import { ItemDetail } from "./detail-row.model";
+import { ItemDetails } from "./detail-row.model";
 
 describe('DetailRowModel', () => {
   it('should create an instance', () => {

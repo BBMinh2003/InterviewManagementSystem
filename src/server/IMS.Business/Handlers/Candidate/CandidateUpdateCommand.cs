@@ -3,6 +3,7 @@ using IMS.Business.ViewModels;
 using IMS.Core.Enums;
 using IMS.Core.Extensions;
 using IMS.Models.Security;
+using Microsoft.AspNetCore.Http;
 
 namespace IMS.Business.Handlers;
 
@@ -54,4 +55,6 @@ public class CandidateUpdateCommand : BaseUpdateCommand<CandidateViewModel>
 
     // Danh sách kỹ năng của ứng viên
     public List<Guid> CandidateSkillIds { get; set; } = [];
+
+    public IFormFile?  CvFile { get; set; }
 }

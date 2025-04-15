@@ -20,8 +20,7 @@ import { Status } from '../../../core/enums/candidate-status';
 })
 export class CandidateManagementComponent
   extends MasterDataListComponent<CandidateModel>
-  implements OnInit
-{
+  implements OnInit {
   public override columns: TableColumn[] = [
     { name: 'Name', value: 'name' },
     { name: 'Email', value: 'email' },
@@ -42,18 +41,18 @@ export class CandidateManagementComponent
   override ngOnInit(): void {
     super.ngOnInit();
     this.statuses = Object.keys(Status)
-    .filter(key => !isNaN(Number(Status[key as any]))) // loại bỏ giá trị ngược
-    .map(key => ({
-      value: Status[key as keyof typeof Status],
-      label: key.replace(/([A-Z])/g, ' $1').trim() // Optional: tách PascalCase -> Pascal Case
-    }));
+      .filter(key => !isNaN(Number(Status[key as any])))
+      .map(key => ({
+        value: Status[key as keyof typeof Status],
+        label: key.replace(/([A-Z])/g, ' $1').trim()
+      }));
   }
 
 
   protected override createForm(): void {
     this.searchForm = new FormGroup({
       keyword: new FormControl(''),
-      status: new FormControl<number | null> (null)
+      status: new FormControl<number | null>(null)
     });
   }
 
@@ -63,40 +62,11 @@ export class CandidateManagementComponent
         ...res,
         items: res.items.map((item) => ({
           ...item,
-          gender: Gender[item.gender as keyof typeof Gender], // Convert numeric gender to string using the Gender enum
-          status: Status[item.status as keyof typeof Status], // Convert numeric status to string using the Status enum
+          gender: Gender[item.gender as keyof typeof Gender],
+          status: Status[item.status as keyof typeof Status],
         })),
       };
-      console.log(this.data); // Log the mapped data for debugging
+      console.log(this.data);
     });
-  }
-
-  // public delete(id: string): void {
-  //   this.categoryService.delete(id).subscribe((data) => {
-  //     // Neu xoa duoc thi goi lai ham getData de load lai du lieu
-  //     if (data) {
-  //       this.searchData();
-  //     }
-  //   });
-  // }
-
-  // public edit(id: string): void {
-  //   this.isShowDetail = false;
-  //   setTimeout(() => {
-  //     this.selectedItem = this.data.items.find((x) => x.id === id);
-  //     this.isShowDetail = true;
-
-  //     // Scroll into view
-  //   }, 150);
-  // }
-
-  public create(): void {
-    // this.isShowDetail = false;
-    // setTimeout(() => {
-    //   this.selectedItem = null;
-    //   this.isShowDetail = true;
-
-    //   // Scroll into view
-    // }, 150);
   }
 }

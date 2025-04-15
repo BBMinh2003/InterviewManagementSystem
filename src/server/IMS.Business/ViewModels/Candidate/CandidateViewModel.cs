@@ -1,5 +1,6 @@
 using IMS.Core.Enums;
 using IMS.Models.Security;
+using Microsoft.AspNetCore.Http;
 
 namespace IMS.Business.ViewModels;
 
@@ -36,4 +37,6 @@ public class CandidateViewModel : BaseInfoViewModel
     public string? RecruiterOwnerName { get; set; }
 
     public List<SkillViewModel> CandidateSkills { get; set; } = [];
+
+    public string? CvFile { get; set; }
 }

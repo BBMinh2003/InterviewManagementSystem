@@ -14,5 +14,7 @@ export interface IAuthService {
   getUserInformation(): Observable<UserInformation | null>;
   getUserInformationFromAccessToken(): Observable<UserInformation | null>;
   getAccessToken(): string;
-
+  refreshToken(): Observable<string>;
+  isAccessTokenExpired(): boolean;
+  isRefreshTokenExpired(): boolean;
 }

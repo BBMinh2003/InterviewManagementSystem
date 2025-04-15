@@ -16,38 +16,49 @@ public class PasswordService(UserManager<User> userManager) : IPasswordService
         var random = new Random();
         var password = new StringBuilder();
 
-        // Ensure required length
         while (password.Length < options.RequiredLength)
         {
-            password.Append((char)random.Next(33, 126)); // Random ASCII characters
+            password.Append((char)random.Next(33, 126)); 
         }
 
-        // Ensure at least one uppercase letter
         if (options.RequireUppercase)
         {
-            password.Append((char)random.Next(65, 90)); // A-Z
+            password.Append((char)random.Next(65, 90)); 
         }
 
-        // Ensure at least one lowercase letter
         if (options.RequireLowercase)
         {
-            password.Append((char)random.Next(97, 122)); // a-z
+            password.Append((char)random.Next(97, 122));
         }
 
-        // Ensure at least one digit
         if (options.RequireDigit)
         {
-            password.Append((char)random.Next(48, 57)); // 0-9
+            password.Append((char)random.Next(48, 57));
         }
 
-        // Ensure at least one special character
         if (options.RequireNonAlphanumeric)
         {
             var specialChars = "!@#$%^&*()-_=+[]{}|;:'\",.<>?";
             password.Append(specialChars[random.Next(specialChars.Length)]);
         }
 
-        // Shuffle the password to avoid predictable patterns
         return new string(password.ToString().ToCharArray().OrderBy(_ => random.Next()).ToArray());
     }
+
+    public string GenerateUserName(string fullName, int number)
+{
+    if (string.IsNullOrWhiteSpace(fullName))
+        throw new ArgumentException("Full name is required");
+
+    var nameParts = fullName.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+    if (nameParts.Length < 2)
+        throw new ArgumentException("Full name must have at least two parts");
+
+    string firstName = nameParts[^1]; 
+    string initials = string.Concat(nameParts.Take(nameParts.Length - 1).Select(part => part[0]));
+
+    return $"{firstName}{initials}{number}";
+}
+
 }

@@ -9,5 +9,5 @@ public class InterviewSearchQuery : BaseSearchQuery<InterviewViewModel>
 {
     public InterviewStatus? Status { get; set; }
 
-    public Guid InterviewerId { get; set; }
+    public Guid? InterviewerId { get; set; }
 }

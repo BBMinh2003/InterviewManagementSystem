@@ -25,11 +25,9 @@ public class InterviewUpdateStatusCommandHandler(IUnitOfWork unitOfWork, IMapper
             return false;
         }
 
-        // Cập nhật trạng thái của Interview
         interview.Status = InterviewStatus.Cancelled;
         _unitOfWork.InterviewRepository.Update(interview);
 
-        // Cập nhật trạng thái của Candidate
         var candidate = await _unitOfWork.CandidateRepository.GetByIdAsync(interview.CandidateId);
         if (candidate != null)
         {

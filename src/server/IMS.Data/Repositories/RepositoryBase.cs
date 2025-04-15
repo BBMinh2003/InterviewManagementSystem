@@ -65,7 +65,7 @@ public abstract class RepositoryBase<T, TContext> : GenericRepository<T, TContex
             if (CurrentUserId == Guid.Empty)
                 entity.DeletedById = Guid.Parse("14448318-7efc-4b97-9b46-0d6ea6ab2056");
             else
-                entity.DeletedById = Guid.Empty;
+                entity.DeletedById = CurrentUserId;
             entity.IsDeleted = true;
             UpdateEntityObject(entity);
         }

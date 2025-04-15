@@ -6,4 +6,7 @@ export interface IPermissionService {
   isUnauthenticated(): Observable<boolean>;
   getAccessToken(): string;
   canActivateAdmin(): Observable<boolean>;
+  canActivateOffer(): Observable<boolean>;
+  canActivateInterview(): Observable<boolean>;
+  canEditInterview(): Observable<boolean>;
 }

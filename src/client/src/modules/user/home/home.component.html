@@ -1,74 +1,53 @@
-<h1>
-  Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea
-  repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessitatibus
-  vel.Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse ullam sunt
-  ea repellat nostrum dolorem, tenetur, minus eum qui molestias animi impedit
-  blanditiis saepe, dignissimos sit. Dignissimos corporis necessi Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.Lorem ipsum
-  dolor sit amet consectetur adipisicing elit. Esse ullam sunt ea repellat
-  nostrum dolorem, tenetur, minus eum qui molestias animi impedit blanditiis
-  saepe, dignissimos sit. Dignissimos corporis necessitatibus vel.
-</h1>
+<app-notification></app-notification>
+<app-loading></app-loading>
+<div class="p-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+  <a
+    [routerLink]="['/candidate']"
+    class="p-4 flex items-center bg-white shadow rounded-xl"
+  >
+    <fa-icon class="text-blue-500 w-8 h-8" [icon]="faPeople"></fa-icon>
+    <div class="ml-4">
+      <p class="text-gray-500">Total Candidates</p>
+      <h2 class="text-xl font-bold">{{ dashboardView.candidateCount }}</h2>
+    </div>
+  </a>
+
+  <a
+    [routerLink]="['/job']"
+    class="p-4 flex items-center bg-white shadow rounded-xl"
+  >
+    <fa-icon class="text-green-500 w-8 h-8" [icon]="faBriefcase"></fa-icon>
+    <div class="ml-4">
+      <p class="text-gray-500">Total Jobs</p>
+      <h2 class="text-xl font-bold">{{ dashboardView.jobCount }}</h2>
+    </div>
+  </a>
+
+  <a
+    [routerLink]="['/interview']"
+    class="p-4 flex items-center bg-white shadow rounded-xl"
+  >
+    <fa-icon class="text-yellow-500 w-8 h-8" [icon]="faComments"></fa-icon>
+    <div class="ml-4">
+      <p class="text-gray-500">Total Interviews</p>
+      <h2 class="text-xl font-bold">{{ dashboardView.interviewCount }}</h2>
+    </div>
+  </a>
+
+  <a
+    [routerLink]="['/offer']"
+    *ngIf="role != 'Interviewer'"
+    class="p-4 flex items-center bg-white shadow rounded-xl"
+  >
+    <fa-icon class="text-red-500 w-8 h-8" [icon]="faHandshake"></fa-icon>
+    <div class="ml-4">
+      <p class="text-gray-500">Total Offers</p>
+      <h2 class="text-xl font-bold">{{ dashboardView.offerCount }}</h2>
+    </div>
+  </a>
+
+  <div class="col-span-1 md:col-span-4 bg-white rounded-xl shadow p-4">
+    <h3 class="text-lg font-semibold mb-4">Interview & Job Analytics</h3>
+    <canvas #analyticsChart class="w-full h-64"></canvas>
+  </div>
+</div>

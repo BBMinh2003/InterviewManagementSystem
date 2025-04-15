@@ -1,0 +1,431 @@
+<app-loading></app-loading>
+<main class="flex-1 p-6">
+  <div class="text-gray-500 text-sm font-medium px-4 pb-4">
+    <ol class="flex items-center space-x-3">
+      <li>
+        <a
+          href="#"
+          class="flex items-center text-gray-600 hover:text-blue-500 transition"
+        >
+          <fa-icon [icon]="faHome"></fa-icon>
+        </a>
+      </li>
+      <li>/</li>
+      <li>
+        <a
+          routerLink="/interview"
+          class="text-gray-600 hover:text-blue-500 transition"
+        >
+          Interview list
+        </a>
+      </li>
+      <li>/</li>
+      <li class="text-gray-800 font-semibold">Create interview</li>
+    </ol>
+  </div>
+
+  <div class="bg-white rounded-lg p-6 shadow">
+    <h1 class="text-2xl font-bold mb-6">Create Interview</h1>
+
+    <form
+      [formGroup]="interviewForm"
+      (ngSubmit)="onSubmit()"
+      class="mx-auto bg-white rounded-lg p-4 md:p-6"
+    >
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <!-- Left Column -->
+        <div class="space-y-4 md:space-y-6">
+          <div>
+            <label
+              for="title"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Schedule Title <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="title"
+              formControlName="title"
+              placeholder="Enter schedule title"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            />
+            <div
+              class="*:text-red-500"
+              *ngIf="
+                interviewForm.controls['title'].invalid &&
+                (interviewForm.controls['title'].touched || isSubmitting)
+              "
+            >
+              <small
+                *ngIf="interviewForm.controls['title'].errors?.['required']"
+              >
+                Title is required.</small
+              >
+            </div>
+          </div>
+
+          <div>
+            <label
+              for="candidate"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Candidate Name <span class="text-red-500">*</span>
+            </label>
+            <select
+              id="candidate"
+              formControlName="candidateId"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            >
+              <option value="">Select Candidate</option>
+              <option
+                *ngFor="let candidate of candidates"
+                [value]="candidate.id"
+              >
+                {{ candidate.name }}
+              </option>
+            </select>
+            <div
+              class="*:text-red-500"
+              *ngIf="
+                interviewForm.controls['candidateId'].invalid &&
+                (interviewForm.controls['candidateId'].touched || isSubmitting)
+              "
+            >
+              <small
+                *ngIf="interviewForm.controls['candidateId'].errors?.['required']"
+              >
+                Candidate is required.</small
+              >
+            </div>
+          </div>
+
+          <div>
+            <label
+              for="interviewDate"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Schedule Date <span class="text-red-500">*</span>
+            </label>
+            <input
+              type="date"
+              id="interviewDate"
+              formControlName="interviewDate"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            />
+            <div
+              class="*:text-red-500"
+              *ngIf="
+                interviewForm.controls['interviewDate'].invalid &&
+                (interviewForm.controls['interviewDate'].touched || isSubmitting)
+              "
+            >
+              <small
+                *ngIf="interviewForm.controls['interviewDate'].errors?.['required']"
+              >
+                Interview date is required.</small
+              >
+              <small *ngIf="interviewForm.controls['interviewDate'].errors?.['notFutureDate']">
+                Interview date must be in the future.
+              </small>
+            </div>
+
+          </div>
+
+          <div>
+            <label for="startAt" class="text-sm"
+              >Start Time <span class="text-red-500">*</span></label
+            >
+            <input
+              type="time"
+              id="startAt"
+              formControlName="startAt"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            />
+            <div
+              class="*:text-red-500"
+              *ngIf="
+                interviewForm.controls['startAt'].invalid &&
+                (interviewForm.controls['startAt'].touched || isSubmitting)
+              "
+            >
+              <small
+                *ngIf="interviewForm.controls['startAt'].errors?.['required']"
+              >
+                Start time is required.</small
+              >
+            </div>
+          </div>
+
+          <div>
+            <label for="endAt" class="text-sm"
+              >End Time <span class="text-red-500">*</span></label
+            >
+            <input
+              type="time"
+              id="endAt"
+              formControlName="endAt"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            />
+            <div
+              class="*:text-red-500"
+              *ngIf="
+                interviewForm.controls['endAt'].invalid &&
+                (interviewForm.controls['endAt'].touched || isSubmitting)
+              "
+            >
+              <small
+                *ngIf="interviewForm.controls['endAt'].errors?.['required']"
+              >
+                End time is required.</small
+              >
+              <small *ngIf="interviewForm.errors?.['invalidTimeRange']">
+                Start time must be before end time.
+              </small>
+            </div>
+          </div>
+
+          <div>
+            <label
+              for="notes"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Notes
+            </label>
+            <textarea
+              id="notes"
+              formControlName="notes"
+              class="w-full border rounded-md px-3 py-2 h-32 text-sm md:text-base"
+              placeholder="Enter notes"
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="space-y-4 md:space-y-6">
+          <div>
+            <label
+              for="job"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Job <span class="text-red-500">*</span>
+            </label>
+            <select
+              id="job"
+              formControlName="jobId"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            >
+              <option value="">Select Job</option>
+              <option *ngFor="let job of jobs" [value]="job.id">
+                {{ job.title }}
+              </option>
+            </select>
+            <div
+              class="*:text-red-500"
+              *ngIf="
+                interviewForm.controls['jobId'].invalid &&
+                (interviewForm.controls['jobId'].touched || isSubmitting)
+              "
+            >
+              <small
+                *ngIf="interviewForm.controls['jobId'].errors?.['required']"
+              >
+                 Please select one job.</small
+              >
+            </div>
+          </div>
+
+          <div>
+            <label
+              for="interviewers"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Interviewers
+              <span class="text-red-500">*</span>
+            </label>
+
+            <ng-select
+              id="interviewers"
+              [items]="interviewers"
+              [multiple]="true"
+              [closeOnSelect]="false"
+              [searchable]="true"
+              bindLabel="fullName"
+              bindValue="id"
+              placeholder="Select interviewers"
+              formControlName="interviewerIds"
+              class="w-full rounded-md text-sm md:text-base"
+            >
+            </ng-select>
+
+            <div
+              *ngIf="
+                interviewForm.get('interviewerIds')!.touched &&
+                interviewForm.get('interviewerIds')!.invalid
+              "
+            >
+              <small class="text-red-500"
+                >At least one interviewer must be selected.</small
+              >
+            </div>
+          </div>
+
+          <div>
+            <label
+              for="location"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              formControlName="location"
+              placeholder="Enter location"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            />
+          </div>
+
+          <div>
+            <label
+              for="recruiter"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Recruiter <span class="text-red-500">*</span>
+            </label>
+
+            <div
+              *ngIf="
+                currentAdmin &&
+                interviewForm.get('recruiterOwnerId')?.value === currentAdmin.id
+              "
+              class="mb-2 p-2 bg-gray-100 rounded flex justify-between items-center"
+            >
+              <span>{{ currentAdmin.fullName }}</span>
+              <button
+                title="Remove assign me"
+                type="button"
+                (click)="clearAdminAssignment()"
+                class="text-gray-500 hover:text-red-500"
+              >
+                <fa-icon [icon]="faTimes"></fa-icon>
+              </button>
+            </div>
+
+            <div class="flex items-center">
+              <select
+                *ngIf="
+                  !currentAdmin ||
+                  interviewForm.get('recruiterOwnerId')?.value !==
+                    currentAdmin.id
+                "
+                id="recruiter"
+                formControlName="recruiterOwnerId"
+                class="w-full border border-gray-300 px-3 py-2 text-sm md:text-base h-full rounded-l-md rounded-r-none"
+              >
+                <option value="">Select Recruiter</option>
+                <option
+                  *ngFor="let recruiter of recruiters"
+                  [value]="recruiter.id"
+                >
+                  {{ recruiter.fullName }}
+                </option>
+              </select>
+
+              <button
+                *ngIf="
+                  !currentAdmin ||
+                  interviewForm.get('recruiterOwnerId')?.value !==
+                    currentAdmin.id
+                "
+                type="button"
+                (click)="assignCurrentUser()"
+                class="bg-blue-500 text-white border border-l-0 border-gray-300 hover:bg-blue-600 text-xs px-4 py-1 h-full rounded-r-md rounded-l-none"
+              >
+                Assign Me
+              </button>
+            </div>
+            <div
+              class="*:text-red-500"
+              *ngIf="
+                interviewForm.controls['recruiterOwnerId'].invalid &&
+                (interviewForm.controls['recruiterOwnerId'].touched || isSubmitting)
+              "
+            >
+              <small
+                *ngIf="interviewForm.controls['recruiterOwnerId'].errors?.['required']"
+              >
+                 Please select one recruiter onwer.</small
+              >
+            </div>
+          </div>
+          <div>
+            <label
+              for="meetingID"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              Meeting ID
+            </label>
+            <input
+              type="text"
+              id="meetingID"
+              formControlName="meetingID"
+              placeholder="Enter meeting ID"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            />
+          </div>
+
+          <!-- Interview Result -->
+          <div>
+            <label
+              for="result"
+              class="block text-sm font-medium text-gray-700 read-only:*"
+              >Interview Result</label
+            >
+            <select
+              id="result"
+              formControlName="result"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            >
+              <option *ngFor="let key of resultKeys" [value]="key">
+                {{ resultEnum[key] }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Interview Status -->
+          <div>
+            <label for="status" class="block text-sm font-medium text-gray-700"
+              >Interview Status</label
+            >
+            <select
+              id="status"
+              formControlName="status"
+              class="w-full border rounded-md px-3 py-2 text-sm md:text-base"
+            >
+              <option *ngFor="let key of statusKeys" [value]="key">
+                {{ statusEnum[key] }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- Submit Button -->
+      <div class="mt-6 flex justify-end space-x-4">
+        <button
+          type="button"
+          (click)="goBack()"
+          class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition cursor-pointer"
+        >
+          Back
+        </button>
+
+        <button
+        type="submit"
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 cursor-pointer"
+      >
+        Create Interview
+      </button>
+      </div>
+    </form>
+  </div>
+</main>

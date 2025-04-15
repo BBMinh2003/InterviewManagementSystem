@@ -3,6 +3,7 @@ using IMS.Business.ViewModels;
 using IMS.Core.Enums;
 using IMS.Core.Extensions;
 using IMS.Models.Security;
+using Microsoft.AspNetCore.Http;
 
 namespace IMS.Business.Handlers;
 
@@ -54,4 +55,7 @@ public class CandidateCreateCommand : BaseCreateCommand<CandidateViewModel>
 
     // Danh sách kỹ năng của ứng viên
     public List<Guid> CandidateSkillIds { get; set; } = [];
+
+    [Required]
+    public required IFormFile  CvFile { get; set; }
 }

@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace IMS.API.Controllers;
 
+/// <summary>
+/// Controller for authentication and authorization related actions
+/// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class AuthController : ControllerBase
@@ -29,21 +32,6 @@ public class AuthController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Login([FromBody] LoginRequestCommand request)
-    {
-        var result = await _mediator.Send(request);
-        return Ok(result);
-    }
-
-    /// <summary>
-    /// Register a user (Mainly for testing)
-    /// </summary>
-    /// <param name="request"></param>
-    /// <returns></returns>
-    [HttpPost("register")]
-    [AllowAnonymous]
-    [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Register([FromBody] RegisterRequestCommand request)
     {
         var result = await _mediator.Send(request);
         return Ok(result);

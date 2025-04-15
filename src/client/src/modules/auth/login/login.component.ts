@@ -37,7 +37,7 @@ import { LoadingComponent } from '../../../core/components/loading/loading.compo
 export class LoginComponent {
   loginForm: FormGroup;
 
-  isForgotPasswordOpen = false; // Trạng thái mở/đóng modal
+  isForgotPasswordOpen = false;
 
   constructor(
     private fb: FormBuilder,
@@ -50,7 +50,7 @@ export class LoginComponent {
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
-      password: ['', [Validators.required, Validators.minLength(7)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 
@@ -82,10 +82,6 @@ export class LoginComponent {
     }
   }
 
-  // openForgotPassword() {
-  //   this.dialog.open(ForgotPasswordComponent);
-  // }
-
   openForgotPassword() {
     this.isForgotPasswordOpen = true;
   }
@@ -93,8 +89,4 @@ export class LoginComponent {
   closeForgotPassword() {
     this.isForgotPasswordOpen = false;
   }
-
-  // closeForgotPassword() {
-  //   this.isForgotPasswordOpen = false;
-  // }
 }

@@ -44,7 +44,7 @@ public class OfferSearchQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) :
             query = query.Where(x => x.Status == request.Status.Value);
         }
 
-        if (request.DepartmentId.HasValue)
+        if (request.DepartmentId != null && request.DepartmentId != Guid.Empty)
         {
             query = query.Where(x => x.DepartmentId == request.DepartmentId.Value);
         }

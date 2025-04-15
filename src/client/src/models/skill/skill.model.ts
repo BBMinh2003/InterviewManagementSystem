@@ -1,5 +1,4 @@
-import { BaseModel } from "../base.model";
-
-export class SkillModel extends BaseModel {
+export class SkillModel {
+    public id!: string;
     public name!: string;
 }

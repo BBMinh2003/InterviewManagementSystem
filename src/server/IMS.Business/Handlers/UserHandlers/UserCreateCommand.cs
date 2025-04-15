@@ -23,7 +23,7 @@ public class UserCreateCommand : BaseCreateCommand<UserViewModel>
     public required string PhoneNumber { get; set; }
 
     [Required(ErrorMessage = "The {0} field is required")]
-    public Gender Gender { get; set; } = Gender.OTHER;
+    public required Gender Gender { get; set; } = Gender.OTHER;
 
     [Required(ErrorMessage = "The {0} field is required")]
     public required Guid RoleId { get; set; }
@@ -32,7 +32,7 @@ public class UserCreateCommand : BaseCreateCommand<UserViewModel>
     public required Guid DepartmentId { get; set; }
 
     [Required(ErrorMessage = "The {0} field is required")]
-    public DateTime DateOfBirth { get; set; }
+    public required DateTime DateOfBirth { get; set; }
 
     [Required(ErrorMessage = "The {0} field is required")]
     public required bool IsActive { get; set; } = true;

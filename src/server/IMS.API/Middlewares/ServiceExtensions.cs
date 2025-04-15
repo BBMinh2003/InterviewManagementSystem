@@ -84,7 +84,13 @@ public static class ServiceExtensions
 
         services.AddScoped<IInterviewReminderJobService, InterviewReminderJobService>();
 
+        services.AddScoped<IOfferReminderService, OfferReminderService>();
+
         services.AddAutoMapper(typeof(MappingProfile).Assembly);
+
+        services.AddSingleton<AzureStorageService>();
+
+        services.AddScoped<IExportExcelFileService, OfferExportService>();
 
         // Cấu hình Hangfire với SQL Server
         services.AddHangfire(config =>

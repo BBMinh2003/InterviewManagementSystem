@@ -1,0 +1,95 @@
+<app-loading></app-loading>
+<div class="flex-1 p-6  ">
+  <div class="w-full mx-auto space-y-6">
+    <!-- Breadcrumb -->
+    <div class="text-gray-500 text-sm font-medium px-4 ">
+      <ol class="flex items-center space-x-3">
+        <!-- Home -->
+        <li>
+          <a title="Home" href="#" class="flex items-center text-gray-600 hover:text-blue-500 transition">
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </li>
+
+        <!-- Separator -->
+        <li>/</li>
+
+        <!-- Interview Management (Last Item - No Hover) -->
+        <li class="text-gray-800 font-semibold">Interview List</li>
+      </ol>
+    </div>
+    <!-- Search Form -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-bold mb-6">Search Interview</h2>
+
+      <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <div class="space-y-4">
+          <!-- Search Title -->
+          <div class="w-full">
+            <input type="text" placeholder="Enter keyword..." formControlName="keyword"
+              class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200" />
+          </div>
+
+          <!-- Interviewer Dropdown -->
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Interviewer
+            </label>
+            <select formControlName="interviewerId"
+              class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              title="Select an interviewer">
+              <option [ngValue]="null">-- All Interviewers --</option>
+              <option *ngFor="let interviewer of interviewerss" [ngValue]="interviewer.id">
+                {{ interviewer.fullName }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Status Dropdown -->
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+              Status
+            </label>
+            <select formControlName="status"
+              class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              title="Select a status">
+              <option [ngValue]="null">-- All Statuses --</option>
+              <option *ngFor="let s of statuses" [ngValue]="s.value">
+                {{ s.label }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Search Button -->
+          <div class="flex justify-end">
+            <button type="submit"
+              class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Header + Add Button -->
+    <div class=" bg-white p-6 rounded-lg shadow">
+      <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <h2 class="text-2xl font-bold">Interview List</h2>
+
+        <div class="flex flex-col sm:flex-row gap-2 md:ml-auto">
+          <button *ngIf="!userRole.includes('Interviewer')" (click)="create()"
+            class="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+            <fa-icon [icon]="faPlus"></fa-icon>
+            Add New
+          </button>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <app-table [columns]="columns" [data]="data" [currentPage]="currentPage" [role]="userRole"
+        [currentPageSize]="currentPageSize" [isShowDeleteAction]="false" [isShowEditAction]="isEdit"
+        (onPageChange)="onPageChange($event)" (onViewDetails)="viewInterviewDetail($event)"
+        (onPageSizeChange)="onPageSizeChange($event)" (onEdit)="editInterview($event)" (onSort)="onSort($event)">
+      </app-table>
+    </div>
+  </div>

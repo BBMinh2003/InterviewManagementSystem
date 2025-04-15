@@ -30,7 +30,6 @@ public class InterviewViewModel
     public virtual ICollection<InterviewerInterviewViewModel> Interviewers { get; set; } = [];
 }
 
-//InterviewerInterviewViewModel
 public class InterviewerInterviewViewModel 
 {
     public Guid UserId { get; set; }

@@ -1,0 +1,132 @@
+<div class="flex-1 p-6">
+  <div class="w-full mx-auto">
+    <div class="text-gray-500 text-sm font-medium px-4 pb-4">
+      <ol class="flex items-center space-x-3">
+        <!-- Home -->
+        <li>
+          <a
+            routerLink="/home"
+            class="flex items-center text-gray-600 hover:text-blue-500 transition cursor-pointer"
+          >
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </li>
+
+        <!-- Separator -->
+        <li>/</li>
+
+        <!-- Projects -->
+        <li>
+          <a
+            routerLink="/offer"
+            class="text-gray-600 hover:text-blue-500 transition cursor-pointer"
+          >
+            Offer List
+          </a>
+        </li>
+
+        <!-- Separator -->
+        <li>/</li>
+
+        <!-- Project Nero (Last Item - No Hover) -->
+        <li class="text-gray-800 font-semibold">Offer Detail</li>
+      </ol>
+    </div>
+    <div class="rounded-lg shadow bg-white p-6 relative">
+      <!-- Header Section -->
+      <div class="flex flex-col md:flex-row justify-between mb-6">
+        <h1 class="text-2xl font-bold mb-2">Offer Details</h1>
+        <div class="text-sm italic text-gray-500 self-end" *ngIf="offer">
+          <span *ngIf="offer.createdAt"
+            >Created on {{ formatDate(offer.createdAt) }}</span
+          >
+
+          <span *ngIf="offer.updatedAt">
+            , last updated at {{ formatDate(offer.updatedAt) }}
+          </span>
+        </div>
+      </div>
+
+      <div
+        class="flex flex-col md:flex-row justify-end gap-4 pt-6 border-t mt-6 mb-8"
+      >
+        <ng-container *ngIf="offer && currentUser">
+          <!-- Waiting For Approval Section -->
+          <div
+            *ngIf="
+              offer.status === offerStatus.WaitingForApproval &&
+              isManagerOrAdmin()
+            "
+            class="flex flex-col md:flex-row gap-2"
+          >
+            <button
+              class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+              (click)="confirmStatusChange(offerStatus.Approved)"
+            >
+              Approve
+            </button>
+            <button
+              class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+              (click)="confirmStatusChange(offerStatus.Rejected)"
+            >
+              Reject
+            </button>
+          </div>
+
+          <!-- Approved State -->
+          <button
+            *ngIf="offer.status === offerStatus.Approved"
+            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            (click)="confirmStatusChange(offerStatus.WaitingForResponse)"
+          >
+            Mark as Sent to candidate
+          </button>
+
+          <!-- Waiting For Response -->
+          <div
+            *ngIf="offer.status === offerStatus.WaitingForResponse"
+            class="flex flex-col md:flex-row gap-2"
+          >
+            <button
+              class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors"
+              (click)="confirmStatusChange(offerStatus.Accepted)"
+            >
+              Accepted
+            </button>
+            <button
+              class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+              (click)="confirmStatusChange(offerStatus.Declined)"
+            >
+              Declined
+            </button>
+          </div>
+
+          <button
+            *ngIf="canCancelOffer()"
+            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
+            (click)="confirmStatusChange(offerStatus.Cancelled)"
+          >
+            Cancel Offer
+          </button>
+        </ng-container>
+      </div>
+
+      <!-- Information Grid -->
+      <app-item-details [items]="details"> </app-item-details>
+      <div class="flex justify-center gap-4 pt-6 border-t mt-6">
+        <button
+          class="px-4 py-2 border rounded-md hover:bg-gray-100 cursor-pointer"
+          (click)="goBack()"
+        >
+          Cancel
+        </button>
+        <button
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          (click)="editOffer()"
+        >
+          Edit
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

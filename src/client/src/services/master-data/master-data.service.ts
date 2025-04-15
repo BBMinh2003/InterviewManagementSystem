@@ -25,16 +25,16 @@ export class MasterDataService<T> implements IMasterDataService<T> {
     );
   }
 
-  getById(id: number): Observable<T> {
+  getById(id: string): Observable<T> {
     return this.httpClient.get<T>(`${this.baseUrl}/${id}`);
   }
 
   create(data: T): Observable<T> {
-    return this.httpClient.post<T>(this.baseUrl, data);
+    return this.httpClient.post<T>(`${this.baseUrl}/create`, data);
   }
 
   update(id: string, data: T): Observable<T> {
-    return this.httpClient.put<T>(`${this.baseUrl}/${id}`, data);
+    return this.httpClient.put<T>(`${this.baseUrl+ '/update'}/${id}`, data);
   }
 
   delete(id: string): Observable<boolean> {

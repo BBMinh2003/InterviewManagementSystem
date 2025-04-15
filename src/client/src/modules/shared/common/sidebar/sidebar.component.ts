@@ -1,4 +1,10 @@
-import { Component, ElementRef, HostListener, Inject, Input } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  Inject,
+  Input,
+} from '@angular/core';
 import {
   faHome,
   faUsersLine,
@@ -13,21 +19,31 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { AUTH_SERVICE, NOTIFICATION_SERVICE } from '../../../../constants/injection.constant';
+import {
+  AUTH_SERVICE,
+  NOTIFICATION_SERVICE,
+} from '../../../../constants/injection.constant';
 import { IAuthService } from '../../../../services/auth/auth-service.interface';
 import { UserInformation } from '../../../../models/auth/user-information.model';
 import { Subscription } from 'rxjs';
 import { INotificationService } from '../../../../services/notification/notification-service.interface';
-import { NotificationComponent } from "../../../../core/components/notification/notification.component";
+import { NotificationComponent } from '../../../../core/components/notification/notification.component';
 
 @Component({
   selector: 'app-sidebar',
-  imports: [CommonModule, FaIconComponent, MatIconModule, RouterModule, NotificationComponent],
+  imports: [
+    CommonModule,
+    FaIconComponent,
+    MatIconModule,
+    RouterModule,
+    NotificationComponent,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css',
 })
 export class SidebarComponent {
   public userInfo: UserInformation | null = null;
+  public userRole: string = '';
   private userSubscription!: Subscription;
   open = true;
   isMobile: boolean = window.innerWidth < 768;
@@ -35,15 +51,7 @@ export class SidebarComponent {
 
   faUserCircle = faUserCircle;
   faDev = faDev;
-  menuItems = [
-    { icon: faHome, label: 'Home', route: '/home' },
-    { icon: faUsersLine, label: 'Candidate', route: '/candidate' },
-    { icon: faBriefcase, label: 'Job', route: '/job' },
-    { icon: faComment, label: 'Interview', route: '/interview' },
-    { icon: faFileLines, label: 'Offer', route: '/offer' },
-    { icon: faUser, label: 'User', route: '/user' },
-  ];
-
+  menuItems: any = [];
 
   toggleMobileMenu() {
     this.isMobileMenuOpen = !this.isMobileMenuOpen;
@@ -64,6 +72,7 @@ export class SidebarComponent {
 
   handleProfile() {
     this.isUserMenuOpen = false;
+    this.router.navigate(['/profile']);
   }
 
   handleLogout() {
@@ -108,7 +117,8 @@ export class SidebarComponent {
   constructor(
     private readonly elementRef: ElementRef,
     @Inject(AUTH_SERVICE) private authService: IAuthService,
-    @Inject(NOTIFICATION_SERVICE) private notificationService: INotificationService,
+    @Inject(NOTIFICATION_SERVICE)
+    private notificationService: INotificationService,
     private router: Router
   ) {}
 
@@ -117,6 +127,45 @@ export class SidebarComponent {
       .getUserInformation()
       .subscribe((user) => {
         this.userInfo = user;
+        this.userRole = user ? user.role : '';
+        this.menuItems = [
+          {
+            icon: faHome,
+            label: 'Home',
+            route: '/home',
+            isShown: true,
+          },
+          {
+            icon: faUsersLine,
+            label: 'Candidate',
+            route: '/candidate',
+            isShown: true,
+          },
+          {
+            icon: faBriefcase,
+            label: 'Job',
+            route: '/job',
+            isShown: true,
+          },
+          {
+            icon: faComment,
+            label: 'Interview',
+            route: '/interview',
+            isShown: true,
+          },
+          {
+            icon: faFileLines,
+            label: 'Offer',
+            route: '/offer',
+            isShown: ['Admin', 'Manager', 'Recruiter'].includes(this.userRole)
+          },
+          {
+            icon: faUser,
+            label: 'User',
+            route: '/admin/user',
+            isShown: ['Admin', 'Manager'].includes(this.userRole)
+          }
+        ];
       });
   }
 

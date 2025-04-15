@@ -27,14 +27,14 @@ export class MasterDataListComponent<T> {
   public filter: SearchModel = {
     keyword: '',
     pageNumber: 1,
-    pageSize: 2,
+    pageSize: 5,
     orderBy: 'status',
     orderDirection: OrderDirection.ASC,
   };
 
 
   public currentPage: number = 1;
-  public currentPageSize: number = 2;
+  public currentPageSize: number = 5;
 
   public searchForm!: FormGroup;
 
@@ -59,6 +59,8 @@ export class MasterDataListComponent<T> {
   public onSubmit(): void {
     // Gan gia tri tu form vao filter => Keyword
     Object.assign(this.filter, this.searchForm.value);
+    this.filter.pageNumber = 1;
+    this.currentPage = 1;
     this.searchData();
   }
 
@@ -78,8 +80,11 @@ export class MasterDataListComponent<T> {
     this.searchData();
   }
 
-  public onPageSizeChange(event: any): void {
-    this.filter.pageSize = event.target.value;
+  public onPageSizeChange(newSize: number): void {
+    this.currentPageSize = newSize;
+    this.filter.pageSize = newSize;
+    this.filter.pageNumber = 1;
+    this.currentPage = 1;
     this.searchData();
   }
 }

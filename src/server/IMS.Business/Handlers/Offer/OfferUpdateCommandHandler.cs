@@ -40,6 +40,7 @@ public class OfferUpdateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) :
         var updatedEntity = await _unitOfWork.OfferRepository.GetQuery()
             .Include(x => x.Candidate)
             .Include(x => x.ContactType)
+            .Include(x => x.ApprovedBy)
             .Include(x => x.RecruiterOwner)
             .Include(x => x.Department)
             .Include(x => x.Interview)

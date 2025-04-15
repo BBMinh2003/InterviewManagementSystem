@@ -5,7 +5,7 @@ using IMS.Models.Security;
 namespace IMS.Models.Common;
 
 [Table("Skills", Schema = "Common")]
-public class Skill 
+public class Skill
 {
     [Required]
     [StringLength(255)]
