@@ -4,10 +4,8 @@ using IMS.Models.Security;
 
 namespace IMS.Business.ViewModels.UserViews;
 
-public class UserViewModel
+public class UserViewModel: BaseInfoViewModel
 {
-    public Guid Id { get; set; }
-
     public string? FullName { get; set; }
 
     public string? Email { get; set; }

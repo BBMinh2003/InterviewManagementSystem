@@ -15,6 +15,39 @@ export class PermissionService implements IPermissionService {
     @Inject(AUTH_SERVICE) private authService: IAuthService,
     private router: Router
   ) {}
+  canEditInterview(): Observable<boolean> {
+    return this.authService.getUserInformation().pipe(
+      map((userInfo) => {
+        const role: string = userInfo?.role || 'none';
+        const allowedRoles = ['Admin', 'Recruiter', 'Manager'];
+
+        const isAuthorized = allowedRoles.includes(role);
+
+        if (!isAuthorized) {
+          this.router.navigate(['/home']);
+        }
+
+        return isAuthorized;
+      })
+    );
+  }
+  canActivateInterview(): Observable<boolean> {
+    return this.authService.getUserInformation().pipe(
+      map((userInfo) => {
+        const role: string = userInfo?.role || 'none';
+
+        const allowedRoles = ['Admin', 'Recruiter', 'Manager', 'Interviewer'];
+
+        const isAuthorized = allowedRoles.includes(role);
+
+        if (!isAuthorized) {
+          this.router.navigate(['/home']);
+        }
+
+        return isAuthorized;
+      })
+    );
+  }
 
   isUnauthenticated(): Observable<boolean> {
     return this.authService.isAuthenticated().pipe(
@@ -41,20 +74,29 @@ export class PermissionService implements IPermissionService {
   canActivateAdmin(): Observable<boolean> {
     return this.authService.getUserInformation().pipe(
       map((userInfor) => {
-        let roles: string[] = [];
+        let role: string = userInfor?.role || '';
 
-        if (Array.isArray(userInfor?.roles)) {
-          roles = userInfor.roles.flat();
-        } else if (typeof userInfor?.roles === 'string') {
-          roles = [userInfor.roles];
-        }
-
-        const isAdmin = roles.includes('Admin');
+        const isAdmin = role == 'Admin';
 
         if (!isAdmin) {
           this.router.navigate(['/home']);
         }
         return isAdmin;
+      })
+    );
+  }
+
+  canActivateOffer(): Observable<boolean> {
+    return this.authService.getUserInformation().pipe(
+      map((userInfor) => {
+        let role: string = userInfor?.role || 'none';
+
+        const isAuthorized = ['Admin', 'Recruiter', 'Manager'].includes(role);
+
+        if (!isAuthorized) {
+          this.router.navigate(['/home']);
+        }
+        return isAuthorized;
       })
     );
   }

@@ -1,0 +1,92 @@
+<app-notification></app-notification>
+<app-loading></app-loading>
+<div class="flex-1 p-6 ">
+  <div class="w-fullmx-auto space-y-6">
+    <!-- Breadcrumb -->
+    <div class="text-gray-500 text-sm font-medium px-4 pb-4">
+      <ol class="flex items-center space-x-3">
+        <!-- Home -->
+        <li>
+          <a title="Home" href="#" class="flex items-center text-gray-600 hover:text-blue-500 transition">
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </li>
+
+        <!-- Separator -->
+        <li>/</li>
+
+        <!-- Job Management (Last Item - No Hover) -->
+        <li class="text-gray-800 font-semibold">Job List</li>
+      </ol>
+    </div>
+
+    <!-- Search Form -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-bold mb-6">Search Job</h2>
+
+      <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <div class="space-y-4">
+          <!-- Search Title -->
+          <div class="w-full">
+            <input type="text" placeholder="Enter keyword..." formControlName="keyword"
+              class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200" />
+          </div>
+
+          <!-- Status Dropdown -->
+          <div class="w-full">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <select formControlName="status"
+              class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200"
+              title="Select a status">
+              <option [ngValue]="null">-- All Statuses --</option>
+              <option *ngFor="let s of statuses" [ngValue]="s.value">
+                {{ s.label }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Search Button -->
+          <div class="flex justify-end">
+            <button type="submit"
+              class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Header + Add Button -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <h2 class="text-2xl font-bold">Job List</h2>
+
+        <div class="flex flex-col sm:flex-row gap-2 md:ml-auto">
+          <button (click)="createJob()" *ngIf="role !== 'Interviewer'"
+            class="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer">
+            <fa-icon [icon]="faPlus"></fa-icon>
+            Add New Job
+          </button>
+
+          <input type="file" #fileInput (change)="onFileSelected($event)" accept=".xlsx" hidden />
+
+          <button (click)="fileInput.click()" *ngIf="role !== 'Interviewer'"
+            class="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer">
+            <fa-icon [icon]="faImport"></fa-icon>
+            Import
+          </button>
+
+
+        </div>
+      </div>
+
+      <!-- Table -->
+      <app-table [columns]="columns" [data]="data" [currentPage]="currentPage" [currentPageSize]="currentPageSize"
+        (onPageSizeChange)="onPageSizeChange($event)" [role]="role" (onPageChange)="onPageChange($event)"
+        (onViewDetails)="viewJobDetail($event)" [isShowDeleteAction]="isShowDeleteAction"
+        [isShowEditAction]="isShowEditAction" (onDelete)="handleDelete($event)" (onEdit)="update($event)"
+        (onSort)="onSort($event)">
+      </app-table>
+    </div>
+  </div>
+</div>

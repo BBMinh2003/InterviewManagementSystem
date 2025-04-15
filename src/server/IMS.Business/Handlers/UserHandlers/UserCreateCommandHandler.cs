@@ -32,17 +32,22 @@ public class UserCreateCommandHandler(
         {
             throw new ResourceUniqueException("Email is already in use.");
         }
-
+        var department = await _unitOfWork.DepartmentRepository.GetQuery().FirstOrDefaultAsync(d=>d.Id == request.DepartmentId);
+        var repeatedUsernameCount = await _userManager.Users.CountAsync(u=>u.FullName == request.FullName);
+        var username = _passwordService.GenerateUserName(request.FullName, repeatedUsernameCount);
         var user = new User
         {
             Id = Guid.NewGuid(),
+            Address = request.Address,
             FullName = request.FullName,
             Email = request.Email,
-            UserName = request.Email,
+            UserName = username,
             Gender = request.Gender,
             DepartmentId = request.DepartmentId,
+            Department = department,
             DateOfBirth = request.DateOfBirth,
             CreatedAt = DateTime.UtcNow,
+            CreatedBy = await _userManager.FindByIdAsync(_currentUser.UserId.ToString()),
             IsActive = true,
             IsDeleted = false,
             Note = request.Note
@@ -60,13 +65,13 @@ public class UserCreateCommandHandler(
         {
             throw new InvalidOperationException("User creation failed.");
         }
-        await _userManager.AddToRoleAsync(user, role.Name);
+        await _userManager.AddToRoleAsync(user, role!.Name ?? "");
 
         await _emailService.SendEmailWithTemplateAsync(
             user.Email,
             "no-reply-email-IMS-system <Account created>",
             "AccountCreatedEmail",
-            new AccountCreatedEmailModel { Email = user.Email, Password = password });
+            new AccountCreatedEmailModel { Username = username, Password = password });
 
         return _mapper.Map<UserViewModel>(user);
     }

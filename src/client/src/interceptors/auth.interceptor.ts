@@ -4,25 +4,42 @@ import {
   HttpInterceptorFn,
   HttpRequest,
 } from '@angular/common/http';
-import { PERMISSION_SERVICE } from '../constants/injection.constant';
+import { PERMISSION_SERVICE, AUTH_SERVICE } from '../constants/injection.constant';
 import { inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, switchMap, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 export const authInterceptor: HttpInterceptorFn = (
   req: HttpRequest<any>,
   next: HttpHandlerFn
 ): Observable<HttpEvent<any>> => {
   const permissionsService = inject(PERMISSION_SERVICE);
-  const accessToken = permissionsService.getAccessToken();
+  const authService = inject(AUTH_SERVICE);
 
-  if (accessToken) {
-    req = req.clone({
-      setHeaders: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+  let accessToken = permissionsService.getAccessToken();
 
-    return next(req);
+  // Check if the access token is expired
+  if (!accessToken || authService.isAccessTokenExpired()) {
+    return authService.refreshToken().pipe(
+      switchMap((newToken) => {
+        if (newToken) {
+          req = req.clone({
+            setHeaders: { Authorization: `Bearer ${newToken}` },
+          });
+        }
+        return next(req);
+      }),
+      catchError((error) => {
+        authService.logout();
+        return throwError(() => error);
+      })
+    );
   }
+
+  // If access token is valid, attach it to the request
+  req = req.clone({
+    setHeaders: { Authorization: `Bearer ${accessToken}` },
+  });
+
   return next(req);
 };

@@ -1,1 +1,319 @@
-<p>candidate-create works!</p>
+<app-notification></app-notification>
+<app-loading></app-loading>
+<div class="w-full mx-auto p-6">
+    <div class="text-gray-500 text-sm font-medium px-4 pb-4 ">
+        <ol class="flex items-center space-x-3">
+            <li>
+                <a title="Home" href="#" class="flex items-center text-gray-600 hover:text-blue-500 transition">
+                    <fa-icon [icon]="faHome" class="cursor-pointer"></fa-icon>
+                </a>
+            </li>
+            <li>/</li>
+            <li>
+                <a href="/candidate/" class="text-gray-600 hover:text-blue-500 transition">
+                    Candidate List
+                </a>
+            </li>
+            <li>/</li>
+            <li class="text-gray-800 font-semibold">Create Candidate</li>
+        </ol>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+        <h1 class="text-2xl font-bold mb-6">Create Candidate</h1>
+
+        <form [formGroup]="candidateForm" (ngSubmit)="onSubmit()">
+            <h3 class="text-xl font-bold pb-4">I. Personal Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="space-y-4 md:space-y-6">
+                    <!-- Fullname -->
+                    <div>
+                        <label for="fullname" class="block text-sm font-medium text-gray-700 mb-2">
+                            Fullname <span class="text-red-500">*</span>
+                        </label>
+                        <input id="fullname" type="text" formControlName="fullname" placeholder="Type a name"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base" />
+                        <div class="*:text-red-500" *ngIf="
+                          candidateForm.controls['fullname'].invalid &&
+                          (candidateForm.controls['fullname'].touched || submitted)
+                        ">
+                            <small *ngIf="candidateForm.controls['fullname'].errors?.['required']">Full
+                                Name is required.</small>
+                            <small *ngIf="candidateForm.controls['fullname'].errors?.['maxlength']">Max
+                                length is 255 characters.</small>
+                        </div>
+                    </div>
+
+                    <!-- D.O.B -->
+                    <div>
+                        <label for="DOB" class="block text-sm font-medium text-gray-700 mb-2">D.O.B <span
+                                class="text-red-500">*</span></label>
+                        <input type="date" id="DOB" formControlName="DOB"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                        <div class="*:text-red-500" *ngIf="
+                          candidateForm.controls['DOB'].invalid &&
+                          (candidateForm.controls['DOB'].touched || submitted)
+                        ">
+                            <small *ngIf="candidateForm.controls['DOB'].errors?.['required']">
+                                Date of birth is required.</small>
+                            <small *ngIf="candidateForm.controls['DOB'].errors?.['invalidDOB']">
+                                Invalid date of birth.</small>
+                        </div>
+                    </div>
+
+                    <!-- Phone number -->
+                    <div>
+                        <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-2">Phone number <span
+                                class="text-red-500">*</span></label>
+                        <input id="phoneNumber" formControlName="phoneNumber" placeholder="Type a number"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                        <div *ngIf="
+                        candidateForm.controls['phoneNumber'].invalid && 
+                        (candidateForm.controls['phoneNumber'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['phoneNumber'].errors?.['required']">
+                                Phone number is required.
+                            </small>
+                            <small *ngIf="candidateForm.controls['phoneNumber'].errors?.['pattern']">
+                                Phone number must be 10 digits.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 md:space-y-6">
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email <span
+                                class="text-red-500">*</span></label>
+                        <input id="email" formControlName="email" placeholder="Type an email"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                        <div class="*:text-red-500" *ngIf="
+                        candidateForm.controls['email'].invalid && 
+                        (candidateForm.controls['email'].touched || submitted)">
+                            <small *ngIf="candidateForm.controls['email'].errors?.['required']">Email is
+                                required.</small>
+                            <small *ngIf="candidateForm.controls['email'].errors?.['email']">Invalid email
+                                format.</small>
+                        </div>
+                    </div>
+
+                    <!-- Address -->
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address <span
+                                class="text-red-500">*</span></label>
+                        <input id="address" formControlName="address" placeholder="Type a address"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                        <div *ngIf="
+                        candidateForm.controls['address'].invalid && 
+                        (candidateForm.controls['address'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['address'].errors?.['required']">Address is
+                                required.</small>
+                        </div>
+                    </div>
+
+                    <!-- Gender -->
+                    <div>
+                        <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">Gender <span
+                                class="text-red-500">*</span></label>
+                        <select id="gender" formControlName="gender"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                            <option value="" disabled selected>Select a gender</option>
+                            <option [ngValue]="0" selected>Male</option>
+                            <option [ngValue]="1">Female</option>
+                            <option [ngValue]="2">Other</option>
+                        </select>
+                        <div *ngIf="
+                        candidateForm.controls['gender'].invalid && 
+                        (candidateForm.controls['gender'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['gender'].errors?.['required']">Gender is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold py-4">II. Professional Information</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <div class="space-y-4 md:space-y-6">
+                    <!-- CV -->
+                    <div>
+                        <label for="cv" class="block text-sm font-medium text-gray-700 mb-2">
+                            CV attachment <span class="text-red-500">*</span>
+                        </label>
+                        <input title="Upload CV" type="file" id="formFile" (change)="onFileChange($event)"
+                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded-md border 
+                            border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-2 text-base font-normal 
+                            text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer 
+                            file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit 
+                            file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 
+                            focus:shadow-inset focus:outline-none dark:border-white/70 dark:text-white  file:dark:text-white" />
+                        <div *ngIf="submitted && !selectedFile" class="*:text-red-500">
+                            <small>CV is required.</small>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="position" class="block text-sm font-medium text-gray-700 mb-2">Position <span
+                                class="text-red-500">*</span></label>
+                        <select id="position" formControlName="position" placeholder="Select a position"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                            <option value="" disabled selected>Select a position</option>
+                            <option *ngFor="let p of positions; let i = index" [ngValue]="p.value" [selected]="i === 0">
+                                {{ p.label }}
+                            </option>
+                        </select>
+                        <div *ngIf="
+                        candidateForm.controls['position'].invalid && 
+                        (candidateForm.controls['position'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['position'].errors?.['required']">Position is
+                                required.</small>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- Label -->
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Skills
+                            <span class="text-red-500">*</span>
+                        </label>
+
+                        <ng-select id="multiple_select" [items]="skills" [multiple]="true" [closeOnSelect]="false"
+                            [searchable]="true" bindLabel="label" bindValue="value" placeholder="Select skills"
+                            formControlName="skills" class="w-full border rounded-md text-sm md:text-base">
+                        </ng-select>
+
+                        <div *ngIf="candidateForm.controls['skills'].invalid && 
+                            (candidateForm.controls['skills'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['skills'].errors?.['required']">
+                                Skills are required.</small>
+                        </div>
+                    </div>
+
+                    <div class="mb-1">
+                        <label for="recruiterOwner" class="block text-sm font-medium text-gray-700 mb-2">
+                            Recruiter Owner <span class="text-red-500">*</span>
+                        </label>
+
+                        <div *ngIf="candidateForm.get('recruiterOwner')?.value === currentUserInfo?.id &&
+                            currentUserInfo"
+                            class="mb-2 p-2 bg-gray-100 rounded flex justify-between items-center">
+                            <span>{{ currentUserInfo.displayName }}</span>
+                            <button title="Remove assign me" type="button" (click)="clearAdminAssignment()"
+                                class="text-gray-500 hover:text-red-500 cursor-pointer">
+                                <fa-icon [icon]="faTimes"></fa-icon>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center ">
+                            <select title="Recruiter" 
+                                *ngIf="!currentUserInfo ||
+                                candidateForm.get('recruiterOwner')?.value !== currentUserInfo.id" 
+                                id="recruiter" formControlName="recruiterOwner"
+                                class="w-full border border-gray-300 px-3 py-2 text-sm md:text-base h-full rounded-l-md rounded-r-none">
+                                <option value="">Select Recruiter</option>
+                                <option *ngFor="let recruiter of recruiterOwners" [value]="recruiter.value">
+                                    {{ recruiter.label }}
+                                </option>
+                            </select>
+
+                            <button *ngIf="
+                              !currentUserInfo ||
+                              candidateForm.get('recruiterOwner')?.value !== currentUserInfo.id" 
+                              type="button" (click)="assignToMe($event)"
+                                class="bg-blue-500 text-white border border-l-0 border-gray-300 
+                                hover:bg-blue-600 text-xs px-4 py-1 h-full rounded-r-md rounded-l-none cursor-pointer">
+                                Assign Me
+                            </button>
+                        </div>
+
+                        <div *ngIf="candidateForm.controls['recruiterOwner'].invalid && 
+                        (candidateForm.controls['recruiterOwner'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['recruiterOwner'].errors?.['required']">Recruiter
+                                Owner is required.</small>
+                        </div> 
+                    </div>
+
+                    <!-- Assigned to me -->
+                    <!-- <div class="flex items-center">
+                        <a href="#" (click)="assignToMe($event)" class="text-sm text-blue-500 underline">
+                            Assigned to me
+                        </a>
+                    </div> -->
+
+                </div>
+
+                <div class="space-y-4 md:space-y-6">
+                    <!-- Note -->
+                    <div>
+                        <label for="note" class="block text-sm font-medium text-gray-700 mb-2">
+                            Note
+                        </label>
+                        <input type="text" id="note" formControlName="note" placeholder="Type a note"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                    </div>
+
+                    <div>
+                        <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status <span
+                                class="text-red-500">*</span></label>
+                        <select id="status" formControlName="status" placeholder="Select a status"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                            <option value="" disabled selected>Select a status</option>
+                            <option *ngFor="let s of statuses" [ngValue]="s.value">
+                                {{ s.label }}
+                            </option>
+                        </select>
+                        <div *ngIf="
+                        candidateForm.controls['status'].invalid && 
+                        (candidateForm.controls['status'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['status'].errors?.['required']">Status is
+                                required.</small>
+                        </div>
+                    </div>
+
+                    <!-- Year of Experience -->
+                    <div>
+                        <label for="yearOfExperience" class="block text-sm font-medium text-gray-700 mb-2">
+                            Year of Experience <span class="text-red-500">*</span>
+                        </label>
+                        <input type="number" id="yearOfExperience" formControlName="yearOfExperience"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base" placeholder="Type a number">
+                        <div *ngIf="
+                        candidateForm.controls['yearOfExperience'].invalid && 
+                        (candidateForm.controls['yearOfExperience'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['yearOfExperience'].errors?.['required']">Year of
+                                Experience is required.</small>
+                            <small *ngIf="candidateForm.controls['yearOfExperience'].errors?.['min']">Minimum value is
+                                0.</small>
+                        </div>
+                    </div>
+
+                    <!-- Highest level -->
+                    <div>
+                        <label for="highestLevel" class="block text-sm font-medium text-gray-700 mb-2">
+                            Highest level <span class="text-red-500">*</span>
+                        </label>
+                        <select id="highestLevel" formControlName="highestLevel" placeholder="Select highest level"
+                            class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                            <option value="" disabled selected>Select highest level</option>
+                            <option *ngFor="let l of levels" [ngValue]="l.value">
+                                {{ l.label }}
+                            </option>
+                        </select>
+                        <div *ngIf="
+                        candidateForm.controls['highestLevel'].invalid && 
+                        (candidateForm.controls['highestLevel'].touched || submitted)" class="*:text-red-500">
+                            <small *ngIf="candidateForm.controls['highestLevel'].errors?.['required']">Highest
+                                level is required.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-end gap-4 pt-6 border-t mt-6">
+                <button type="button" (click)="returnList()"
+                    class="px-4 py-2 border rounded-md hover:bg-gray-100 text-sm md:text-base cursor-pointer">Cancel</button>
+                <button type="submit"
+                    class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm md:text-base cursor-pointer">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

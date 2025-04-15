@@ -1,0 +1,175 @@
+<div class="flex-1 p-6 ">
+  <div class="w-full mx-auto">
+    <div class="text-gray-500 text-sm font-medium px-4 pb-4">
+      <ol class="flex items-center space-x-3">
+        <li>
+          <a [routerLink]="['/home']" routerLinkActive="bg-gray-700"
+            class="flex items-center text-gray-600 hover:text-blue-500 transition">
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </li>
+        <li>/</li>
+        <li>
+          <a [routerLink]="['/admin/user']" class="text-gray-600 hover:text-blue-500 transition">
+            User List
+          </a>
+        </li>
+        <li>/</li>
+        <li class="text-gray-800 font-semibold">Create User</li>
+      </ol>
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h1 class="text-2xl font-bold mb-6">Create User</h1>
+
+      <form [formGroup]="userForm" class="w-full mx-auto bg-white rounded-lg shadow p-4 md:p-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <!-- Left Column -->
+          <div class="space-y-4 md:space-y-6">
+            <!-- Full Name -->
+            <div>
+              <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">Full Name <span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="fullName" formControlName="fullName" placeholder="Type a name..."
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base" />
+              <div class="*:text-red-500" *ngIf="
+                  userForm.controls['fullName'].invalid &&
+                  userForm.controls['fullName'].touched
+                ">
+                <small *ngIf="userForm.controls['fullName'].errors?.['required']">Full Name is required.</small>
+                <small *ngIf="userForm.controls['fullName'].errors?.['maxlength']">Max length is 255 characters.</small>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email <span
+                  class="text-red-500">*</span></label>
+              <input type="email" id="email" formControlName="email" placeholder="Type an email..."
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base" />
+              <div class="*:text-red-500" *ngIf="
+                  userForm.controls['email'].invalid &&
+                  userForm.controls['email'].touched
+                ">
+                <small *ngIf="userForm.controls['email'].errors?.['required']">Email is required.</small>
+                <small *ngIf="userForm.controls['email'].errors?.['email']">Invalid email format.</small>
+                <small *ngIf="userForm.controls['email'].errors?.['maxlength']">Max length is 255 characters.</small>
+              </div>
+            </div>
+
+            <!-- Date of Birth -->
+            <div>
+              <label for="dateOfBirth" class="block text-sm font-medium text-gray-700 mb-2">D.O.B</label>
+              <input type="datetime-local" id="dateOfBirth" formControlName="dateOfBirth"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base" />
+            </div>
+
+            <!-- Address -->
+            <div>
+              <label for="address" class="block text-sm font-medium text-gray-700 mb-2">Address</label>
+              <input type="text" id="address" formControlName="address" placeholder="Type an address..."
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base" />
+            </div>
+
+            <!-- Phone Number -->
+            <div>
+              <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-2">Phone Number <span
+                  class="text-red-500">*</span></label>
+              <input type="text" id="phoneNumber" formControlName="phoneNumber" placeholder="Type a number..."
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base" />
+              <div class="*:text-red-500" *ngIf="
+                  userForm.controls['phoneNumber'].invalid &&
+                  userForm.controls['phoneNumber'].touched
+                ">
+                <small *ngIf="userForm.controls['phoneNumber'].errors?.['required']">Phone number is required.</small>
+                <small *ngIf="userForm.controls['phoneNumber'].errors?.['pattern']">Invalid phone number format.</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="space-y-4 md:space-y-6">
+            <!-- Gender -->
+            <div>
+              <label for="gender" class="block text-sm font-medium text-gray-700 mb-2">Gender <span
+                  class="text-red-500">*</span></label>
+              <select id="gender" formControlName="gender"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                <option [ngValue]="0">Male</option>
+                <option [ngValue]="1">Female</option>
+                <option [ngValue]="2">Other</option>
+              </select>
+            </div>
+
+            <!-- Roles -->
+            <div>
+              <label for="roleId" class="block text-sm font-medium text-gray-700 mb-2">Roles <span
+                  class="text-red-500">*</span></label>
+              <select id="roleId" formControlName="roleId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                <option *ngFor="let role of roles" [value]="role.id">
+                  {{ role.name }}
+                </option>
+              </select>
+              <div class="*:text-red-500" *ngIf="
+              userForm.controls['roleId'].invalid &&
+              userForm.controls['roleId'].touched
+            ">
+                <small *ngIf="userForm.controls['roleId'].errors?.['required']">Role is required.</small>
+              </div>
+            </div>
+
+            <!-- Department -->
+            <div>
+              <label for="departmentId" class="block text-sm font-medium text-gray-700 mb-2">Department <span
+                  class="text-red-500">*</span></label>
+              <select id="departmentId" formControlName="departmentId" placeholder="Type a departmentId"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                <option *ngFor="let department of departments" [value]="department.id">
+                  {{ department.name }}
+                </option>
+              </select>
+              <div class="*:text-red-500" *ngIf="
+                  userForm.controls['departmentId'].invalid &&
+                  userForm.controls['departmentId'].touched
+                ">
+                <small *ngIf="userForm.controls['departmentId'].errors?.['required']">Department is required.</small>
+              </div>
+            </div>
+
+            <!-- Status -->
+            <div>
+              <label for="isActive" class="block text-sm font-medium text-gray-700 mb-2">
+                Status <span class="text-red-500">*</span>
+              </label>
+              <select id="isActive" formControlName="isActive"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base">
+                <option [ngValue]="true">Active</option>
+                <option [ngValue]="false">Inactive</option>
+              </select>
+            </div>
+
+            <!-- Note -->
+            <div>
+              <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Note</label>
+              <input type="text" id="note" formControlName="note" placeholder="N/A"
+                class="w-full border rounded-md px-3 py-2 text-sm md:text-base" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-col md:flex-row justify-end gap-4 pt-6 border-t mt-6">
+          <button (click)="goBack()" type="reset"
+            class="order-2 md:order-1 px-4 py-2 border rounded-md hover:bg-gray-100 text-sm md:text-base w-full md:w-auto">
+            Cancel
+          </button>
+          <button (click)="onSubmit()"
+            class="order-1 md:order-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm md:text-base w-full md:w-auto">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

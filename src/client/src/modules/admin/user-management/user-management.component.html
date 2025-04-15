@@ -1,1 +1,79 @@
-<p>user-management works!</p>
+<div class="flex-1 p-6 ">
+  <div class="w-full mx-auto space-y-6">
+    <div class="text-gray-500 text-sm font-medium px-4 ">
+      <ol class="flex items-center space-x-3">
+        <!-- Home -->
+        <li>
+          <a title="Home" [routerLink]="['/home']" routerLinkActive="bg-gray-700"
+            class="flex items-center text-gray-600 hover:text-blue-500 transition">
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </li>
+
+        <!-- Separator -->
+        <li>/</li>
+
+        <!-- Project Nero (Last Item - No Hover) -->
+        <li class="text-gray-800 font-semibold">User List</li>
+      </ol>
+    </div>
+
+    <!-- Search -->
+    <div class="bg-white p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-bold mb-6">Search User</h2>
+
+      <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <div class="space-y-4">
+          <!-- Search Box -->
+          <div class="w-full">
+            <input type="text" placeholder="Search..." formControlName="keyword"
+              class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200" />
+          </div>
+
+          <div class="w-full">
+            <div>
+              <label for="role" class="block text-sm font-medium text-gray-700 mb-1">
+                Role
+              </label>
+              <select id="role" formControlName="role"
+                class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-200">
+                <option [ngValue]="null">-- All Roles --</option>
+                <option *ngFor="let r of roles" [ngValue]="r">
+                  {{ r }}
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Search Button -->
+          <div class="flex justify-end">
+            <button type="submit"
+              class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors cursor-pointer">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow">
+      <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <h2 class="text-2xl font-bold">User List</h2>
+
+        <div class="flex flex-col sm:flex-row gap-2 md:ml-auto">
+          <!-- Add New Button -->
+          <button (click)="createUser()"
+            class="flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+            <fa-icon [icon]="faPlus"></fa-icon>
+            Add New
+          </button>
+        </div>
+      </div>
+
+      <app-table [isShowNumber]="true" [columns]="columns" [data]="data" [currentPageSize]="currentPageSize"
+        [currentPage]="currentPage" (onPageChange)="onPageChange($event)" (onViewDetails)="viewUserDetails($event)"
+        (onEdit)="editUser($event)" (onSort)="onSort($event)" (onPageSizeChange)="onPageSizeChange($event)"
+        [isShowDeleteAction]="false">
+      </app-table>
+    </div>
+  </div>
+</div>

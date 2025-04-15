@@ -3,5 +3,5 @@ export class UserInformation {
   public username!: string;
   public email!: string;
   public displayName!: string;
-  public roles!: string[];
+  public role!: string;
 }

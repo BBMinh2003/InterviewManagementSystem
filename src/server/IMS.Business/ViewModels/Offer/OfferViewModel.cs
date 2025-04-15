@@ -6,7 +6,10 @@ namespace IMS.Business.ViewModels;
 public class OfferViewModel
 {
     public required Guid Id {get; set;}
+
     public required string CandidateName { get; set; }
+
+    public required string CandidateEmail { get; set; }
 
     public required string DepartmentName { get; set; }
 
@@ -36,4 +39,9 @@ public class OfferViewModel
 
     public OfferStatus Status { get; set; }
 
+    public DateTime CreatedAt { get; set; }
+
+    public DateTime? UpdatedAt { get; set; }
+
+    public string? UpdatedBy { get; set; }
 }

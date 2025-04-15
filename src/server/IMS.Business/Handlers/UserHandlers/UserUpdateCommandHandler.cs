@@ -28,10 +28,12 @@ public class UserUpdateCommandHandler(
             ?? throw new ResourceNotFoundException("User not found.");
 
         user.UpdatedAt = DateTime.Now;
+        user.UpdatedBy = await _userManager.FindByIdAsync(_currentUser.UserId.ToString());
         user.FullName = request.FullName;
         user.Email = request.Email;
         user.Address = request.Address ?? user.Address;
         user.PhoneNumber = request.PhoneNumber;
+        user.DepartmentId = request.DepartmentId;
         user.Gender = request.Gender;
         user.DateOfBirth = request.DateOfBirth;
         user.IsActive = request.IsActive;
@@ -52,7 +54,7 @@ public class UserUpdateCommandHandler(
             ?? throw new ResourceNotFoundException("Role not found") : null;
 
         await _userManager.UpdateAsync(user);
-        await _userManager.AddToRoleAsync(user, role.Name);
+        await _userManager.AddToRoleAsync(user, role?.Name ?? "");
 
         return _mapper.Map<UserViewModel>(user);
     }

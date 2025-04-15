@@ -54,6 +54,7 @@ public class OfferCreateCommandHandler(IUnitOfWork unitOfWork, IMapper mapper) :
         var createdEntity = await _unitOfWork.OfferRepository.GetQuery()
             .Include(x => x.Candidate)
             .Include(x => x.ContactType)
+            .Include(x => x.ApprovedBy)
             .Include(x => x.RecruiterOwner)
             .Include(x => x.Department)
             .Include(x => x.Interview)

@@ -18,6 +18,7 @@ public class OfferGetByIdQueryHandler: BaseHandler, IRequestHandler<OfferGetById
     {
         var offer = await _unitOfWork.OfferRepository.GetQuery()
             .Include(x => x.Candidate)
+            .Include(x => x.ApprovedBy)
             .Include(x => x.ContactType)
             .Include(x => x.RecruiterOwner)
             .Include(x => x.Department)

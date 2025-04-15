@@ -26,7 +26,8 @@ public class UserSwitchStatusCommandHandler(
             ?? throw new ResourceNotFoundException("User not found.");
 
         user.IsActive = request.IsActive;
-
+        user.UpdatedAt = DateTime.Now;
+        user.UpdatedBy = await _userManager.FindByIdAsync(_currentUser.UserId.ToString());
         await _userManager.UpdateAsync(user);
 
         return _mapper.Map<UserViewModel>(user);

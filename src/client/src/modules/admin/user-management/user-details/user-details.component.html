@@ -1,0 +1,121 @@
+<div class="flex-1 p-6 ">
+  <div class="w-full mx-auto">
+    <div class="text-gray-500 text-sm font-medium px-4 pb-4">
+      <ol class="flex items-center space-x-3">
+        <li>
+          <a
+            [routerLink]="['/home']"
+            class="flex items-center text-gray-600 hover:text-blue-500 transition"
+          >
+            <fa-icon [icon]="faHome"></fa-icon>
+          </a>
+        </li>
+        <li>/</li>
+        <li>
+          <a
+            [routerLink]="['/admin/user']"
+            class="text-gray-600 hover:text-blue-500 transition"
+          >
+            User List
+          </a>
+        </li>
+        <li>/</li>
+        <li class="text-gray-800 font-semibold">User Details</li>
+      </ol>
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 relative">
+      <!-- Header Section -->
+      <div class="flex flex-col md:flex-row justify-between mb-6">
+        <h1 class="text-2xl font-bold mb-2">User Details</h1>
+        <div
+          class="text-sm italic text-gray-500 self-end"
+          *ngIf="user.updatedAt"
+        >
+          Last updated by {{ user.updatedBy || "N/A" }} in
+          {{ user.updatedAt | date : "yyyy-MM-dd" }}
+        </div>
+      </div>
+
+      <!-- Information Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+        <div class="space-y-1">
+          <div class="text-gray-600">Full name:</div>
+          <div class="font-medium">{{ user.fullName || "N/A" }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Email:</div>
+          <div class="font-medium">{{ user.email || "N/A" }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">D.O.B:</div>
+          <div class="font-medium">
+            {{ (user.dateOfBirth | date : "yyyy-MM-dd") || "N/A" }}
+          </div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Address:</div>
+          <div class="font-medium">{{ user.address || "N/A" }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Phone number:</div>
+          <div class="font-medium">{{ user.phoneNumber || "N/A" }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Gender:</div>
+          <div class="font-medium">{{ user.gender == 0 ? "Male" : user.gender == 1 ? "Female":"Other" }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Role:</div>
+          <div class="font-medium">{{ user.roles || "N/A" }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Department:</div>
+          <div class="font-medium">{{ user.department || "N/A" }}</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Status:</div>
+          <span
+            [ngClass]="{
+              'bg-green-100 text-green-800': user.isActive,
+              'bg-red-100 text-red-800': !user.isActive
+            }"
+            class="px-3 py-1 rounded-full text-sm"
+          >
+            {{ user.isActive ? "Activated" : "De-activated" }}
+          </span>
+        </div>
+        <div class="space-y-1">
+          <div class="text-gray-600">Note:</div>
+          <div class="font-medium">{{ user.note || "N/A" }}</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-center gap-4 pt-6 border-t mt-6">
+        <button
+          class="px-4 py-2 border rounded-md hover:bg-gray-100"
+          (click)="goBack()"
+        >
+          Cancel
+        </button>
+        <button
+          class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          (click)="edit()"
+        >
+          Edit
+        </button>
+        <button
+          [ngClass]="{
+            'bg-green-100 text-green-800  hover:bg-green-700': !user.isActive,
+            'bg-red-100 text-red-800 hover:bg-red-700': user.isActive
+          }"
+          class="px-4 py-2 rounded-md hover:text-white"
+          (click)="switch()"
+        >
+          {{ user.isActive ? "De-activate User" : "Activate User" }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

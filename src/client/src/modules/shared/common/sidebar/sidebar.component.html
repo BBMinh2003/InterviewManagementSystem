@@ -7,7 +7,7 @@
     'translate-x-0': isMobile && isMobileMenuOpen,
     '-translate-x-full': isMobile && !isMobileMenuOpen
   }"
-  class="p-4 bg-gray-800 text-white transition-all duration-300 shadow-lg flex flex-col h-[calc(100vh-4rem)] md:h-screen z-40" 
+  class="p-4 bg-gray-800 text-white transition-all duration-300 shadow-lg flex flex-col h-[calc(100vh-4rem)] md:h-screen z-40"
 >
   <div
     *ngIf="!isMobile"
@@ -39,6 +39,7 @@
 
   <ul class="space-y-2 mb-4 flex-grow">
     <li *ngFor="let item of menuItems"
+      [ngClass]="{'hidden': !item.isShown}"
       class="group flex items-center p-3 rounded-lg hover:bg-gray-700 cursor-pointer transition-colors"
       [routerLink]="item.route" routerLinkActive="bg-gray-700">
       <div class="w-6 h-6 flex-shrink-0 flex items-center justify-center">
@@ -76,7 +77,7 @@
       </div>
 
       <div *ngIf="isUserMenuOpen"
-        class="user-menu absolute bottom-full mb-2 w-52 bg-gray-50 rounded-md shadow-lg py-1 z-50" [ngClass]="{
+        class="user-menu absolute bottom-full mb-2 w-52 bg-gray-50 rounded-md shadow-lg py-1 z-100" [ngClass]="{
           'left-1/2 -translate-x-1/2': open,
           'left-0': !open
         }">

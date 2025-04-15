@@ -17,6 +17,7 @@ public class CandidateGetAllQueryHandler : BaseHandler,
     {
         var candidates = await _unitOfWork.CandidateRepository
         .GetQuery()
+        .Where(c => !c.IsDeleted)
         .Include(c => c.Position)
         .Include(c => c.RecruiterOwner)
         .Include(c => c.CandidateSkills)

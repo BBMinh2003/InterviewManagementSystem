@@ -9,6 +9,7 @@ import { UserInformation } from '../../models/auth/user-information.model';
 import { ForgotPasswordRequest } from '../../models/auth/forgot-password-request.model';
 import { BaseResponse } from '../../models/base-response.model';
 import { ResetPasswordRequest } from '../../models/auth/reset-password-request.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -27,8 +28,10 @@ export class AuthService implements IAuthService {
   private _userInformation$: Observable<UserInformation | null> =
     this._userInformation.asObservable();
 
-  constructor(private httpClient: HttpClient) {
-    // Check if the access token is present in local storage
+  private refreshInProgress = false;
+
+
+  constructor(private httpClient: HttpClient, private router: Router) {
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       this._isAuthenticated.next(true);
@@ -43,12 +46,12 @@ export class AuthService implements IAuthService {
     return this._isAuthenticated$;
   }
 
+
   public getUserInformation(): Observable<UserInformation | null> {
     return this._userInformation$;
   }
 
   public getUserInformationFromAccessToken(): Observable<UserInformation | null> {
-    // Using JWT to decode the access token and get the user information
     const accessToken = localStorage.getItem('accessToken');
     if (accessToken) {
       const payload = JSON.parse(atob(accessToken.split('.')[1]));
@@ -57,9 +60,9 @@ export class AuthService implements IAuthService {
         email: payload.email,
         displayName: payload.fullName,
         username: payload.unique_name,
-        roles:
+        role:
           payload[
-          'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
           ],
       };
       this._userInformation.next(userInformation);
@@ -67,14 +70,13 @@ export class AuthService implements IAuthService {
     return this._userInformation$;
   }
 
-  logout(): void {
-    // Remove the access token from local storage
+  public logout(): void {
     localStorage.removeItem('accessToken');
-    // Remove the user information from local storage
+    localStorage.removeItem('refreshToken');
     localStorage.removeItem('userInformation');
-    // and set the isAuthenticated subject to false
+    localStorage.removeItem('userRole');
+
     this._isAuthenticated.next(false);
-    // Set the user information subject to null
     this._userInformation.next(null);
   }
 
@@ -83,22 +85,30 @@ export class AuthService implements IAuthService {
       .post<LoginResponse>(this.apiUrl + '/login', loginRequest)
       .pipe(
         tap((response: LoginResponse) => {
-          localStorage.setItem('accessToken', response.accessToken);
-          this._isAuthenticated.next(true);
-          const userInformation = this.extractUserInformation(response.accessToken);
-          localStorage.setItem('userInformation', JSON.stringify(userInformation));
-
-          this._userInformation.next(userInformation);
+          this.handleLogin(response);
         })
       );
   }
 
-  public forgotPassword(forgotPasswordRequest: ForgotPasswordRequest): Observable<boolean> {
+  private handleLogin(response: LoginResponse) {
+    this.storeTokens(response.accessToken, response.refreshToken);
+    const userInformation = this.extractUserInformation(response.accessToken);
+    localStorage.setItem('userInformation', JSON.stringify(userInformation));
+
+    this._userInformation.next(userInformation);
+    this._isAuthenticated.next(true);
+  }
+
+  public forgotPassword(
+    forgotPasswordRequest: ForgotPasswordRequest
+  ): Observable<boolean> {
     return this.httpClient
-      .post<BaseResponse>(this.apiUrl + '/forgotPassword', forgotPasswordRequest)
+      .post<BaseResponse>(
+        this.apiUrl + '/forgotPassword',
+        forgotPasswordRequest
+      )
       .pipe(
-        tap((response: BaseResponse) => {
-        }),
+        tap((response: BaseResponse) => {}),
         map((response: BaseResponse) => response.success),
         catchError((error) => {
           console.error('Forgot Password Error:', error);
@@ -107,21 +117,19 @@ export class AuthService implements IAuthService {
       );
   }
 
-  public resetPassword(resetPasswordRequest: ResetPasswordRequest): Observable<boolean> {
+  public resetPassword(
+    resetPasswordRequest: ResetPasswordRequest
+  ): Observable<boolean> {
     return this.httpClient
       .post<BaseResponse>(this.apiUrl + '/resetPassword', resetPasswordRequest)
       .pipe(
-        tap((response: BaseResponse) => {
-        }),
+        tap((response: BaseResponse) => {}),
         map((response: BaseResponse) => response.success),
         catchError((error) => {
-          alert("Error")
-          console.error('Reset Password Error:', error);
           return of(false);
         })
       );
   }
-
 
   private extractUserInformation(token: string): UserInformation {
     try {
@@ -132,22 +140,86 @@ export class AuthService implements IAuthService {
         email: payload.email || '',
         displayName: payload.fullName || payload.name || '',
         username: payload.unique_name || payload.preferred_username || '',
-        roles:
-          payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] || [],
+        role:
+          payload[
+            'http://schemas.microsoft.com/ws/2008/06/identity/claims/role'
+          ] || [],
       };
     } catch (error) {
-      console.error("Invalid token format", error);
+      console.error('Invalid token format', error);
       return {
         id: '',
         email: '',
         displayName: '',
         username: '',
-        roles: [],
+        role: '',
       };
     }
   }
 
+  private storeTokens(accessToken: string, refreshToken: string): void {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  }
+
   getAccessToken(): string {
     return localStorage.getItem('accessToken') || '';
+  }
+
+  getRefreshToken(): string {
+    return localStorage.getItem('refreshToken') || '';
+  }
+
+  private getTokenExpiration(token: string): number | null {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.exp ? payload.exp * 1000 : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  public isAccessTokenExpired(): boolean {
+    const token = this.getAccessToken();
+    if (!token) return true;
+    const expiration = this.getTokenExpiration(token);
+    return expiration ? expiration < Date.now() : true;
+  }
+
+  public isRefreshTokenExpired(): boolean {
+    const token = this.getRefreshToken();
+    if (!token) {
+      if (!this.router.url.includes('login')) this.router.navigate(['/login']);
+      return true;
+    }
+    return false;
+  }
+
+  public refreshToken(): Observable<string> {
+    if (this.refreshInProgress || this.isRefreshTokenExpired()) {
+      this.logout();
+      return of('');
+    }
+
+    this.refreshInProgress = true;
+
+    return this.httpClient
+      .post<LoginResponse>(`${this.apiUrl}/refreshAccessToken`, {
+        refreshToken: this.getRefreshToken(),
+      })
+      .pipe(
+        tap((response) => {
+          this.handleLogin(response);
+          this.refreshInProgress = false;
+        }),
+        map((response) => response.accessToken),
+        catchError(() => {
+          this.refreshInProgress = false;
+          this._isAuthenticated.next(false);
+          alert('Logging out');
+          this.logout();
+          return of('');
+        })
+      );
   }
 }

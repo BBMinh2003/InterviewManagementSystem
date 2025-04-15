@@ -25,14 +25,14 @@ export class ErrorInterceptor implements HttpInterceptor {
     private router: Router,
     @Inject(NOTIFICATION_SERVICE)
     private notificationService: INotificationService
-  ) {}
+  ) { }
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
-        let customError: ErrorModel; // Định nghĩa kiểu dữ liệu rõ ràng
+        let customError: ErrorModel;
 
         switch (error.status) {
           case 403:
@@ -90,16 +90,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             break;
 
           default:
-            customError = new ErrorModel(
-              error.status.toString(),
-              error.message
-            );
-            this.router.navigate(['/error'], {
-              queryParams: {
-                code: customError.code,
-                message: customError.message,
-              },
-            });
+            this.notificationService.showMessage(error.error.message, 'error');
             break;
         }
 

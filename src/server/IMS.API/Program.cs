@@ -84,7 +84,13 @@ app.UseHangfireDashboard();
 RecurringJob.AddOrUpdate<IInterviewReminderJobService>(
     "send-interview-reminder",
     service => service.SendInterviewRemindersAsync(),
-    "30 4 * * *" 
+    "30 4 * * *"
+);
+
+RecurringJob.AddOrUpdate<IOfferReminderService>(
+    "offer-approval-reminder",
+    service => service.CheckAndSendApprovalRemindersAsync(),
+    "0 8 * * *"
 );
 
 app.UseHttpsRedirection();

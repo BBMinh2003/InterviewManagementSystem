@@ -19,6 +19,9 @@ public class UserGetByIdQueryHandler(IUnitOfWork unitOfWork, IMapper mapper, Use
         User user = await _userManager.Users
             .AsQueryable()
             .Include(u => u.Department)
+            .Include(u => u.CreatedBy)
+            .Include(u => u.UpdatedBy)
+            .Include(u => u.DeletedBy)
             .FirstOrDefaultAsync(u => u.Id == request.Id) ??
                 throw new ResourceNotFoundException("User not found");
 
